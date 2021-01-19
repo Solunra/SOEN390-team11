@@ -2,11 +2,14 @@ plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 group = 'com.soen390'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+mainClassName = 'com.soen390.team11.Team11Application'
+version = ''
+sourceCompatibility = '15'
+targetCompatibility = '15'
 
 repositories {
 	mavenCentral()
@@ -14,7 +17,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.4.2'
+	implementation 'mysql:mysql-connector-java:8.0.23'
+	implementation 'org.flywaydb:flyway-core:7.5.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
 test {
