@@ -9,7 +9,7 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 
 ---
 Go into the subfolder `react` and `spring` on separate terminals\
-Run `npm install` and `gradlew build` respectively (Mac-users should run `./gradlew`)\
+Run `npm install` and `gradlew assemble` respectively (Mac-users should run `./gradlew`)\
 Go back to the project root folder, which is one folder up from either `react` or `spring`\
 Run `docker-compose build`\
 Then, run `docker-compose up`\
