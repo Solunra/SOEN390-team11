@@ -1,20 +1,27 @@
 package com.soen390.team11.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name="user_account")
 public class UserAccount {
 
     @Id
     @GeneratedValue
     private Long userID;
+    @Column
     private String username;
+    @Column
     private String password;
 
     public UserAccount(Long userID, String username, String password) {
         this.userID = userID;
+        this.username = username;
+        this.password = password;
+    }
+    public UserAccount(String username, String password) {
         this.username = username;
         this.password = password;
     }
