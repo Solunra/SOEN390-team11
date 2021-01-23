@@ -19,14 +19,12 @@ public class UserAccountController {
 
     @GetMapping("/signin")
     public String signIn(@RequestBody UserRequestDto userModel) {
-        System.out.println(userModel);
         return "sign in";
     }
 
     @PostMapping("/signup")
     public String signUp(@RequestBody UserRequestDto userRequestDto) {
         userService.createUser(userRequestDto);
-        System.out.println(userRequestDto);
         return "sign up";
     }
 }

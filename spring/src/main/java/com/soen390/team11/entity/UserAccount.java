@@ -55,5 +55,12 @@ public class UserAccount {
         this.password = password;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "userID=" + userID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
