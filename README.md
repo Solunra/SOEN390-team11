@@ -5,6 +5,13 @@
 ---
 An ERP solutions project written in Java with Spring and showcased on the web with the help of React.
 
+### For Developing
+
+---
+Follow the Guide first.\
+After the first run to start up `spring` and `react`:\
+Run the commands `gradle bootRun` and `npm start` respectively
+
 ### Guide
 
 ---
