@@ -5,6 +5,15 @@
 ---
 An ERP solutions project written in Java with Spring and showcased on the web with the help of React.
 
+### For Developing
+
+---
+Follow the Guide first.\
+After the first run to start up `spring` and `react`:\
+Run the commands `gradle bootRun` and `npm start` respectively
+
+**Note that when running it outside the container, in application.properties, update db to localhost**\
+**The reverse should be done if you are using the container: aka update localhost to db**
 ### Guide
 
 ---
