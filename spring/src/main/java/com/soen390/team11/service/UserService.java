@@ -17,7 +17,6 @@ public class UserService {
 
     public void createUser(UserRequestDto userRequestDto) {
         UserAccount userAccount=  new UserAccount(userRequestDto.getUsername(), bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
-        System.out.println(userAccount);
         userAccountRepository.save(userAccount);
     }
 }

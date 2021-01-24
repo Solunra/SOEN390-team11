@@ -3,6 +3,8 @@ package com.soen390.team11.controller;
 import com.soen390.team11.dto.UserRequestDto;
 import com.soen390.team11.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +25,13 @@ public class UserAccountController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody UserRequestDto userRequestDto) {
-        userService.createUser(userRequestDto);
-        return "sign up";
+    public ResponseEntity<String> signUp(@RequestBody UserRequestDto userRequestDto) {
+        try{
+            userService.createUser(userRequestDto);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return new ResponseEntity<String>("success sign up", HttpStatus.CREATED);
     }
 }
