@@ -1,10 +1,9 @@
-import SignupComponent from './components/Signup'
-import LoginComponent from './components/Login'
+import SignupLoginParentComponent from './components/SignupLoginParent';
 
 function App() {
   return (
-    <div >
-      <LoginComponent />
+    <div>
+      <SignupLoginParentComponent />
     </div>
   );
 }

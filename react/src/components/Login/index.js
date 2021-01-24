@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import request from 'superagent';
 import BuildPath from '../RequestBuilder'
+import './style.css'
 
 const LoginComponent = () => {
     const [username, setUsername] = useState('');

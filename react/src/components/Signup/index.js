@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import request from 'superagent';
+import { useState } from 'react'
+import request from 'superagent'
 import BuildPath from '../RequestBuilder'
+import './style.css'
 
 const SignupComponent = () => {
     const [username, setUsername] = useState('');
@@ -90,7 +91,7 @@ const SignupComponent = () => {
                 <tr>
                     <th>
                         <label>
-                            Password:
+                            Password Verification:
                         </label>
                     </th>
                     <th>
@@ -100,13 +101,9 @@ const SignupComponent = () => {
                         />
                     </th>
                 </tr>
-                <tr>
-                    <th>
-                        <button type="submit" disabled={isDisabled()}>Submit</button>
-                    </th>
-                </tr>
                 </tbody>
             </table>
+            <button type="submit" disabled={isDisabled()}>Submit</button>
         </form>
     </div>
     );

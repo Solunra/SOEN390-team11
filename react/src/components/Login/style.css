@@ -1,0 +1,25 @@
+label {
+    color: white;
+}
+
+table {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+th {
+    width: 200px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+button {
+    margin-top: 20px;
+    left: 50%;
+    position: absolute;
+    padding: 5px 20px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #0B254F;
+    color: white;
+}
