@@ -30,7 +30,8 @@ public class UserAccountController {
             userService.createUser(userRequestDto);
         }
         catch (Exception e){
-            System.out.println(e);
+            System.out.println("Exception in user Account Controller \n"+e);
+            return new ResponseEntity<String>("cannot create", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<String>("success sign up", HttpStatus.CREATED);
     }

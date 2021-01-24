@@ -16,15 +16,18 @@ public class UserAccount {
     private String username;
     @Column
     private String password;
+    @Column(unique = true)
+    private String email;
 
     public UserAccount(Long userID, String username, String password) {
         this.userID = userID;
         this.username = username;
         this.password = password;
     }
-    public UserAccount(String username, String password) {
+    public UserAccount(String username, String password,String email) {
         this.username = username;
         this.password = password;
+        this.email=email;
     }
 
     protected UserAccount() {
@@ -53,6 +56,15 @@ public class UserAccount {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
