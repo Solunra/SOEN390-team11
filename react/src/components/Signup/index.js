@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
+import {useHistory} from 'react-router-dom';
 import './style.css'
 
 const SignupComponent = () => {
@@ -8,25 +9,29 @@ const SignupComponent = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVerification, setPasswordVerification] = useState('');
+    const history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // request
-        //     .post(BuildPath("/account/signup"))
-        //     .send(
-        //         {
-                    
-        //         }
-        //     )
-        //     .set('Accept', 'application/json')
-        //     .then(res => {
-        //         console.log(res.body);
-        //     });
+        request
+            .post(BuildPath("/account/signup"))
+            .send(
+                {
+                    "username": username,
+                    "password": password,
+                    "email": email
+                }
+            )
+            .set('Accept', 'application/json')
+            .then(res => {
+                if (res.status === 201)
+                {
+                    history.push("/login");
+                }
+            });
 
         event.target.reset();
-        console.log("Signup form successful");
-        console.log(BuildPath("/account/signup"));
     }
 
     const isDisabled = () => {
