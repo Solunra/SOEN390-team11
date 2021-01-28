@@ -1,5 +1,6 @@
 package com.soen390.team11.entity;
 
+import com.soen390.team11.constant.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,16 +19,20 @@ public class UserAccount {
     private String password;
     @Column(unique = true)
     private String email;
+    @Column
+    private String role;
 
-    public UserAccount(Long userID, String username, String password) {
+    public UserAccount(Long userID, String username, String password, String role) {
         this.userID = userID;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
-    public UserAccount(String username, String password,String email) {
+    public UserAccount(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
-        this.email=email;
+        this.email = email;
+        this.role = role;
     }
 
     protected UserAccount() {

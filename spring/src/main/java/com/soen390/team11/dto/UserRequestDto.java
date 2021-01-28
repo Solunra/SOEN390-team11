@@ -6,10 +6,14 @@ public class UserRequestDto {
     private String password;
     private String email;
 
+    public UserRequestDto() {
+        // Do nothing
+    }
+
     public UserRequestDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
-        this.email=email;
+        this.email = email;
     }
 
     public String getUsername() {
