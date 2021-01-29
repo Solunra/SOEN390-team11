@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 import './style.css'
+import ReactDOM from "react-dom";
+import {AppCustomer , AppAdmin } from "../Dashboard";
 
 const LoginComponent = () => {
     const [username, setUsername] = useState('');
@@ -9,19 +11,47 @@ const LoginComponent = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        request
+            .post(BuildPath("/account/signin"))
+            .send(
+                {
+                    "username": username,
+                    "password": password,
+                }
+            )
+            .set('Accept', 'application/json')
+            .then(res => {
+                // console.log(res);
+                // console.log(res.headers);
+                console.log(res.headers["authorization"]);
+                console.log(res.headers["role"]);
+                if (res.status === 200)
+                {
+                    localStorage.setItem("Authorization", res.headers["authorization"]);
+                    console.log(localStorage.getItem("Authorization"))
+                    if(res.headers["role"] === "CUSTOMER"){
+                        ReactDOM.render(
+                            <React.StrictMode>
+                                <AppCustomer />
+                            </React.StrictMode>,
+                            document.getElementById('root')
+                        );
+                    }
+                    else{
+                        ReactDOM.render(
+                            <React.StrictMode>
+                                <AppAdmin />
+                            </React.StrictMode>,
+                            document.getElementById('root')
+                        );
+                    }
 
-        // request
-        //     .post(BuildPath("/account/signin"))
-        //     .send(
-        //         {
-                    
-        //         }
-        //     )
-        //     .set('Accept', 'application/json')
-        //     .then(res => {
-        //         console.log(res.body);
-        //     });
-
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        ;
         event.target.reset();
         console.log("Login form successful");
         console.log(BuildPath("/account/signin"));
