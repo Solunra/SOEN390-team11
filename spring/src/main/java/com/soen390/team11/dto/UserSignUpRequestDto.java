@@ -1,19 +1,19 @@
 package com.soen390.team11.dto;
 
-public class UserRequestDto {
+public class UserSignUpRequestDto {
 
     private String username;
     private String password;
     private String email;
 
-    public UserRequestDto() {
-        // Do nothing
+    public UserSignUpRequestDto(){
+
     }
 
-    public UserRequestDto(String username, String password, String email) {
+    public UserSignUpRequestDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.email=email;
     }
 
     public String getUsername() {

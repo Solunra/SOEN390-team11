@@ -1,6 +1,6 @@
 package com.soen390.team11.controller;
 
-import com.soen390.team11.dto.UserRequestDto;
+import com.soen390.team11.dto.UserSignUpRequestDto;
 import com.soen390.team11.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/account")
@@ -23,21 +26,23 @@ public class UserAccountController {
         return "HelloWorld";
     }
 
-    @GetMapping("/signin")
-    public String signIn(@RequestBody UserRequestDto userModel) {
-        return "sign in";
-    }
-
+    /**
+     * Mapping with the url http://localhost:8080/account/signup
+     * with method post
+     * receive the userSignUpRequestDto by convert the json file in the body to the object
+     * @param userSignUpRequestDto
+     * @return
+     */
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody UserRequestDto userRequestDto) {
-        try {
-            System.out.println(userRequestDto.toString());
-            userService.createUser(userRequestDto);
+    public ResponseEntity<?> signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
+        Map<String, String > response = new HashMap<>();
+        try{
+            userService.createUser(userSignUpRequestDto);
+            return new ResponseEntity<Object>(response, HttpStatus.CREATED);
         }
-        catch (Exception e) {
+        catch (Exception e){
             System.out.println("Exception in user Account Controller \n"+e);
-            return new ResponseEntity<String>(HttpStatus.CONFLICT);
+            return new ResponseEntity<Object>(response, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<String>(HttpStatus.CREATED);
     }
 }

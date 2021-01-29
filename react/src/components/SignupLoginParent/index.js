@@ -39,13 +39,13 @@ const SignupLoginParentComponent = () => {
                     centered
                     className = {classes.root}
                 >
-                    <Tab className = {classes.tab} label = "Sign Up" component={Link} to={"/signup"}/>
-                    <Tab className = {classes.tab} label = "Log In" component={Link} to={"/login"}/>
+                    <Tab className = {classes.tab} label = "Sign Up" component={Link} to={"/account/signup"}/>
+                    <Tab className = {classes.tab} label = "Log In" component={Link} to={"/account/login"}/>
                 </Tabs>
                 <div className="content">
-                    <Route exact path = "/" component = {HomeComponent}/>
-                    <Route path = "/signup" component = {SignupComponent}/>
-                    <Route path = "/login" component = {LoginComponent}/>
+                    <Route exact path = "/account" component = {HomeComponent}/>
+                    <Route path = "/account/signup" component = {SignupComponent}/>
+                    <Route path = "/account/login" component = {LoginComponent}/>
                 </div>
             </HashRouter>
         </div>

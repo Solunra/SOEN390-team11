@@ -25,9 +25,10 @@ const SignupComponent = () => {
             )
             .set('Accept', 'application/json')
             .then(res => {
+                console.log(res);
                 if (res.status === 201)
                 {
-                    history.push("/login");
+                    history.push("/account/login");
                 }
             });
 
