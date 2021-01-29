@@ -24,7 +24,6 @@ function App() {
                   <Route path = "/account" component = {SignupLoginParentComponent} />
               </div>
           </HashRouter>
-          {/* <SignupLoginParentComponent /> */}
       </div>
   );
 }
