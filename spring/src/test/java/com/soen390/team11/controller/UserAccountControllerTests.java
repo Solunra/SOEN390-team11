@@ -56,7 +56,7 @@ public class UserAccountControllerTests {
     @AfterAll
     public void delete()
     {
-        UserAccount account = userAccountRepository.findByEmail("TestUniqueEmail@test.com");
+        UserAccount account = userAccountRepository.findByEmail(userSignUpRequestDto.getEmail());
         userAccountRepository.delete(account);
     }
 }

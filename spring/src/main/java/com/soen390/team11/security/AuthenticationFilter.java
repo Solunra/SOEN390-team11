@@ -28,7 +28,8 @@ import static com.soen390.team11.security.SecurityConstant.*;
  */
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    private UserAccountRepository userAccountRepository;
+    private final UserAccountRepository userAccountRepository;
+
     public AuthenticationFilter(AuthenticationManager authenticationManager, UserAccountRepository userAccountRepository) {
         this.authenticationManager = authenticationManager;
         this.userAccountRepository= userAccountRepository;
