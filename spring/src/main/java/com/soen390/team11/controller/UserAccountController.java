@@ -1,6 +1,7 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.dto.UserSignUpRequestDto;
+import com.soen390.team11.repository.UserAccountRepository;
 import com.soen390.team11.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,7 @@ public class UserAccountController {
     }
 
     /**
-     * Mapping with the url http://localhost:8080/account/signup
-     * with method post
+     * Mapping with the endpoint POST /account/signup
      * receive the userSignUpRequestDto by convert the json file in the body to the object
      * @param userSignUpRequestDto
      * @return
