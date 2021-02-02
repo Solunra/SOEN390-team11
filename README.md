@@ -42,3 +42,8 @@ Updating the docker containers follows the same logic from the start
 #### On occasions, docker-compose up will fail to run because of npm install 
 **Alternative Error**: Cannot read property ‘match’ of undefined\
 **Fix**: Delete in `react` folder both `node_modules` `package-lock.json` and rerun npm install within the `react` subfolder
+
+### UI Prototype
+
+---
+[UI prototypes for Sprint #2 user stories](https://www.figma.com/proto/FHPUEzLDyZ1v79wOGeJqF2/ERP-for-Sprint-%232-user-stories?node-id=4%3A2&scaling=scale-down/) \
