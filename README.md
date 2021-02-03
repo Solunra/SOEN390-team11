@@ -5,6 +5,11 @@
 ---
 An ERP solutions project written in Java with Spring and showcased on the web with the help of React.
 
+### UI Prototype
+
+---
+[UI prototypes for Sprint #2 user stories](https://www.figma.com/proto/FHPUEzLDyZ1v79wOGeJqF2/ERP-for-Sprint-%232-user-stories?node-id=4%3A2&scaling=scale-down/)
+
 ### For Developing
 
 ---
