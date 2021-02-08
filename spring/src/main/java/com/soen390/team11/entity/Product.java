@@ -7,6 +7,12 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * product table is independ
+ * it is the owner of the relation between product and variant
+ * update the product would update the variant too
+ * the relation product_variant will be create , it is many to many relationship
+ */
 @Entity(name="product")
 public class Product {
     @Id

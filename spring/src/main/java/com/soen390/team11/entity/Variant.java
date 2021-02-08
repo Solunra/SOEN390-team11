@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * variant the of the product is independ table
+ * but is mapped to the product
+ */
 @Entity(name="variant")
 public class Variant {
     @Id

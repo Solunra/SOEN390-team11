@@ -18,7 +18,6 @@ import java.util.ArrayList;
 @Service
 public class UserService implements UserDetailsService {
 
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 

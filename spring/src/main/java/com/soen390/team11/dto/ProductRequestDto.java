@@ -5,6 +5,9 @@ import com.soen390.team11.entity.Product;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * the model class that would receive from the client
+ */
 public class ProductRequestDto {
 
     private String name;

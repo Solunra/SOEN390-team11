@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * service class
+ * to provide all the action that perform
+ */
 @Service
 public class ProductService {
     static ObjectMapper mapper = new ObjectMapper();
@@ -21,6 +25,11 @@ public class ProductService {
     @Autowired
     VariantRepository variantRepository;
 
+    /**
+     * create the product
+     * @param productRequestDto
+     * @return
+     */
     public Product createProduct(ProductRequestDto productRequestDto){
         try{
             Product product = productRequestDto.getProduct();
@@ -37,6 +46,15 @@ public class ProductService {
             return null;
         }
     }
+
+    /**
+     * check the variant is already have or not
+     * if not create new variant and associate with the product
+     * if already have just add to the list of variant of the product
+     * @param variantList
+     * @param variantType
+     * @param product
+     */
     public void checkAndCreateVariant(ArrayList<String> variantList, String variantType, Product product){
         try{
             Variant previousVariant;
@@ -55,17 +73,45 @@ public class ProductService {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
+
+    /**
+     * retrieve all the product in the database
+     * if error occur return null
+     * @return
+     */
     public List<Product> retrieveAll(){
-        List<Product> allProduct = (List<Product>) productRepository.findAll();
-        return allProduct;
+        try{
+            List<Product> allProduct = (List<Product>) productRepository.findAll();
+            return allProduct;
+        }
+        catch (Exception e){
+            return null;
+        }
+
     }
+
+    /**
+     * to retrieve product by the UUID
+     * if error occur return null
+     * @param UUID
+     * @return
+     */
     public Product retrieveByUUID(String UUID){
-        return productRepository.findByUUID(UUID);
+        try{
+            return productRepository.findByUUID(UUID);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
-
+    /**
+     * delete by the UUID
+     * if error occur return String not success
+     * @param uuid
+     * @return
+     */
     public String deleteByUUID(String uuid) {
         Product retrieveProduct = retrieveByUUID(uuid);
         try{
@@ -75,10 +121,17 @@ public class ProductService {
             return "success";
         }
         catch (Exception e){
-
         }
         return "not success";
     }
+
+    /**
+     * update by the uuid
+     * @param uuid
+     * @param productRequestDto
+     * @return update product
+     * or return null if error occur
+     */
     public Product updateByUUID(String uuid, ProductRequestDto productRequestDto){
         System.out.println(productRequestDto);
         Product retrieveProduct = retrieveByUUID(uuid);
