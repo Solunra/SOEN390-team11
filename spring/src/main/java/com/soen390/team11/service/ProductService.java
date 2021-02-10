@@ -13,50 +13,37 @@ public class ProductService {
     ProductRepository productRepository;
 
     public Product createProduct(ProductRequestDto productRequestDto){
-        try{
-            return productRepository.save(productRequestDto.getProduct());
-        }
-        catch (Exception e){
-            return null;
-        }
+        return productRepository.save(productRequestDto.getProduct());
     }
 
     public List<Product> getAllProduct(){
-        try{
-            return (List<Product>) productRepository.findAll();
-        }
-        catch (Exception e){
-            return null;
-        }
+        return (List<Product>) productRepository.findAll();
     }
 
     public Product getProductById(Long id){
         try{
-            return productRepository.findById(id).get();
+            Product product= productRepository.findById(id).get();
+            return product;
         }
         catch (Exception e){
             return null;
         }
     }
 
-    public String deleteProduct(Long id){
-        try{
-            productRepository.deleteById(id);
-            return "success";
+    public String deleteProduct(Long id) throws Exception {
+        if(getProductById(id)==null) {
+            throw new Exception("invalid id");
         }
-        catch (Exception e){
-            return "cannot delete";
-        }
+        productRepository.deleteById(id);
+        return "success";
     }
 
-    public Product updateProduct(Long id, ProductRequestDto productRequestDto){
-        try{
-            Product product = productRequestDto.getProduct();
-            product.setProductid(id);
-            return productRepository.save(product);
+    public Product updateProduct(Long id, ProductRequestDto productRequestDto) throws Exception {
+        Product product = productRequestDto.getProduct();
+        if(getProductById(id) ==null) {
+            throw new Exception("invalid id");
         }
-        catch (Exception e){
-            return null;
-        }
+        product.setProductid(id);
+        return productRepository.save(product);
     }
 }
