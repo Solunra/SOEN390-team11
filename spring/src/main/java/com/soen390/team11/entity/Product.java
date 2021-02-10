@@ -1,16 +1,43 @@
-package com.soen390.team11.dto;
+package com.soen390.team11.entity;
 
-import com.soen390.team11.entity.Product;
+import javax.persistence.*;
 
-public class ProductRequestDto {
+@Entity(name = "product")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productid;
+    @Column
     private String name;
+    @Column
     private String type;
+    @Column
     private String size;
+    @Column
     private String color;
+    @Column
     private String finish;
+    @Column
     private String grade;
 
-    public ProductRequestDto() {
+    public Product() {
+    }
+
+    public Product(String name, String type, String size, String color, String finish, String grade) {
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.color = color;
+        this.finish = finish;
+        this.grade = grade;
+    }
+
+    public Long getProductid() {
+        return productid;
+    }
+
+    public void setProductid(Long productid) {
+        this.productid = productid;
     }
 
     public String getName() {
@@ -60,8 +87,4 @@ public class ProductRequestDto {
     public void setGrade(String grade) {
         this.grade = grade;
     }
-    public Product getProduct(){
-        return new Product(name, type, size, color ,finish ,grade);
-    }
-
 }
