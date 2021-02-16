@@ -24,4 +24,6 @@ public class ProductParts {
     public void setProductPartsId(ProductPartsId productPartsId) {
         this.productPartsId = productPartsId;
     }
+
+
 }

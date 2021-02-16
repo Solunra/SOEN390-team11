@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PartRepository extends CrudRepository<Part, Long> {
-    public Part findByName(String name);
+
 }

@@ -67,7 +67,7 @@ public class ProductInventoryService {
         List<Part> parts= new ArrayList<>();
         List<ProductParts> productPartsList = productPartsRepository.findByProductPartsIdProductid(productid);
         for(ProductParts productParts : productPartsList){
-            parts.add(partService.getPartByName(productParts.getProductPartsId().getPartname()));
+            parts.add(partService.getPartById(productParts.getProductPartsId().getPartid()));
         }
         return parts;
     }

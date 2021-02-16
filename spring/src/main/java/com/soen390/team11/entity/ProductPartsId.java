@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ProductPartsId implements Serializable {
 
     @NotNull
-    private String partname;
+    private Long partid;
 
     @NotNull
     private Long productid;
@@ -19,17 +19,17 @@ public class ProductPartsId implements Serializable {
 
     }
 
-    public ProductPartsId(String partname, Long productid) {
-        this.partname = partname;
+    public ProductPartsId(Long partid, Long productid) {
+        this.partid = partid;
         this.productid = productid;
     }
 
-    public String getPartname() {
-        return partname;
+    public Long getPartid() {
+        return partid;
     }
 
-    public void setPartname(String partname) {
-        this.partname = partname;
+    public void setPartid(Long partid) {
+        this.partid = partid;
     }
 
     public Long getProductid() {
@@ -45,11 +45,11 @@ public class ProductPartsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductPartsId that = (ProductPartsId) o;
-        return partname.equals(that.partname) && productid.equals(that.productid);
+        return partid.equals(that.partid) && productid.equals(that.productid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(partname, productid);
+        return Objects.hash(partid, productid);
     }
 }

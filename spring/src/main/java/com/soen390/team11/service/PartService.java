@@ -24,9 +24,9 @@ public class PartService {
     }
 
 
-    public Part getPartByName(String name) {
+    public Part getPartById(Long id) {
         try {
-            Part part = partRepository.findByName(name);
+            Part part = partRepository.findById(id).get();
             return part;
         } catch (Exception e) {
             return null;

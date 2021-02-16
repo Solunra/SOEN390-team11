@@ -9,14 +9,27 @@ import java.util.List;
 public class Part {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long partid;
+
+    @Column
     private String name;
 
     public Part() {
 
     }
 
-    public Part(String name) {
+    public Part(Long partid, String name) {
+        this.partid = partid;
         this.name = name;
+    }
+
+    public Long getPartid() {
+        return partid;
+    }
+
+    public void setPartid(Long partid) {
+        this.partid = partid;
     }
 
     public String getName() {
@@ -26,6 +39,4 @@ public class Part {
     public void setName(String name) {
         this.name = name;
     }
-
-
 }
