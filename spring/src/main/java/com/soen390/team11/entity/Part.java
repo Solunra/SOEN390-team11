@@ -24,6 +24,11 @@ public class Part {
         this.name = name;
     }
 
+    public Part(String name) {
+        this.partid = partid;
+        this.name = name;
+    }
+
     public Long getPartid() {
         return partid;
     }
