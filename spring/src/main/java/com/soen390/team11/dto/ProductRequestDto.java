@@ -13,6 +13,15 @@ public class ProductRequestDto {
     public ProductRequestDto() {
     }
 
+    public ProductRequestDto(String name, String type, String size, String color, String finish, String grade) {
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.color = color;
+        this.finish = finish;
+        this.grade = grade;
+    }
+
     public String getName() {
         return name;
     }
