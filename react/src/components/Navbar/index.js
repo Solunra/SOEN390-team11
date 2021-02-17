@@ -1,10 +1,14 @@
 import './style.css';
 import {Link, Route, Switch} from 'react-router-dom';
-const logout = () => {
-
-}
+import { useHistory } from "react-router-dom";
 
 const NavCustomer = () => {
+    const history = useHistory();
+    const logout = () => {
+        localStorage.removeItem("Authorization");
+        history.push("/");
+    }
+
     return (
         <div>
             <nav className="navbar">
@@ -31,12 +35,18 @@ const NavCustomer = () => {
                 <Route path="/account/shop" > </Route>
                 <Route path="/account/carte" > </Route>
                 <Route path="/account/info" > </Route>
-
             </Switch>
         </div>
     );
 }
+
 const NavAdmin = () => {
+    const history = useHistory();
+    const logout = () => {
+        localStorage.removeItem("Authorization");
+        history.push("/");
+    }
+
     return (
         <div>
             <nav className="navbar">
@@ -80,7 +90,6 @@ const NavAdmin = () => {
                 <Route path="/account/purchase" > </Route>
                 <Route path="/account/inventory" > </Route>
                 <Route path="/account/info" > </Route>
-
             </Switch>
         </div>
     );

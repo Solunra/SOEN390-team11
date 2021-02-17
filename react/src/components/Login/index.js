@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 import './style.css'
-import ReactDOM from "react-dom";
-import {AppCustomer , AppAdmin } from "../Dashboard";
+import { useHistory } from "react-router-dom";
 
 const LoginComponent = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -28,20 +28,10 @@ const LoginComponent = () => {
                     localStorage.setItem("Authorization", res.headers["authorization"]);
                     console.log(localStorage.getItem("Authorization"))
                     if(res.headers["role"] === "CUSTOMER"){
-                        ReactDOM.render(
-                            <React.StrictMode>
-                                <AppCustomer />
-                            </React.StrictMode>,
-                            document.getElementById('root')
-                        );
+                        history.push("/home");
                     }
                     else{
-                        ReactDOM.render(
-                            <React.StrictMode>
-                                <AppAdmin />
-                            </React.StrictMode>,
-                            document.getElementById('root')
-                        );
+                        history.push("/admin");
                     }
 
                 }
