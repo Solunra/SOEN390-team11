@@ -10,7 +10,7 @@ public class RawMaterial {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rawmaterialid;
+    private long rawmaterialid;
 
     @Column
     private String name;
@@ -19,16 +19,16 @@ public class RawMaterial {
 
     }
 
-    public RawMaterial(Long rawmaterialid, String name) {
+    public RawMaterial(long rawmaterialid, String name) {
         this.rawmaterialid = rawmaterialid;
         this.name = name;
     }
 
-    public Long getrawmaterialid() {
+    public long getrawmaterialid() {
         return rawmaterialid;
     }
 
-    public void setrawmaterialid(Long rawmaterialid) {
+    public void setrawmaterialid(long rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 

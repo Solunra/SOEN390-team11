@@ -10,33 +10,33 @@ import java.util.Objects;
 public class MaterialRawMaterialsId implements Serializable {
 
     @NotNull
-    private Long materialid;
+    private long materialid;
 
     @NotNull
-    private Long rawmaterialid;
+    private long rawmaterialid;
 
     public MaterialRawMaterialsId() {
 
     }
 
-    public MaterialRawMaterialsId(Long materialid, Long rawmaterialid) {
+    public MaterialRawMaterialsId(long materialid, long rawmaterialid) {
         this.materialid = materialid;
         this.rawmaterialid = rawmaterialid;
     }
 
-    public Long getmaterialid() {
+    public long getmaterialid() {
         return materialid;
     }
 
-    public void setmaterialid(Long materialid) {
+    public void setmaterialid(long materialid) {
         this.materialid = materialid;
     }
 
-    public Long getrawmaterialid() {
+    public long getrawmaterialid() {
         return rawmaterialid;
     }
 
-    public void setrawmaterialid(Long rawmaterialid) {
+    public void setrawmaterialid(long rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 
@@ -45,7 +45,7 @@ public class MaterialRawMaterialsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MaterialRawMaterialsId that = (MaterialRawMaterialsId) o;
-        return materialid.equals(that.materialid) && rawmaterialid.equals(that.rawmaterialid);
+        return ((materialid==(that.materialid)) && (rawmaterialid==(that.rawmaterialid)));
     }
 
     @Override
