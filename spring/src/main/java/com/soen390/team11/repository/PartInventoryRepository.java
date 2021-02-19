@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PartInventoryRepository extends CrudRepository<PartInventory, Long> {
-    List<PartInventory> findAllByName(String name);
+    List<PartInventory> findAllByPartId(Long partId);
 }

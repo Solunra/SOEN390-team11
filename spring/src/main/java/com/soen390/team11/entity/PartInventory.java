@@ -1,8 +1,6 @@
 package com.soen390.team11.entity;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity(name = "part_inventory")
 public class PartInventory {
@@ -13,7 +11,7 @@ public class PartInventory {
     private Long id;
 
     @Column
-    private String name;
+    private Long partId;
 
     @Column
     private Long materialId;
@@ -25,16 +23,14 @@ public class PartInventory {
 
     }
 
-    public PartInventory(String name) {
-        this.name = name;
+    public PartInventory(Long partId, Long materialId, Integer materialQuantity) {
+        this.partId = partId;
+        this.materialId = materialId;
+        this.materialQuantity = materialQuantity;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Long getPartId() {
+        return partId;
     }
 
     public Long getMaterialId() {

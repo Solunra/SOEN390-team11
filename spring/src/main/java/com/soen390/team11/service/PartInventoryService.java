@@ -12,9 +12,9 @@ public class PartInventoryService {
     @Autowired
     PartInventoryRepository partInventoryRepository;
 
-    public Map<Long, Integer> getPartMaterials(String partName) {
+    public Map<Long, Integer> getPartMaterials(Long partId) {
         Map<Long, Integer> materialMap = new HashMap<>();
-        partInventoryRepository.findAllByName(partName).forEach(partInventory ->
+        partInventoryRepository.findAllByPartId(partId).forEach(partInventory ->
             materialMap.put(partInventory.getMaterialId(), partInventory.getMaterialQuantity())
         );
         return materialMap;
