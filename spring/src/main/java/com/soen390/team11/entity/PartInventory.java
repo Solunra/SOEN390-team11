@@ -15,10 +15,11 @@ public class PartInventory {
     @Column
     private String name;
 
-    @ElementCollection
-    @MapKeyJoinColumn(name="material_id")
-    @Column(name="material_quantity")
-    private Map<Material, Integer> material_id_list = new HashMap<>();
+    @Column
+    private Long materialId;
+
+    @Column
+    private Integer materialQuantity;
 
     public PartInventory() {
 
@@ -36,12 +37,12 @@ public class PartInventory {
         this.name = name;
     }
 
-    public Map<Material, Integer> getMaterials() {
-        return material_id_list;
+    public Long getMaterialId() {
+        return materialId;
     }
 
-    public void setMaterials(Map<Material, Integer> material_id_list) {
-        this.material_id_list = material_id_list;
+    public Integer getMaterialQuantity() {
+        return materialQuantity;
     }
 
 }
