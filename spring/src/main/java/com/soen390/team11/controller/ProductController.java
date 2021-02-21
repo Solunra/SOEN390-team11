@@ -34,8 +34,9 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> retrieveProduct(@PathVariable Long id){
+    @GetMapping("/{pid}")
+    public ResponseEntity<?> retrieveProduct(@PathVariable String pid){
+        Long id = Long.valueOf(pid);
         Product product = productService.getProductById(id);
         try {
             if (product != null) {
@@ -51,8 +52,9 @@ public class ProductController {
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto){
+    @PutMapping("/update/{pid}")
+    public ResponseEntity<?> updateProduct(@PathVariable String pid, @RequestBody ProductRequestDto productRequestDto){
+        Long id = Long.valueOf(pid);
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productService.updateProduct(id,productRequestDto)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -63,8 +65,9 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+    @DeleteMapping("/delete/{pid}")
+    public ResponseEntity<?> deleteProduct(@PathVariable String pid){
+        Long id = Long.valueOf(pid);
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productService.deleteProduct(id)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
