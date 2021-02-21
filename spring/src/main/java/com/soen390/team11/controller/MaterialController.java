@@ -75,7 +75,7 @@ public class MaterialController {
     }
 
     @GetMapping("/{materialid}")
-    public ResponseEntity<?> retrieveAllRawMaterialsInMaterial(@PathVariable long materialid){
+    public ResponseEntity<?> retrieveAllRawMaterialsInMaterial(@PathVariable Long materialid){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.getAllMaterialRawMaterial(materialid)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -83,7 +83,7 @@ public class MaterialController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/rawmaterial")
     public ResponseEntity<?> retrieveAllMaterials(){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.getAllMaterialsIninventory()), HttpStatus.OK);

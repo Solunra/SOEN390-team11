@@ -10,7 +10,7 @@ public class Material {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long materialid;
+    private Long materialid;
 
     @Column
     private String name;
@@ -19,16 +19,16 @@ public class Material {
 
     }
 
-    public Material(long materialid, String name) {
+    public Material(Long materialid, String name) {
         this.materialid = materialid;
         this.name = name;
     }
 
-    public long getMaterialid() {
+    public Long getMaterialid() {
         return materialid;
     }
 
-    public void setMaterialid(long materialid) {
+    public void setMaterialid(Long materialid) {
         this.materialid = materialid;
     }
 

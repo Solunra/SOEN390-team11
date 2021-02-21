@@ -10,33 +10,33 @@ import java.util.Objects;
 public class MaterialRawMaterialsId implements Serializable {
 
     @NotNull
-    private long materialid;
+    private Long materialid;
 
     @NotNull
-    private long rawmaterialid;
+    private Long rawmaterialid;
 
     public MaterialRawMaterialsId() {
 
     }
 
-    public MaterialRawMaterialsId(long materialid, long rawmaterialid) {
+    public MaterialRawMaterialsId(Long materialid, Long rawmaterialid) {
         this.materialid = materialid;
         this.rawmaterialid = rawmaterialid;
     }
 
-    public long getmaterialid() {
+    public Long getmaterialid() {
         return materialid;
     }
 
-    public void setmaterialid(long materialid) {
+    public void setmaterialid(Long materialid) {
         this.materialid = materialid;
     }
 
-    public long getrawmaterialid() {
+    public Long getrawmaterialid() {
         return rawmaterialid;
     }
 
-    public void setrawmaterialid(long rawmaterialid) {
+    public void setrawmaterialid(Long rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 
