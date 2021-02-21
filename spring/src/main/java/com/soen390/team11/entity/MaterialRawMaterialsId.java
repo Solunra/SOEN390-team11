@@ -16,7 +16,6 @@ public class MaterialRawMaterialsId implements Serializable {
     private Long rawmaterialid;
 
     public MaterialRawMaterialsId() {
-
     }
 
     public MaterialRawMaterialsId(Long materialid, Long rawmaterialid) {
@@ -24,19 +23,19 @@ public class MaterialRawMaterialsId implements Serializable {
         this.rawmaterialid = rawmaterialid;
     }
 
-    public Long getmaterialid() {
+    public Long getMaterialid() {
         return materialid;
     }
 
-    public void setmaterialid(Long materialid) {
+    public void setMaterialid(Long materialid) {
         this.materialid = materialid;
     }
 
-    public Long getrawmaterialid() {
+    public Long getRawmaterialid() {
         return rawmaterialid;
     }
 
-    public void setrawmaterialid(Long rawmaterialid) {
+    public void setRawmaterialid(Long rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 
@@ -45,7 +44,7 @@ public class MaterialRawMaterialsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MaterialRawMaterialsId that = (MaterialRawMaterialsId) o;
-        return ((materialid==(that.materialid)) && (rawmaterialid==(that.rawmaterialid)));
+        return Objects.equals(materialid, that.materialid) && Objects.equals(rawmaterialid, that.rawmaterialid);
     }
 
     @Override

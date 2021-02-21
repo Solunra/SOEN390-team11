@@ -69,9 +69,9 @@ public class MaterialService {
     //return every raw material in a material
     public List<RawMaterial> getAllMaterialRawMaterial(Long materialid){
         List<RawMaterial> rawMaterial= new ArrayList<>();
-        List<MaterialRawMaterials> MaterialRawMaterialsList = materialrawmaterialRepository.findBymaterialRawMaterialsIdRawmaterialid(materialid);
+        List<MaterialRawMaterials> MaterialRawMaterialsList = materialrawmaterialRepository.findByMaterialRawMaterialsIdRawmaterialid(materialid);
         for(MaterialRawMaterials materialRawMaterials : MaterialRawMaterialsList){
-            rawMaterial.add(rawmaterialService.getRawMaterialById(materialRawMaterials.getMaterialRawMaterialsId().getrawmaterialid()));
+            rawMaterial.add(rawmaterialService.getRawMaterialById(materialRawMaterials.getMaterialRawMaterialsId().getRawmaterialid()));
         }
         return rawMaterial;
     }

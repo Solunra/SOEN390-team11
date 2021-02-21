@@ -7,22 +7,22 @@ import javax.persistence.Entity;
 public class MaterialRawMaterials {
 
     @EmbeddedId
-    private MaterialRawMaterialsId MaterialRawMaterialsId;
+    private MaterialRawMaterialsId materialRawMaterialsId;
 
     public MaterialRawMaterials() {
 
     }
 
     public MaterialRawMaterials(MaterialRawMaterialsId MaterialRawMaterialsId) {
-        this.MaterialRawMaterialsId = MaterialRawMaterialsId;
+        this.materialRawMaterialsId = MaterialRawMaterialsId;
     }
 
     public MaterialRawMaterialsId getMaterialRawMaterialsId() {
-        return MaterialRawMaterialsId;
+        return materialRawMaterialsId;
     }
 
     public void setMaterialRawMaterialsId(MaterialRawMaterialsId MaterialRawMaterialsId) {
-        this.MaterialRawMaterialsId = MaterialRawMaterialsId;
+        this.materialRawMaterialsId = MaterialRawMaterialsId;
     }
 
 
