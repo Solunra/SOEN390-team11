@@ -4,9 +4,22 @@ import {Tabs, Tab} from '@material-ui/core';
 import IdleTimer from 'react-idle-timer'
 import { useState } from 'react';
 import {NavCustomer , NavAdmin } from './components/Navbar';
+import {Production} from './components/Production';
+import { useHistory } from "react-router-dom";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
+    const history = useHistory();
+    function handleOnIdle(event) {
+        localStorage.removeItem("Authorization");
+        history.push("/");
+    }
+    function handleOnAction(event) {
+        // Do nothing
+    }
+    function handleOnActive(event) {
+        // Do nothing
+    }
 
   return (
       <div>
@@ -32,25 +45,19 @@ function App() {
               </Tabs>
               <div className="content">
                   <Route exact path = "/" />
-                  <Route path = "/home" component={NavCustomer}/>
+                  <Route path = "/customer" component={NavCustomer}/>
                   <Route path = "/admin" component={NavAdmin}/>
-                  <Route path = "/shop" />
                   <Route path = "/account" component = {SignupLoginParentComponent} />
+                  <Route path="/customer/shop" > </Route>
+                  <Route path="/customer/carte" > </Route>
+                  <Route path="/customer/info" > </Route>
+                  <Route path = "/admin/production" component={Production}/>
               </div>
           </HashRouter>
       </div>
   );
 }
 
-function handleOnIdle(event) {
-    localStorage.removeItem("Authorization");
-    history.push("/");
-}
-function handleOnAction(event) {
-    // Do nothing
-}
-function handleOnActive(event) {
-    // Do nothing
-}
+
 
 export default App;
