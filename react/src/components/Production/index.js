@@ -38,7 +38,7 @@ const Production = ()=>
                 if (res.status === 200)
                 {
                     var prolist = JSON.stringify(res.body);
-                    if(JSON.stringify(productList) !== prolist && prolist !== JSON.stringify([])){
+                    if(JSON.stringify(productList) !== prolist){
                         setProductList(res.body);
                     }
                 }
