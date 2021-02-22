@@ -23,7 +23,7 @@ Run the commands `gradle bootRun` and `npm start` respectively
 
 ---
 Go into the subfolder `react` and `spring` on separate terminals\
-Run `npm install` and `gradlew assemble` respectively (Mac-users should run `./gradlew`)\
+Run `npm install` and `gradlew assemble` respectively (Mac-users should use `./gradlew` instead of `gradle`)\
 Go back to the project root folder, which is one folder up from either `react` or `spring`\
 Run `docker-compose build`\
 Then, run `docker-compose up`\
