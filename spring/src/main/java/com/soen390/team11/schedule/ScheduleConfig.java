@@ -1,4 +1,4 @@
-package com.soen390.team11.scheduled;
+package com.soen390.team11.schedule;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
