@@ -1,11 +1,13 @@
 package com.soen390.team11.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
-public class Order {
+@Entity
+public class Orders {
 
     public String vendorID;
 
@@ -14,14 +16,16 @@ public class Order {
     @GeneratedValue(generator="order_id")
     public String orderID;
 
+    public int quantity;
+
     public OffsetDateTime time;
 
-    public Order() {
+    public Orders() {
     }
 
-    public Order(String vendorID, String orderID, OffsetDateTime time) {
+    public Orders(String vendorID, int quantity, OffsetDateTime time) {
         this.vendorID = vendorID;
-        this.orderID = orderID;
+        this.quantity = quantity;
         this.time = time;
     }
 
@@ -47,5 +51,13 @@ public class Order {
 
     public void setTime(OffsetDateTime time) {
         this.time = time;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

@@ -1,26 +1,31 @@
 package com.soen390.team11.entity;
 
+import com.soen390.team11.constant.Type;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-public class Vendor {
+@Entity
+public class Vendors {
 
     @Id
     @GenericGenerator(name="vendor_id", strategy = "com.soen390.team11.generator.VendorIDGenerator")
     @GeneratedValue(generator="vendor_id")
     public String vendorID;
 
-    public String type;
+    @Enumerated(EnumType.STRING)
+    public Type type;
 
     public String saleID;
 
-    public Vendor() {
+    public Vendors() {
         // Empty Constructor
     }
 
-    public Vendor(String vendorID, String type, String saleID) {
-        this.vendorID = vendorID;
+    public Vendors(Type type, String saleID) {
         this.type = type;
         this.saleID = saleID;
     }
@@ -33,11 +38,11 @@ public class Vendor {
         this.vendorID = vendorID;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
