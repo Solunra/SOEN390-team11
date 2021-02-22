@@ -50,7 +50,7 @@ class ProductControllerTest {
     @Test
     @Order(3)
     void retrieveProduct() {
-        ResponseEntity<?> responseEntity = productController.retrieveProduct(createdProduct.getProductid());
+        ResponseEntity<?> responseEntity = productController.retrieveProduct(createdProduct.getProductid().toString());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
@@ -58,16 +58,16 @@ class ProductControllerTest {
     @Order(4)
     void updateProduct() {
         ProductRequestDto newProduct = new ProductRequestDto("bike1","mountain1","medium","black","matte","A");
-        ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid() ,newProduct );
+        ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid().toString(), newProduct);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     @Order(5)
     void deleteProduct() {
-        ResponseEntity<?> responseEntity = productController.deleteProduct(createdProduct.getProductid() );
+        ResponseEntity<?> responseEntity = productController.deleteProduct(createdProduct.getProductid().toString());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        responseEntity = productController.deleteProduct(Long.valueOf("1000"));
+        responseEntity = productController.deleteProduct(Long.valueOf("1000").toString());
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 
