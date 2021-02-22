@@ -51,7 +51,7 @@ public class PartInventoryControllerTest {
     @Test
     @Order(2)
     void retrieveMaterialsOfPartInInventory_Success() {
-        ResponseEntity<?> saddleRetrieveResponse = partInventoryController.retrivePartMaterials(partMap.get("saddle").getPartid());
+        ResponseEntity<?> saddleRetrieveResponse = partInventoryController.retrievePartMaterials(partMap.get("saddle").getPartid());
         assertNotNull(saddleRetrieveResponse.getBody());
     }
 

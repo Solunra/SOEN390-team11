@@ -17,7 +17,7 @@ public class PartInventoryController {
     PartService partService;
 
     @GetMapping("/{partId}/materials")
-    public ResponseEntity<?> retrivePartMaterials(@PathVariable Long partId){
+    public ResponseEntity<?> retrievePartMaterials(@PathVariable Long partId){
         return ResponseEntity.ok((partInventoryService.getPartMaterials(partId)));
     }
 }
