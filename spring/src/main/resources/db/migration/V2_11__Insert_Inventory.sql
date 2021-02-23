@@ -1,0 +1,40 @@
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES(1,'Raaw bikes','Mountain','Medium','White','Matte','9%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES(2,'Rocky bikes','Mountain','Large','Red','Polish','8%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES(3,'Ghost bikes','Road','Small','Maroon','Polish','5%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES(4,'Aero','Road','Large','Black','Matte','6%');
+INSERT INTO product_inventory (id, location,quantity,productID) VALUES(1,'Warehouse', 5, 1);
+INSERT INTO product_inventory (id, location,quantity,productID) VALUES(2,'Warehouse', 4, 2);
+INSERT INTO product_inventory (id, location,quantity,productID) VALUES(3,'Warehouse', 8, 3);
+INSERT INTO product_inventory (id, location,quantity,productID) VALUES(4,'Warehouse', 10, 4);
+INSERT INTO part_inventory (id, location,quantity,partid) VALUES(1,'Warehouse', 20, 1);
+INSERT INTO part_inventory (id, location,quantity,partid) VALUES(2,'Warehouse', 25, 2);
+INSERT INTO part_inventory (id, location,quantity,partid) VALUES(3,'Warehouse', 30, 3);
+INSERT INTO part_inventory (id, location,quantity,partid) VALUES(4,'Warehouse', 15, 4);
+INSERT INTO part_inventory (id, location,quantity,partid) VALUES(5,'Warehouse', 18, 5);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(1,'Warehouse', 54, 1);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(2,'Warehouse', 84, 2);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(3,'Warehouse', 79, 3);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(4,'Warehouse', 64, 4);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(5,'Warehouse', 67, 5);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(6,'Warehouse', 58, 6);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(7,'Warehouse', 72, 7);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(8,'Warehouse', 75, 8);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(9,'Warehouse', 86, 9);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(10,'Warehouse', 68, 10);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(11,'Warehouse', 78, 11);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(12,'Warehouse', 69, 12);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(13,'Warehouse', 65, 13);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(14,'Warehouse', 20, 14);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(15,'Warehouse', 25, 15);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(16,'Warehouse', 65, 16);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(17,'Warehouse', 60, 17);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(18,'Warehouse', 55, 18);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(19,'Warehouse', 60, 19);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(20,'Warehouse', 30, 20);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(21,'Warehouse', 35, 21);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(22,'Warehouse', 600, 22);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(23,'Warehouse', 50, 23);
+INSERT INTO material_inventory (id, location,quantity,materialid) VALUES(24,'Warehouse', 69, 24);
+
+
+
