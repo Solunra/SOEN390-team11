@@ -2,8 +2,8 @@ package com.soen390.team11.entity;
 
 import javax.persistence.*;
 
-@Entity(name = "part_inventory")
-public class PartInventory {
+@Entity(name = "material_inventory")
+public class MaterialInventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,15 +15,15 @@ public class PartInventory {
     private int quantity;
 
     @Column
-    private Long partid;
+    private Long materialid;
 
-    public PartInventory() {
+    public MaterialInventory() {
     }
 
-    public PartInventory(String location, int quantity, Long partid) {
+    public MaterialInventory(String location, int quantity, Long materialid) {
         this.location = location;
         this.quantity = quantity;
-        this.partid = partid;
+        this.materialid = materialid;
     }
 
     public Long getId() {
@@ -50,11 +50,11 @@ public class PartInventory {
         this.quantity = quantity;
     }
 
-    public Long getPartid() {
-        return partid;
+    public Long getMaterialid() {
+        return materialid;
     }
 
-    public void setPartid(Long partid) {
-        this.partid = partid;
+    public void setMaterialid(Long materialid) {
+        this.materialid = materialid;
     }
 }
