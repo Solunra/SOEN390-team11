@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 
-
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
         width: '75%'
@@ -20,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProductForm = (props) =>{
 
-    const {data,re_render, setRe_render ,open, handleClose,setData} = props;
+    const {data,re_render, setRe_render ,open, handleClose,setData,setErr,setErrMessage} = props;
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [size, setSize] = useState('');
@@ -116,7 +115,10 @@ const ProductForm = (props) =>{
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    clearValue();
+                    setData({});
+                    handleClose();
+                    setErrMessage(err.response.body['message']);
                 });
 
 
@@ -190,7 +192,3 @@ const ProductForm = (props) =>{
     )
 }
 export {ProductForm};
-
-
-
-

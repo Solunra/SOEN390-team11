@@ -15,8 +15,9 @@ public class MaterialInventoryController {
     @Autowired
     MaterialInventoryService materialInventoryService;
     @GetMapping("/")
-    public ResponseEntity<?> retrieveAllPartInInventory(){
+    public ResponseEntity<?> retrieveAllMatInInventory(){
         return new ResponseEntity<>(materialInventoryService.getAllMaterialInventory(), HttpStatus.OK);
     }
 
 }
+

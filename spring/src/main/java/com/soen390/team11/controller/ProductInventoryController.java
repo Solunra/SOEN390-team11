@@ -25,7 +25,7 @@ public class ProductInventoryController {
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllProductsInInventory(){
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(productInventoryService.getAllProductsInInventory()), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(productInventoryService.getAllProInv()), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
