@@ -18,6 +18,9 @@ public class Material {
     public Material() {
 
     }
+    public Material(String name){
+        this.name = name;
+    }
 
     public Material(Long materialid, String name) {
         this.materialid = materialid;

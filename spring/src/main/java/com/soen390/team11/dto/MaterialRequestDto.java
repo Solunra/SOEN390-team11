@@ -8,15 +8,13 @@ import java.util.List;
 
 public class MaterialRequestDto {
     private String name;
-    private Long materialid;
 
     public MaterialRequestDto() {
 
     }
 
-    public MaterialRequestDto(String name, Long materialid) {
+    public MaterialRequestDto(String name) {
         this.name = name;
-        this.materialid = materialid;
     }
 
     public String getname() {
@@ -27,15 +25,7 @@ public class MaterialRequestDto {
         this.name = name;
     }
 
-    public Long getmaterialid() {
-        return materialid;
-    }
-
-    public void setmaterialid(Long materialid) {
-        this.materialid = materialid;
-    }
-
     public Material getMaterial(){
-        return new Material(materialid, name);
+        return new Material(name);
     }
 }
