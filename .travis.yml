@@ -18,5 +18,5 @@ script:
   - docker-compose up db
   - ./gradlew test
 after_success:
-  - echo "token" > .cc_token
+  - echo "538ffe5b-cb9b-4757-9651-1089dec5b384" > .cc_token
   - bash <(curl -s https://codecov.io/bash) -t @.cc_token
