@@ -13,10 +13,11 @@ public class VendorsService {
     @Autowired
     VendorsRepository vendorsRepository;
 
-    public void createVendor(VendorDto vendorDto)
+    public String createVendor(VendorDto vendorDto)
     {
         Vendors vendor = new Vendors(vendorDto.getType(), vendorDto.getSaleID());
-        vendorsRepository.save(vendor);
+        Vendors resultantVendor = vendorsRepository.save(vendor);
+        return resultantVendor.getVendorID();
     }
 
     public Optional<Vendors> getVendor(String vendorID)

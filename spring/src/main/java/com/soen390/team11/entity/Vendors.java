@@ -14,12 +14,12 @@ public class Vendors {
     @Id
     @GenericGenerator(name="vendor_id", strategy = "com.soen390.team11.generator.VendorIDGenerator")
     @GeneratedValue(generator="vendor_id")
-    public String vendorID;
+    private String vendorID;
 
     @Enumerated(EnumType.STRING)
-    public Type type;
+    private Type type;
 
-    public String saleID;
+    private String saleID;
 
     public Vendors() {
         // Empty Constructor

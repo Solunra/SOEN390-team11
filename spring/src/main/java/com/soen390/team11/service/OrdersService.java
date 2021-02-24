@@ -6,6 +6,8 @@ import com.soen390.team11.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,20 +16,34 @@ public class OrdersService {
     @Autowired
     OrdersRepository ordersRepository;
 
-    public void createOrder(OrderDto orderDto)
+    public String createOrder(OrderDto orderDto)
     {
         Orders order = new Orders(orderDto.getVendorID(), orderDto.getQuantity(), orderDto.getDateTime());
-        ordersRepository.save(order);
+        Orders result = ordersRepository.save(order);
+        return result.getOrderID();
     }
 
-    public Optional<Orders> getOrderById(String orderID)
+    public Optional<OrderDto> getOrderById(String orderID)
     {
-        return ordersRepository.findByOrderID(orderID);
+        Optional<Orders> order = ordersRepository.findByOrderID(orderID);
+        if (order.isPresent())
+        {
+            return Optional.of(new OrderDto(order.get().getVendorID(), order.get().getQuantity(), order.get().getTime()));
+        }
+        else
+        {
+            return Optional.empty();
+        }
     }
 
-    public Iterable<Orders> getAllOrders()
+    public List<OrderDto> getAllOrders()
     {
-        return ordersRepository.findAll();
+        Iterable<Orders> orders = ordersRepository.findAll();
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (Orders order: orders) {
+            orderDtos.add(new OrderDto(order.getVendorID(), order.getQuantity(), order.getTime()));
+        }
+        return orderDtos;
     }
     public Iterable<Orders> getOrdersByRecent()
     {

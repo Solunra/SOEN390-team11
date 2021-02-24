@@ -9,16 +9,16 @@ import java.time.OffsetDateTime;
 @Entity
 public class Orders {
 
-    public String vendorID;
+    private String vendorID;
 
     @Id
     @GenericGenerator(name="order_id", strategy = "com.soen390.team11.generator.OrderIDGenerator")
     @GeneratedValue(generator="order_id")
-    public String orderID;
+    private String orderID;
 
-    public int quantity;
+    private int quantity;
 
-    public OffsetDateTime time;
+    private OffsetDateTime time;
 
     public Orders() {
     }

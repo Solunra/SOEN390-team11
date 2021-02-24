@@ -4,12 +4,27 @@ import com.soen390.team11.constant.Type;
 
 public class VendorDto {
 
+    private String vendorID;
     private Type type;
     private String saleID;
+
+    public VendorDto(String vendorID, Type type, String saleID) {
+        this.vendorID = vendorID;
+        this.type = type;
+        this.saleID = saleID;
+    }
 
     public VendorDto(Type type, String saleID) {
         this.type = type;
         this.saleID = saleID;
+    }
+
+    public String getVendorID() {
+        return vendorID;
+    }
+
+    public void setVendorID(String vendorID) {
+        this.vendorID = vendorID;
     }
 
     public Type getType() {
