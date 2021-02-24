@@ -15,7 +15,6 @@ const useStyles = makeStyles({
 });
 const MaterialInventory = (props)=> {
     const {rows} = props;
-
     const classes = useStyles();
 
     return (

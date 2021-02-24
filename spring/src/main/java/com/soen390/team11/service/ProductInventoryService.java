@@ -86,6 +86,4 @@ public class ProductInventoryService {
         }
         return productInventoryList;
     }
-
-
 }

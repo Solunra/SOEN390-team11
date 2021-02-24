@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductInventoryRepository extends CrudRepository<ProductInventory, Long> {
-
+    ProductInventory findByProductid(Long id);
 }

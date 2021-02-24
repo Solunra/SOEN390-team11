@@ -40,7 +40,7 @@ public class ProductService {
 
     public String deleteProduct(Long id) throws Exception {
         if(checkInventory(id)){
-            throw new Exception("cannot edit product, already product in inventory");
+            throw new Exception("cannot delete product, already product in inventory");
         }
         if(getProductById(id)==null) {
             throw new Exception("invalid id");
@@ -69,5 +69,4 @@ public class ProductService {
         ProductInventory productInventory =  productInventoryRepository.findByProductid(id);
         return productInventory !=null;
     }
-
 }

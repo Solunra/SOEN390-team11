@@ -103,13 +103,6 @@ const Production = ()=>
             });
     }
 
-    const togglePartTable =()=>{
-        setPartTable(!partTable);
-        setMaterialTable(false);
-    }
-    const toggleMaterialTable =()=>{
-        setMaterialTable(!materialTable);
-    }
     const closeAlert = ()=>{
         setErrMessage('');
     }

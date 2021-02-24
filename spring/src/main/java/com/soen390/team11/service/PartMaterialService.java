@@ -39,7 +39,6 @@ public class PartMaterialService {
             for(Material m: materials){
                 if(pm.getMaterialId().equals(m.getMaterialid())){
                     partMaterialResponse = new PartMaterialResponse(pm.getId(),pm.getPartId(),pm.getMaterialId(),pm.getMaterialQuantity(),m.getName());
-//
                 }
             }
             PartMaterialResponselist.add(partMaterialResponse);
