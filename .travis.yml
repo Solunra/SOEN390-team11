@@ -1,10 +1,19 @@
 language: java
 jdk:
   - openjdk15
+env:
+  - DOCKER_COMPOSE_VERSION=1.27.4
 before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
   - cd spring
   - chmod +x gradlew
 script:
+  - docker-compose up
+  - docker-compose stop react-js
+  - docker-compose stop spring-java
   - ./gradlew assemble
   - ./gradlew test
 after_success:
