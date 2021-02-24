@@ -8,7 +8,7 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 ### UI Prototype
 
 ---
-[UI prototypes for Sprint #2 user stories](https://www.figma.com/proto/FHPUEzLDyZ1v79wOGeJqF2/ERP-for-Sprint-%232-user-stories?node-id=4%3A2&scaling=scale-down/)
+[UI prototype for Sprint #3 user stories](https://www.figma.com/proto/nsL7XStjNrl9ObZfgLrQ0h/ERP-for-Sprint-%233-user-stories?node-id=411%3A131&scaling=scale-down/)
 
 ### For Developing
 
