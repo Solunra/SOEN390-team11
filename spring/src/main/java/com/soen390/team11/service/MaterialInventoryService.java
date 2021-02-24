@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.dto.MaterialInventoryResponse;
 import com.soen390.team11.entity.Material;
 import com.soen390.team11.entity.MaterialInventory;
 import com.soen390.team11.repository.MaterialInventoryRepository;
@@ -19,22 +20,18 @@ public class MaterialInventoryService {
     @Autowired
     MaterialRepository materialRepository;
 
-    public ArrayList<Map<String ,String >> getAllMaterialInventory() {
+    public ArrayList<MaterialInventoryResponse> getAllMaterialInventory() {
         List<MaterialInventory> materialInventories= (List<MaterialInventory>) materialInventoryRepository.findAll();
         List<Material> materials = (List<Material>) materialRepository.findAll();
-        ArrayList<Map<String ,String >> materialInventoryList = new ArrayList<>();
+        ArrayList<MaterialInventoryResponse> materialInventoryList = new ArrayList<>();
+        MaterialInventoryResponse materialInventoryResponse= new MaterialInventoryResponse();
         for(MaterialInventory mi: materialInventories){
-            Map<String ,String > materialMap = new HashMap<>();
             for(Material m : materials){
                 if(mi.getMaterialid() == m.getMaterialid()){
-                    materialMap.put("name",m.getName());
-                    materialMap.put("id", mi.getId().toString());
-                    materialMap.put("quantity", String.valueOf(mi.getQuantity()));
-                    materialMap.put("location",mi.getLocation());
-                    materialMap.put("materialid", String.valueOf(mi.getMaterialid()));
+                    materialInventoryResponse = new MaterialInventoryResponse(mi.getId(),mi.getLocation(),mi.getQuantity(),mi.getMaterialid(),m.getName());
                 }
             }
-            materialInventoryList.add(materialMap);
+            materialInventoryList.add(materialInventoryResponse);
         }
         return materialInventoryList;
     }

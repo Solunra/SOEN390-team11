@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductInventoryRepository extends CrudRepository<ProductInventory, Long> {
+    ProductInventory findByProductid(Long id);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE product_inventory pi SET pi.quantity = :quantity WHERE pi.id = :id")

@@ -26,9 +26,8 @@ const LoginComponent = () => {
                 if (res.status === 200)
                 {
                     localStorage.setItem("Authorization", res.headers["authorization"]);
-                    console.log(localStorage.getItem("Authorization"))
                     if(res.headers["role"] === "CUSTOMER"){
-                        history.push("/home");
+                        history.push("/customer");
                     }
                     else{
                         history.push("/admin");
@@ -41,8 +40,6 @@ const LoginComponent = () => {
             })
         ;
         event.target.reset();
-        console.log("Login form successful");
-        console.log(BuildPath("/account/signin"));
     }
 
     const isDisabled = () => {

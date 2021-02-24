@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -61,7 +64,7 @@ public class ProductController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
         catch (Exception e) {
-            return new ResponseEntity<>("product of the id not exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
 
@@ -74,9 +77,16 @@ public class ProductController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
         catch (Exception e){
-            return new ResponseEntity<>("product of the id not exist", HttpStatus.CONFLICT);
+
+            return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
-
-
+    @GetMapping("/part")
+    public ResponseEntity<?> getPreConfigParts(){
+        try {
+            return new ResponseEntity<>(productService.getAllProductPart(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.CONFLICT);
+        }
+    }
 }
