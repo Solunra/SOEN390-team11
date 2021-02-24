@@ -9,10 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import request from "superagent";
 import BuildPath from "../RequestBuilder";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const columns = [
     { id: 'name', label: 'Bike Name' ,minWidth: 170 },
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 });
 
 const ProductTable = (props) => {
-    const {rows,re_render, setRe_render , setOpen,setData} = props;
+    const {rows,re_render, setRe_render , setOpen,setData ,setPartTable,setErrMessage} = props;
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -61,14 +61,15 @@ const ProductTable = (props) => {
                 }
             })
             .catch(err => {
-                console.log(err);
+                setErrMessage(err.response.body['message']);
+                setTimeout(err.response.body[''], 45000);
             });
     }
 
     return (
             <Paper className={classes.rootTable}>
                 <TableContainer >
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader>
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => (
@@ -95,14 +96,14 @@ const ProductTable = (props) => {
                                             );
                                         })}
                                         <TableCell >
-                                            <IconButton onClick={()=>{handleEdit(row)}}>
-                                                <EditIcon></EditIcon>
-                                            </IconButton>
+                                            <EditIcon onClick={()=>{handleEdit(row)}}></EditIcon>
+
                                         </TableCell>
                                         <TableCell>
-                                            <IconButton onClick={()=>{handleDelete(row)}}>
-                                                <DeleteIcon></DeleteIcon>
-                                            </IconButton>
+                                            <DeleteIcon onClick={()=>{handleDelete(row)}}></DeleteIcon>
+                                        </TableCell>
+                                        <TableCell>
+                                            <ArrowForwardIcon onClick={()=>{setPartTable(true);}}></ArrowForwardIcon>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -121,7 +122,5 @@ const ProductTable = (props) => {
                 />
             </Paper>
     );
-
-
 }
 export {ProductTable};

@@ -1,0 +1,22 @@
+language: java
+jdk:
+  - openjdk15
+env:
+  - DOCKER_COMPOSE_VERSION=1.27.4
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - cd react
+  - npm install
+  - cd ..
+  - cd spring
+  - chmod +x gradlew
+  - ./gradlew assemble
+script:
+  - docker-compose up db
+  - ./gradlew test
+after_success:
+  - echo "538ffe5b-cb9b-4757-9651-1089dec5b384" > .cc_token
+  - bash <(curl -s https://codecov.io/bash) -t @.cc_token

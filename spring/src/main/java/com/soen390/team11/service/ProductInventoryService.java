@@ -1,17 +1,22 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.dto.ProductInventoryRequestDto;
+import com.soen390.team11.dto.ProductInventoryResponse;
 import com.soen390.team11.entity.Part;
+import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductInventory;
 
 import com.soen390.team11.entity.ProductParts;
 import com.soen390.team11.repository.ProductInventoryRepository;
 import com.soen390.team11.repository.ProductPartsRepository;
+import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductInventoryService {
@@ -22,18 +27,13 @@ public class ProductInventoryService {
     ProductPartsRepository productPartsRepository;
     @Autowired
     PartService partService;
+    @Autowired
+    ProductRepository productRepository;
 
 
     public ProductInventory createProductInventory(ProductInventoryRequestDto productInventoryRequestDto) throws Exception {
 
        return productInventoryRepository.save(productInventoryRequestDto.getProductInventory());
-    }
-
-    public List<ProductInventory> getAllProductsInInventory(){
-        List<ProductInventory> productInventories= new ArrayList<>();
-        productInventoryRepository.findAll()
-                .forEach(productInventories::add);
-        return productInventories;
     }
 
     public ProductInventory getProductInventoryByID(Long id){
@@ -71,6 +71,19 @@ public class ProductInventoryService {
         }
         return parts;
     }
-
-
+    public ArrayList<ProductInventoryResponse> getAllProInv(){
+        List<ProductInventory> productInventories= (List<ProductInventory>) productInventoryRepository.findAll();
+        List<Product> products = (List<Product>) productRepository.findAll();
+        ArrayList<ProductInventoryResponse> productInventoryList = new ArrayList<>();
+        ProductInventoryResponse productInventoryResponse = new ProductInventoryResponse();
+        for(ProductInventory pi : productInventories){
+            for(Product p : products){
+                if(pi.getProductid() == p.getProductid()){
+                    productInventoryResponse = new ProductInventoryResponse(pi.getId(),pi.getLocation(),pi.getQuantity(),pi.getProductid(),p.getName());
+                }
+            }
+            productInventoryList.add(productInventoryResponse);
+        }
+        return productInventoryList;
+    }
 }

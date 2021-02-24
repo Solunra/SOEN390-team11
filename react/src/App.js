@@ -6,6 +6,7 @@ import { useState } from 'react';
 import {NavCustomer , NavAdmin } from './components/Navbar';
 import {Production} from './components/Production';
 import { useHistory } from "react-router-dom";
+import {Inventory} from './components/Inventory';
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -52,12 +53,12 @@ function App() {
                   <Route path="/customer/carte" > </Route>
                   <Route path="/customer/info" > </Route>
                   <Route path = "/admin/production" component={Production}/>
+                  <Route path = "/admin/inventory" component={Inventory}/>
+
               </div>
           </HashRouter>
       </div>
   );
 }
-
-
 
 export default App;
