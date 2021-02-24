@@ -41,4 +41,7 @@ public class PartMaterial {
         return materialQuantity;
     }
 
+    public Long getId() {
+        return id;
+    }
 }
