@@ -1,5 +1,5 @@
 # SOEN390 Project [Team 11]
-
+[![Build Status](https://travis-ci.com/Solunra/SOEN390-team11.svg?token=qjefmiJCZRcnxVWWGqs5&branch=main)](https://travis-ci.com/Solunra/SOEN390-team11)
 ### Description
 
 ---
@@ -8,7 +8,18 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 ### UI Prototype
 
 ---
-[UI prototypes for Sprint #2 user stories](https://www.figma.com/proto/FHPUEzLDyZ1v79wOGeJqF2/ERP-for-Sprint-%232-user-stories?node-id=4%3A2&scaling=scale-down/)
+[UI prototype for Sprint #3 user stories](https://www.figma.com/proto/nsL7XStjNrl9ObZfgLrQ0h/ERP-for-Sprint-%233-user-stories?node-id=411%3A131&scaling=scale-down/)
+
+### Code Coverage
+
+---
+[![codecov](https://codecov.io/gh/Solunra/SOEN390-team11/branch/main/graph/badge.svg?token=GM2SQ4TIGU)](https://codecov.io/gh/Solunra/SOEN390-team11) \
+[Code Coverage for Controllers](https://codecov.io/gh/Solunra/SOEN390-team11/tree/main/spring/src/main/java/com/soen390/team11/controller)
+
+### Release Report
+
+---
+A visual representation of the Release Report can be seen [here](https://app.zenhub.com/workspaces/team11-60049e0484eafc0011dd9ab2/reports/release?release=6035db14684fff12ba23a7fd)
 
 ### For Developing
 
