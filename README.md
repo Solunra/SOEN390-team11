@@ -15,6 +15,12 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 ---
 [![codecov](https://codecov.io/gh/Solunra/SOEN390-team11/branch/main/graph/badge.svg?token=GM2SQ4TIGU)](https://codecov.io/gh/Solunra/SOEN390-team11) \
 [Code Coverage for Controllers](https://codecov.io/gh/Solunra/SOEN390-team11/tree/main/spring/src/main/java/com/soen390/team11/controller)
+
+### Release Report
+
+---
+A visual representation of the Release Report can be seen [here](https://app.zenhub.com/workspaces/team11-60049e0484eafc0011dd9ab2/reports/release?release=6035db14684fff12ba23a7fd)
+
 ### For Developing
 
 ---
