@@ -1,5 +1,5 @@
 CREATE TABLE material(
-    materialid bigint auto_increment not null,
+    materialid varchar(72) not null,
     name varchar(255) not null,
     PRIMARY KEY(materialid)
 );

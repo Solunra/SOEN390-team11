@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductInventoryRepository extends CrudRepository<ProductInventory, Long> {
-    ProductInventory findByProductid(Long id);
+public interface ProductInventoryRepository extends CrudRepository<ProductInventory, String> {
+    ProductInventory findByProductid(String id);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE product_inventory pi SET pi.quantity = :quantity WHERE pi.id = :id")
-    void updateInventory(@Param("id") Long id, @Param("quantity") int newQuantity);
+    void updateInventory(@Param("id") String id, @Param("quantity") int newQuantity);
 }

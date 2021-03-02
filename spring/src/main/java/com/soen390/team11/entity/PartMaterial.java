@@ -1,20 +1,21 @@
 package com.soen390.team11.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity(name = "part_material")
 public class PartMaterial {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name="id", strategy = "com.soen390.team11.generator.PartMaterialIDGenerator")
+    @GeneratedValue(generator="id")
+    private String id;
 
     @Column
-    private Long partId;
+    private String partId;
 
     @Column
-    private Long materialId;
+    private String materialId;
 
     @Column
     private Integer materialQuantity;
@@ -23,17 +24,17 @@ public class PartMaterial {
 
     }
 
-    public PartMaterial(Long partId, Long materialId, Integer materialQuantity) {
+    public PartMaterial(String partId, String materialId, Integer materialQuantity) {
         this.partId = partId;
         this.materialId = materialId;
         this.materialQuantity = materialQuantity;
     }
 
-    public Long getPartId() {
+    public String getPartId() {
         return partId;
     }
 
-    public Long getMaterialId() {
+    public String getMaterialId() {
         return materialId;
     }
 
@@ -41,7 +42,7 @@ public class PartMaterial {
         return materialQuantity;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 }

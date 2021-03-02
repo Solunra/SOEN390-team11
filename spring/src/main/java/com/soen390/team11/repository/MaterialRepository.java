@@ -8,6 +8,6 @@ import java.util.List;
 
 
 @Repository
-public interface MaterialRepository extends CrudRepository<Material, Long> {
+public interface MaterialRepository extends CrudRepository<Material, String> {
 
 }

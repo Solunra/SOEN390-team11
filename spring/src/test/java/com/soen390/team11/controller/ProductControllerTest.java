@@ -37,7 +37,7 @@ class ProductControllerTest {
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
         createdProduct = new Product(responseBody.get("name").toString(),responseBody.get("type").toString(),responseBody.get("size").toString(), responseBody.get("color").toString(),responseBody.get("finish").toString(),responseBody.get("grade").toString());
-        createdProduct.setProductid(Long.valueOf(responseBody.get("productid").toString()));
+        createdProduct.setProductid(responseBody.get("productid").toString());
     }
 
     @Test
@@ -67,7 +67,7 @@ class ProductControllerTest {
     void deleteProduct() {
         ResponseEntity<?> responseEntity = productController.deleteProduct(createdProduct.getProductid().toString());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        responseEntity = productController.deleteProduct(Long.valueOf("1000").toString());
+        responseEntity = productController.deleteProduct(String.valueOf("1000").toString());
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 

@@ -36,7 +36,7 @@ public class ProductInventoryService {
        return productInventoryRepository.save(productInventoryRequestDto.getProductInventory());
     }
 
-    public ProductInventory getProductInventoryByID(Long id){
+    public ProductInventory getProductInventoryByID(String id){
         try{
             ProductInventory productInventory= productInventoryRepository.findById(id).get();
             return productInventory;
@@ -46,7 +46,7 @@ public class ProductInventoryService {
         }
     }
 
-    public String deleteProductFromInventory(Long id) throws Exception {
+    public String deleteProductFromInventory(String id) throws Exception {
         if(getProductInventoryByID(id)==null) {
             throw new Exception("invalid id");
         }
@@ -54,7 +54,7 @@ public class ProductInventoryService {
         return "success";
     }
 
-    public ProductInventory updateProductInInventory(Long id, ProductInventoryRequestDto productInventoryRequestDto) throws Exception {
+    public ProductInventory updateProductInInventory(String id, ProductInventoryRequestDto productInventoryRequestDto) throws Exception {
         ProductInventory productInventory = productInventoryRequestDto.getProductInventory();
         if(getProductInventoryByID(id) ==null) {
             throw new Exception("invalid id");
@@ -63,7 +63,7 @@ public class ProductInventoryService {
         return productInventoryRepository.save(productInventory);
     }
 
-    public List<Part> getProductParts(Long productid){
+    public List<Part> getProductParts(String productid){
         List<Part> parts= new ArrayList<>();
         List<ProductParts> productPartsList = productPartsRepository.findByProductPartsIdProductid(productid);
         for(ProductParts productParts : productPartsList){

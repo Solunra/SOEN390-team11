@@ -35,7 +35,7 @@ public class MaterialController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> retrieveMaterial(@PathVariable Long id){
+    public ResponseEntity<?> retrieveMaterial(@PathVariable String id){
         Material material = materialService.getMaterialById(id);
         try {
             if (material != null) {
@@ -51,7 +51,7 @@ public class MaterialController {
      }
 
      @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateMaterial(@PathVariable Long id, @RequestBody MaterialRequestDto materialRequestDto){
+    public ResponseEntity<?> updateMaterial(@PathVariable String id, @RequestBody MaterialRequestDto materialRequestDto){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.updateMaterial(id,materialRequestDto)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -63,7 +63,7 @@ public class MaterialController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteMaterial(@PathVariable Long id){
+    public ResponseEntity<?> deleteMaterial(@PathVariable String id){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.deleteMaterial(id)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -75,7 +75,7 @@ public class MaterialController {
     }
 
     @GetMapping("/{materialid}")
-    public ResponseEntity<?> retrieveAllRawMaterialsInMaterial(@PathVariable Long materialid){
+    public ResponseEntity<?> retrieveAllRawMaterialsInMaterial(@PathVariable String materialid){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.getAllMaterialRawMaterial(materialid)), HttpStatus.OK);
         } catch (JsonProcessingException e) {

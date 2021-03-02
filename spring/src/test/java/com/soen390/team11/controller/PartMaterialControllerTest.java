@@ -40,8 +40,8 @@ public class PartMaterialControllerTest {
     public void setup() {
         partMap.put("saddle", partRepository.save(new Part("saddle")));
         partMap.put("wheel", partRepository.save(new Part("wheel")));
-        materialMap.put("dummy1", materialRepository.save(new Material(100L, "dummy1")));
-        materialMap.put("dummy2", materialRepository.save(new Material(101L, "dummy2")));
+        materialMap.put("dummy1", materialRepository.save(new Material("mat-100", "dummy1")));
+        materialMap.put("dummy2", materialRepository.save(new Material("mat-101", "dummy2")));
         PartMaterial partMaterial1 = new PartMaterial(partMap.get("saddle").getPartid(), materialMap.get("dummy1").getMaterialid(), 7);
         PartMaterial partMaterial2 = new PartMaterial(partMap.get("saddle").getPartid(), materialMap.get("dummy2").getMaterialid(), 13);
         partMaterialMap.put("saddle_dummy1", partMaterialRepository.save(partMaterial1));
@@ -52,7 +52,7 @@ public class PartMaterialControllerTest {
     void retrieveAllMaterialsOfPartInInventory_Success() {
         ResponseEntity<?> saddleRetrieveResponse = partMaterialController.retrivePartMaterials(partMap.get("saddle").getPartid());
 
-        Map<Long, Integer> expectedPartMaterialsMap = new HashMap<>();
+        Map<String, Integer> expectedPartMaterialsMap = new HashMap<>();
         expectedPartMaterialsMap.put(materialMap.get("dummy1").getMaterialid(), 7);
         expectedPartMaterialsMap.put(materialMap.get("dummy2").getMaterialid(), 13);
 

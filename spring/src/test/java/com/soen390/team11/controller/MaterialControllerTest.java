@@ -37,7 +37,7 @@ class MaterialControllerTest {
         ResponseEntity<?> responseEntity = materialController.createMaterial(materialRequestDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        createdMaterial = new Material(Long.valueOf(responseBody.get("materialid").toString()),responseBody.get("name").toString());
+        createdMaterial = new Material(responseBody.get("materialid").toString(),responseBody.get("name").toString());
     }
 
     @Test
@@ -67,7 +67,7 @@ class MaterialControllerTest {
     void deleteMaterial() {
         ResponseEntity<?> responseEntity = materialController.deleteMaterial(createdMaterial.getMaterialid());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        responseEntity = materialController.deleteMaterial(Long.valueOf("1000"));
+        responseEntity = materialController.deleteMaterial("1000");
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 }

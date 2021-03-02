@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MaterialRawMaterialRepository extends CrudRepository<MaterialRawMaterials, MaterialRawMaterialsId> {
-    List<MaterialRawMaterials> findByMaterialRawMaterialsIdRawmaterialid(Long Rawmaterialid);
+    List<MaterialRawMaterials> findByMaterialRawMaterialsIdRawmaterialid(String Rawmaterialid);
 }
 
 

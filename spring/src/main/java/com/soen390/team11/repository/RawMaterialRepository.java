@@ -8,6 +8,6 @@ import java.util.List;
 
 
 @Repository
-public interface RawMaterialRepository extends CrudRepository<RawMaterial, Long> {
+public interface RawMaterialRepository extends CrudRepository<RawMaterial, String> {
 
 }

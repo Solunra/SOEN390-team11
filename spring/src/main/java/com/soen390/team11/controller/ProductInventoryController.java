@@ -32,7 +32,7 @@ public class ProductInventoryController {
     }
 
     @GetMapping("/{productid}/parts")
-    public ResponseEntity<?> retriveProductParts(@PathVariable Long productid){
+    public ResponseEntity<?> retriveProductParts(@PathVariable String productid){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productInventoryService.getProductParts(productid)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -53,7 +53,7 @@ public class ProductInventoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProductInInventory(@PathVariable Long id){
+    public ResponseEntity<?> deleteProductInInventory(@PathVariable String id){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productInventoryService.deleteProductFromInventory(id)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -65,7 +65,7 @@ public class ProductInventoryController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> editProductInfoInInventory(@PathVariable Long id, @RequestBody ProductInventoryRequestDto productInventoryRequestDto){
+    public ResponseEntity<?> editProductInfoInInventory(@PathVariable String id, @RequestBody ProductInventoryRequestDto productInventoryRequestDto){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productInventoryService.updateProductInInventory(id,productInventoryRequestDto)), HttpStatus.OK);
         } catch (JsonProcessingException e) {

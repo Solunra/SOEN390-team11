@@ -24,7 +24,7 @@ public class PartService {
     }
 
 
-    public Part getPartById(Long id) {
+    public Part getPartById(String id) {
         try {
             Part part = partRepository.findById(id).get();
             return part;

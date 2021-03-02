@@ -23,12 +23,12 @@ public class PartMaterialController {
     PartService partService;
 
     @GetMapping("/{partId}/materials")
-    public ResponseEntity<?> retrivePartMaterials(@PathVariable Long partId){
+    public ResponseEntity<?> retrivePartMaterials(@PathVariable String partId){
         return ResponseEntity.ok((partMaterialService.getPartMaterials(partId)));
     }
     @GetMapping("/materials/{partId}")
     public ResponseEntity<?> retrieveAllMaterailByParts(@PathVariable String partId){
-        Long pid = Long.valueOf(partId);
+        String pid = String.valueOf(partId);
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(partMaterialService.getAllMaterialsOfPart(pid)), HttpStatus.OK);
         } catch (JsonProcessingException e) {

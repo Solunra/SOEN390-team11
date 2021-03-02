@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ProductPartsRepository extends CrudRepository<ProductParts, ProductPartsId> {
-    List<ProductParts> findByProductPartsIdProductid(Long productid);
+    List<ProductParts> findByProductPartsIdProductid(String productid);
 }
 
 

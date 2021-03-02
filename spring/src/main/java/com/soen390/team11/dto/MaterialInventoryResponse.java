@@ -2,16 +2,16 @@ package com.soen390.team11.dto;
 
 
 public class MaterialInventoryResponse {
-    private Long matInvid;
+    private String matInvid;
     private String location;
     private int quantity;
-    private Long materialid;
+    private String materialid;
     private String materialname;
 
     public MaterialInventoryResponse() {
     }
 
-    public MaterialInventoryResponse(Long matInvid, String location, int quantity, Long materialid, String materialname) {
+    public MaterialInventoryResponse(String matInvid, String location, int quantity, String materialid, String materialname) {
         this.matInvid = matInvid;
         this.location = location;
         this.quantity = quantity;
@@ -19,11 +19,11 @@ public class MaterialInventoryResponse {
         this.materialname = materialname;
     }
 
-    public Long getMatInvid() {
+    public String getMatInvid() {
         return matInvid;
     }
 
-    public void setMatInvid(Long matInvid) {
+    public void setMatInvid(String matInvid) {
         this.matInvid = matInvid;
     }
 
@@ -43,11 +43,11 @@ public class MaterialInventoryResponse {
         this.quantity = quantity;
     }
 
-    public Long getMaterialid() {
+    public String getMaterialid() {
         return materialid;
     }
 
-    public void setMaterialid(Long materialid) {
+    public void setMaterialid(String materialid) {
         this.materialid = materialid;
     }
 

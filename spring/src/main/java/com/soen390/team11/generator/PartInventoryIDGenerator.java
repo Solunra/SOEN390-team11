@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
-public class VendorIDGenerator implements IdentifierGenerator {
+public class PartInventoryIDGenerator implements IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        String prefix = "v-";
+        String prefix = "prtinv-";
         return prefix + UUID.randomUUID().toString();
     }
 }

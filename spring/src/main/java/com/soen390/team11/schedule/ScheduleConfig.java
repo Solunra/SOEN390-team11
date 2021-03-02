@@ -60,31 +60,31 @@ public class ScheduleConfig {
 
     private void processPart(String id, int quantity)
     {
-        Optional<PartInventory> partInventory = partInventoryRepository.findById(Long.valueOf(id));
+        Optional<PartInventory> partInventory = partInventoryRepository.findById(String.valueOf(id));
         if (partInventory.isPresent())
         {
             int currentQuantity = partInventory.get().getQuantity();
-            partInventoryRepository.updateInventory(Long.valueOf(id), (currentQuantity + quantity));
+            partInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
         }
     }
 
     private void processProduct(String id, int quantity)
     {
-        Optional<ProductInventory> productInventory = productInventoryRepository.findById(Long.valueOf(id));
+        Optional<ProductInventory> productInventory = productInventoryRepository.findById(String.valueOf(id));
         if (productInventory.isPresent())
         {
             int currentQuantity = productInventory.get().getQuantity();
-            partInventoryRepository.updateInventory(Long.valueOf(id), (currentQuantity + quantity));
+            partInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
         }
     }
 
     private void processMaterial(String id, int quantity)
     {
-        Optional<MaterialInventory> materialInventory = materialInventoryRepository.findById(Long.valueOf(id));
+        Optional<MaterialInventory> materialInventory = materialInventoryRepository.findById(String.valueOf(id));
         if (materialInventory.isPresent())
         {
             int currentQuantity = materialInventory.get().getQuantity();
-            partInventoryRepository.updateInventory(Long.valueOf(id), (currentQuantity + quantity));
+            partInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
         }
     }
 

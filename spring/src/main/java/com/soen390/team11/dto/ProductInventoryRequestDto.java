@@ -9,13 +9,13 @@ import java.util.List;
 public class ProductInventoryRequestDto {
     private String location;
     private int quantity;
-    private Long productid;
+    private String productid;
 
     public ProductInventoryRequestDto() {
 
     }
 
-    public ProductInventoryRequestDto(String location, int quantity, Long productid) {
+    public ProductInventoryRequestDto(String location, int quantity, String productid) {
         this.location = location;
         this.quantity = quantity;
         this.productid = productid;
@@ -37,11 +37,11 @@ public class ProductInventoryRequestDto {
         this.quantity = quantity;
     }
 
-    public Long getProductid() {
+    public String getProductid() {
         return this.productid;
     }
 
-    public void setProductid(Long productid) {
+    public void setProductid(String productid) {
         this.productid = productid;
     }
 

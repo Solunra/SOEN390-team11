@@ -32,7 +32,7 @@ public class MaterialService {
     }
 
 
-    public Material getMaterialById(Long id) {
+    public Material getMaterialById(String id) {
         try {
             Material material= materialRepository.findById(id).get();
             return material;
@@ -41,7 +41,7 @@ public class MaterialService {
         }
     }
 
-    public String deleteMaterial(Long id) throws Exception {
+    public String deleteMaterial(String id) throws Exception {
         if(getMaterialById(id)==null) {
             throw new Exception("invalid id");
         }
@@ -49,7 +49,7 @@ public class MaterialService {
         return "success";
     }
 
-    public Material updateMaterial(Long id, MaterialRequestDto materialRequestDto) throws Exception {
+    public Material updateMaterial(String id, MaterialRequestDto materialRequestDto) throws Exception {
         Material material = materialRequestDto.getMaterial();
         if(getMaterialById(id) ==null) {
             throw new Exception("invalid id");
@@ -67,7 +67,7 @@ public class MaterialService {
     }
 
     //return every raw material in a material
-    public List<RawMaterial> getAllMaterialRawMaterial(Long materialid){
+    public List<RawMaterial> getAllMaterialRawMaterial(String materialid){
         List<RawMaterial> rawMaterial= new ArrayList<>();
         List<MaterialRawMaterials> MaterialRawMaterialsList = materialrawmaterialRepository.findByMaterialRawMaterialsIdRawmaterialid(materialid);
         for(MaterialRawMaterials materialRawMaterials : MaterialRawMaterialsList){

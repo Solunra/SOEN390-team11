@@ -1,12 +1,15 @@
 package com.soen390.team11.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity(name = "material_inventory")
 public class MaterialInventory {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name="id", strategy = "com.soen390.team11.generator.MaterialInventoryIDGenerator")
+    @GeneratedValue(generator="id")
+    private String id;
 
     @Column
     private String location;
@@ -15,22 +18,22 @@ public class MaterialInventory {
     private int quantity;
 
     @Column
-    private Long materialid;
+    private String materialid;
 
     public MaterialInventory() {
     }
 
-    public MaterialInventory(String location, int quantity, Long materialid) {
+    public MaterialInventory(String location, int quantity, String materialid) {
         this.location = location;
         this.quantity = quantity;
         this.materialid = materialid;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,11 +53,11 @@ public class MaterialInventory {
         this.quantity = quantity;
     }
 
-    public Long getMaterialid() {
+    public String getMaterialid() {
         return materialid;
     }
 
-    public void setMaterialid(Long materialid) {
+    public void setMaterialid(String materialid) {
         this.materialid = materialid;
     }
 }

@@ -3,16 +3,16 @@ package com.soen390.team11.dto;
 
 
 public class ProductInventoryResponse {
-    private Long prodinvid;
+    private String prodinvid;
     private String location;
     private int quantity;
-    private Long productid;
+    private String productid;
     private String productname;
 
     public ProductInventoryResponse() {
     }
 
-    public ProductInventoryResponse(Long prodinvid, String location, int quantity, Long productid, String productname) {
+    public ProductInventoryResponse(String prodinvid, String location, int quantity, String productid, String productname) {
         this.prodinvid = prodinvid;
         this.location = location;
         this.quantity = quantity;
@@ -20,11 +20,11 @@ public class ProductInventoryResponse {
         this.productname = productname;
     }
 
-    public Long getProdinvid() {
+    public String getProdinvid() {
         return prodinvid;
     }
 
-    public void setProdinvid(Long prodinvid) {
+    public void setProdinvid(String prodinvid) {
         this.prodinvid = prodinvid;
     }
 
@@ -44,11 +44,11 @@ public class ProductInventoryResponse {
         this.quantity = quantity;
     }
 
-    public Long getProductid() {
+    public String getProductid() {
         return productid;
     }
 
-    public void setProductid(Long productid) {
+    public void setProductid(String productid) {
         this.productid = productid;
     }
 

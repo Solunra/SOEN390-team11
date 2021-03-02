@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PartMaterialRepository extends CrudRepository<PartMaterial, Long> {
-    List<PartMaterial> findAllByPartId(Long partId);
+public interface PartMaterialRepository extends CrudRepository<PartMaterial, String> {
+    List<PartMaterial> findAllByPartId(String partId);
 }

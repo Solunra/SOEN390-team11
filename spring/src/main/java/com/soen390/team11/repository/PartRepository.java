@@ -8,6 +8,6 @@ import java.util.List;
 
 
 @Repository
-public interface PartRepository extends CrudRepository<Part, Long> {
+public interface PartRepository extends CrudRepository<Part, String> {
 
 }
