@@ -1,5 +1,6 @@
 package com.soen390.team11.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,8 +8,9 @@ import java.util.List;
 public class ProductInventory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name="id", strategy = "com.soen390.team11.generator.ProductInventoryIDGenerator")
+    @GeneratedValue(generator="id")
+    private String id;
 
     @Column
     private String location;
@@ -17,7 +19,7 @@ public class ProductInventory {
     private int quantity;
 
     @Column
-    private Long productid;
+    private String productid;
 
 
 
@@ -25,17 +27,17 @@ public class ProductInventory {
 
     }
 
-    public ProductInventory(String location, int quantity, Long productid) {
+    public ProductInventory(String location, int quantity, String productid) {
         this.location = location;
         this.quantity = quantity;
         this.productid = productid;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -55,11 +57,11 @@ public class ProductInventory {
         this.quantity = quantity;
     }
 
-    public Long getProductid() {
+    public String getProductid() {
         return productid;
     }
 
-    public void setProductid(Long productid) {
+    public void setProductid(String productid) {
         this.productid = productid;
     }
 

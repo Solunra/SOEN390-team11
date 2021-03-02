@@ -28,7 +28,7 @@ public class ProductService {
         return (List<Product>) productRepository.findAll();
     }
 
-    public Product getProductById(Long id){
+    public Product getProductById(String id){
         try{
             Product product= productRepository.findById(id).get();
             return product;
@@ -38,7 +38,7 @@ public class ProductService {
         }
     }
 
-    public String deleteProduct(Long id) throws Exception {
+    public String deleteProduct(String id) throws Exception {
         if(checkInventory(id)){
             throw new Exception("cannot delete product, already product in inventory");
         }
@@ -49,7 +49,7 @@ public class ProductService {
         return "success";
     }
 
-    public Product updateProduct(Long id, ProductRequestDto productRequestDto) throws Exception {
+    public Product updateProduct(String id, ProductRequestDto productRequestDto) throws Exception {
         if(checkInventory(id)){
             throw new Exception("cannot edit product, already produced in inventory");
         }
@@ -65,7 +65,7 @@ public class ProductService {
         List<Part> allParts = (List<Part>) partRepository.findAll();
         return allParts;
     }
-    public boolean checkInventory(Long id){
+    public boolean checkInventory(String id){
         ProductInventory productInventory =  productInventoryRepository.findByProductid(id);
         return productInventory !=null;
     }

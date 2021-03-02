@@ -3,16 +3,16 @@ package com.soen390.team11.dto;
 import javax.persistence.Column;
 
 public class PartMaterialResponse {
-    private Long id;
-    private Long partId;
-    private Long materialId;
+    private String id;
+    private String partId;
+    private String materialId;
     private Integer materialQuantity;
     private String materialname;
 
     public PartMaterialResponse() {
     }
 
-    public PartMaterialResponse(Long id, Long partId, Long materialId, Integer materialQuantity, String materialname) {
+    public PartMaterialResponse(String id, String partId, String materialId, Integer materialQuantity, String materialname) {
         this.id = id;
         this.partId = partId;
         this.materialId = materialId;
@@ -20,27 +20,27 @@ public class PartMaterialResponse {
         this.materialname = materialname;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getPartId() {
+    public String getPartId() {
         return partId;
     }
 
-    public void setPartId(Long partId) {
+    public void setPartId(String partId) {
         this.partId = partId;
     }
 
-    public Long getMaterialId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(Long materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
     }
 

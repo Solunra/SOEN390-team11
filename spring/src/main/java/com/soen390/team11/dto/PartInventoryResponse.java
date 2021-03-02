@@ -2,16 +2,16 @@ package com.soen390.team11.dto;
 
 
 public class PartInventoryResponse {
-    private Long partInvid;
+    private String partInvid;
     private String location;
     private int quantity;
-    private Long partid;
+    private String partid;
     private String partname;
 
     public PartInventoryResponse() {
     }
 
-    public PartInventoryResponse(Long partInvid, String location, int quantity, Long partid, String partname) {
+    public PartInventoryResponse(String partInvid, String location, int quantity, String partid, String partname) {
         this.partInvid = partInvid;
         this.location = location;
         this.quantity = quantity;
@@ -19,11 +19,11 @@ public class PartInventoryResponse {
         this.partname = partname;
     }
 
-    public Long getPartInvid() {
+    public String getPartInvid() {
         return partInvid;
     }
 
-    public void setPartInvid(Long partInvid) {
+    public void setPartInvid(String partInvid) {
         this.partInvid = partInvid;
     }
 
@@ -43,11 +43,11 @@ public class PartInventoryResponse {
         this.quantity = quantity;
     }
 
-    public Long getPartid() {
+    public String getPartid() {
         return partid;
     }
 
-    public void setPartid(Long partid) {
+    public void setPartid(String partid) {
         this.partid = partid;
     }
 

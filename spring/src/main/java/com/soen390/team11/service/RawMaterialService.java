@@ -24,7 +24,7 @@ public class RawMaterialService {
     }
 
 
-    public RawMaterial getRawMaterialById(Long id) {
+    public RawMaterial getRawMaterialById(String id) {
         try {
             RawMaterial rawmaterial= rawmaterialRepository.findById(id).get();
             return rawmaterial;

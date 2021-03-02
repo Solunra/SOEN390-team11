@@ -71,8 +71,8 @@ public class ProductInventoryControllerTest {
         ResponseEntity<?> responseEntity = productInventoryController.createProductInventory(productInventoryRequestDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        productInventoryList.add(new ProductInventory(responseBody.get("location").toString(),Integer.parseInt(responseBody.get("quantity").toString()), Long.valueOf(responseBody.get("productid").toString())));
-        productInventoryList.get(1).setId(Long.valueOf(responseBody.get("id").toString()));
+        productInventoryList.add(new ProductInventory(responseBody.get("location").toString(),Integer.parseInt(responseBody.get("quantity").toString()), responseBody.get("productid").toString()));
+        productInventoryList.get(1).setId(responseBody.get("id").toString());
     }
 
     @Test

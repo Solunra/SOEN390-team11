@@ -2,6 +2,7 @@ package com.soen390.team11.entity;
 
 
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,8 +10,9 @@ import java.util.List;
 public class Material {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long materialid;
+    @GenericGenerator(name="materialid", strategy = "com.soen390.team11.generator.MaterialIDGenerator")
+    @GeneratedValue(generator="materialid")
+    private String materialid;
 
     @Column
     private String name;
@@ -22,16 +24,16 @@ public class Material {
         this.name = name;
     }
 
-    public Material(Long materialid, String name) {
+    public Material(String materialid, String name) {
         this.materialid = materialid;
         this.name = name;
     }
 
-    public Long getMaterialid() {
+    public String getMaterialid() {
         return materialid;
     }
 
-    public void setMaterialid(Long materialid) {
+    public void setMaterialid(String materialid) {
         this.materialid = materialid;
     }
 

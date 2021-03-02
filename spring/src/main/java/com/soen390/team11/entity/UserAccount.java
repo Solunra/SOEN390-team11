@@ -1,6 +1,7 @@
 package com.soen390.team11.entity;
 
 import com.soen390.team11.constant.Role;
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +12,9 @@ import javax.persistence.Id;
 public class UserAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    @GenericGenerator(name="userID", strategy = "com.soen390.team11.generator.UserIDGenerator")
+    @GeneratedValue(generator="userID")
+    private String userID;
     @Column
     private String username;
     @Column
@@ -22,12 +24,6 @@ public class UserAccount {
     @Column
     private String role;
 
-    public UserAccount(Long userID, String username, String password, String role) {
-        this.userID = userID;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
     public UserAccount(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;
@@ -39,11 +35,11 @@ public class UserAccount {
         // Do Nothing
     }
 
-    public Long getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Long userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

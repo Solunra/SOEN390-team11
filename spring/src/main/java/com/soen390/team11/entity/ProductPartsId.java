@@ -10,33 +10,33 @@ import java.util.Objects;
 public class ProductPartsId implements Serializable {
 
     @NotNull
-    private Long partid;
+    private String partid;
 
     @NotNull
-    private Long productid;
+    private String productid;
 
     public ProductPartsId() {
 
     }
 
-    public ProductPartsId(Long partid, Long productid) {
+    public ProductPartsId(String partid, String productid) {
         this.partid = partid;
         this.productid = productid;
     }
 
-    public Long getPartid() {
+    public String getPartid() {
         return partid;
     }
 
-    public void setPartid(Long partid) {
+    public void setPartid(String partid) {
         this.partid = partid;
     }
 
-    public Long getProductid() {
+    public String getProductid() {
         return productid;
     }
 
-    public void setProductid(Long productid) {
+    public void setProductid(String productid) {
         this.productid = productid;
     }
 

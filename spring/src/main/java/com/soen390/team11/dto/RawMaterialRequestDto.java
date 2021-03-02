@@ -8,13 +8,13 @@ import java.util.List;
 
 public class RawMaterialRequestDto {
     private String name;
-    private Long rawmaterialid;
+    private String rawmaterialid;
 
     public RawMaterialRequestDto() {
 
     }
 
-    public RawMaterialRequestDto(String name, Long rawmaterialid) {
+    public RawMaterialRequestDto(String name, String rawmaterialid) {
         this.name = name;
         this.rawmaterialid = rawmaterialid;
     }
@@ -27,11 +27,11 @@ public class RawMaterialRequestDto {
         this.name = name;
     }
 
-    public Long getrawmaterialid() {
+    public String getrawmaterialid() {
         return rawmaterialid;
     }
 
-    public void setrawmaterialid(Long rawmaterialid) {
+    public void setrawmaterialid(String rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 

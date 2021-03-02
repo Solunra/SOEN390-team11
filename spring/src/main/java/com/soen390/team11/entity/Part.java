@@ -2,6 +2,7 @@ package com.soen390.team11.entity;
 
 
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,8 +10,9 @@ import java.util.List;
 public class Part {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partid;
+    @GenericGenerator(name="partid", strategy = "com.soen390.team11.generator.PartIDGenerator")
+    @GeneratedValue(generator="partid")
+    private String partid;
 
     @Column
     private String name;
@@ -19,7 +21,7 @@ public class Part {
 
     }
 
-    public Part(Long partid, String name) {
+    public Part(String partid, String name) {
         this.partid = partid;
         this.name = name;
     }
@@ -29,11 +31,11 @@ public class Part {
         this.name = name;
     }
 
-    public Long getPartid() {
+    public String getPartid() {
         return partid;
     }
 
-    public void setPartid(Long partid) {
+    public void setPartid(String partid) {
         this.partid = partid;
     }
 

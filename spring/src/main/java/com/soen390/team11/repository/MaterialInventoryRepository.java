@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MaterialInventoryRepository extends CrudRepository<MaterialInventory, Long> {
+public interface MaterialInventoryRepository extends CrudRepository<MaterialInventory, String> {
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE material_inventory mi SET mi.quantity = :quantity WHERE mi.id = :id")
-    void updateInventory(@Param("id") Long id, @Param("quantity") int newQuantity);
+    void updateInventory(@Param("id") String id, @Param("quantity") int newQuantity);
 }

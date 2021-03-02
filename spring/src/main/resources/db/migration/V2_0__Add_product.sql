@@ -1,5 +1,5 @@
 CREATE TABLE product(
-    productid bigint auto_increment not null,
+    productid CHAR(20) not null,
     name varchar(255),
     type varchar(255),
     size varchar(255),

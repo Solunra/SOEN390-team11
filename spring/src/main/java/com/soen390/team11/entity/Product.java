@@ -1,12 +1,15 @@
 package com.soen390.team11.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity(name = "product")
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productid;
+    @GenericGenerator(name="productid", strategy = "com.soen390.team11.generator.ProductIDGenerator")
+    @GeneratedValue(generator="productid")
+    private String productid;
     @Column
     private String name;
     @Column
@@ -32,11 +35,11 @@ public class Product {
         this.grade = grade;
     }
 
-    public Long getProductid() {
+    public String getProductid() {
         return productid;
     }
 
-    public void setProductid(Long productid) {
+    public void setProductid(String productid) {
         this.productid = productid;
     }
 

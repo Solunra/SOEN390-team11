@@ -1,5 +1,5 @@
 CREATE TABLE part(
-    partid bigint auto_increment not null,
+    partid CHAR(20) not null,
     name varchar(255) not null,
     PRIMARY KEY(partid)
 );

@@ -23,14 +23,14 @@ public class PartMaterialService {
     @Autowired
     MaterialRepository materialRepository;
 
-    public Map<Long, Integer> getPartMaterials(Long partId) {
-        Map<Long, Integer> materialMap = new HashMap<>();
+    public Map<String, Integer> getPartMaterials(String partId) {
+        Map<String, Integer> materialMap = new HashMap<>();
         partMaterialRepository.findAllByPartId(partId).forEach(partInventory ->
             materialMap.put(partInventory.getMaterialId(), partInventory.getMaterialQuantity())
         );
         return materialMap;
     }
-    public List<PartMaterialResponse> getAllMaterialsOfPart(Long partId){
+    public List<PartMaterialResponse> getAllMaterialsOfPart(String partId){
         List<PartMaterial> partMaterialList=  partMaterialRepository.findAllByPartId(partId);
         List<Material> materials = (List<Material>) materialRepository.findAll();
         List<PartMaterialResponse> PartMaterialResponselist= new ArrayList<>();

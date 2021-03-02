@@ -1,8 +1,8 @@
 CREATE TABLE product_inventory(
-    id bigint auto_increment not null,
+    id CHAR(20) not null,
     location varchar(255),
     quantity INT,
-    productID bigint not null unique,
+    productID CHAR(20) not null unique,
     PRIMARY KEY(id),
     CONSTRAINT FK_ProductID FOREIGN KEY (productID)
         REFERENCES product(productid)

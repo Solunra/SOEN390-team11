@@ -1,1 +1,1 @@
-CREATE TABLE user_account(userID BIGINT, username varchar(255), password varchar(255));
+CREATE TABLE user_account(userID CHAR(20), username varchar(255), password varchar(255));
