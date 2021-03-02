@@ -1,6 +1,6 @@
 CREATE TABLE product_parts(
-    partid CHAR(20)  not null,
-    productid CHAR(20) not null,
+    partid varchar(72)  not null,
+    productid varchar(72) not null,
     PRIMARY KEY (partid,productid),
     CONSTRAINT FK_Part FOREIGN KEY (partid)
                 REFERENCES part(partid),

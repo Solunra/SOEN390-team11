@@ -8,29 +8,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.UUID;
 
 public class MaterialIDGenerator implements IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         String prefix = "mat-";
-        Connection connection = session.connection();
-
-        try {
-            Statement statement=connection.createStatement();
-
-            ResultSet rs=statement.executeQuery("select count(materialid) from material");
-
-            if(rs.next())
-            {
-                int id=rs.getInt(1) + 1;
-                String generatedId = prefix + Integer.toString(id);
-                return generatedId;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return prefix + UUID.randomUUID().toString();
     }
 }

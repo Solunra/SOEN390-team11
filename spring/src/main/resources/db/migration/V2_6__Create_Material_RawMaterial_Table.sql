@@ -1,6 +1,6 @@
 CREATE TABLE material_rawmaterials(
-    materialid CHAR(20)  not null,
-    rawmaterialid CHAR(20) not null,
+    materialid varchar(72)  not null,
+    rawmaterialid varchar(72) not null,
     PRIMARY KEY(materialid, rawmaterialid),
     CONSTRAINT FK_Material FOREIGN KEY(materialid)
                 REFERENCES material(materialid),

@@ -1,5 +1,5 @@
 CREATE TABLE product(
-    productid CHAR(20) not null,
+    productid varchar(72) not null,
     name varchar(255),
     type varchar(255),
     size varchar(255),

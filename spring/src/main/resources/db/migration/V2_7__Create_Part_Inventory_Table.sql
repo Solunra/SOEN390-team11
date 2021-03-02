@@ -1,9 +1,9 @@
 CREATE TABLE team11.part_inventory
 (
-    id                CHAR(20)
+    id                varchar(72)
         PRIMARY KEY,
-    part_id           CHAR(20) NOT NULL,
-    material_id       CHAR(20) NOT NULL,
+    part_id           varchar(72) NOT NULL,
+    material_id       varchar(72) NOT NULL,
     material_quantity int    NOT NULL,
     CONSTRAINT part_inventory_material_materialid_fk
         FOREIGN KEY (material_id) REFERENCES team11.material (materialid),

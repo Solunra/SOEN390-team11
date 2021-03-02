@@ -1,2 +1,2 @@
 ALTER TABLE user_account ADD PRIMARY KEY(userID);
-ALTER TABLE user_account MODIFY userID CHAR(20);
+ALTER TABLE user_account MODIFY userID varchar(72);
