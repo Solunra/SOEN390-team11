@@ -6,7 +6,6 @@ import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
 import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.ProductRepository;
-import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,6 +24,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,7 +49,7 @@ public class ProductMachineryControllerTest {
 
     @AfterEach
     public void resetDb() {
-        machineryMap.forEach((k, v) -> productMachineryRepository.deleteById(v.getId()));
+        machineryMap.forEach((k, v) -> productMachineryRepository.delete(v));
         machineryMap.clear();
         productList.forEach(product -> productRepository.delete(product));
         productList.clear();
@@ -65,19 +65,17 @@ public class ProductMachineryControllerTest {
         productMachineryRepository.save(machineryMap.get("machine1"));
 
         String expectedId0 = machineryMap.get("machine0").getId();
-
-        String expectedName1 = machineryMap.get("machine1").getName();
+        String expectedId1 = machineryMap.get("machine1").getId();
 
         String token = obtainAccessToken();
 
         mockMvc.perform(get("/machinery")
-                .header("Authorization", "Bearer " + token)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(equalTo(2))))
-                .andExpect(jsonPath("$[0].id", equalTo(expectedId0)))
-                .andExpect(jsonPath("$[1].name", equalTo(expectedName1)));
+                .andExpect(jsonPath("$[1].id", anyOf(equalTo(expectedId0), equalTo(expectedId1))));
     }
 
     @Test
@@ -109,7 +107,6 @@ public class ProductMachineryControllerTest {
         MockHttpServletRequestBuilder requestBuilder = post("/account/signin")
                 .content(content)
                 .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer token")
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder)
