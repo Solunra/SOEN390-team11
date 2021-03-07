@@ -7,21 +7,21 @@ import javax.persistence.*;
 @Entity
 public class ProductMachinery {
     @Id
-    @GenericGenerator(name="machineryId", strategy = "com.soen390.team11.generator.ProductIDGenerator")
+    @GenericGenerator(name="machineryId", strategy = "com.soen390.team11.generator.ProductMachineryIDGenerator")
     @GeneratedValue(generator="machineryId")
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String status;
 
-    @Column
+    @Column(nullable = false)
     private int timer;
 
     @OneToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public ProductMachinery() {
