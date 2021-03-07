@@ -11,11 +11,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -36,22 +39,26 @@ public class ProductMachineryControllerTest {
     @Autowired
     private ProductMachineryRepository productMachineryRepository;
 
+    private Map<String, ProductMachinery> machineryMap = new HashMap<>();
+
     @AfterEach
     public void resetDb() {
-        productMachineryRepository.deleteAll();
+        machineryMap.forEach((k, v) -> productMachineryRepository.deleteById(v.getId()));
+        machineryMap.clear();
     }
 
     @Test
     public void getProductMachineries_Success() throws Exception {
-        ProductMachinery machinery0 = new ProductMachinery();
-        ProductMachinery machinery1 = new ProductMachinery();
 
-        productMachineryRepository.save(machinery0);
-        productMachineryRepository.save(machinery1);
+        machineryMap.put("machine0", new ProductMachinery());
+        machineryMap.put("machine1", new ProductMachinery());
 
-        String expectedId0 = machinery0.getId();
+        productMachineryRepository.save(machineryMap.get("machine0"));
+        productMachineryRepository.save(machineryMap.get("machine1"));
 
-        String expectedName1 = machinery1.getName();
+        String expectedId0 = machineryMap.get("machine0").getId();
+
+        String expectedName1 = machineryMap.get("machine1").getName();
 
         String token = obtainAccessToken();
 
