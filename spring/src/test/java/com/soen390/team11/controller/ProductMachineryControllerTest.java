@@ -1,8 +1,12 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.Team11Application;
+import com.soen390.team11.dto.ProductMachineryDto;
+import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
 import com.soen390.team11.repository.ProductMachineryRepository;
+import com.soen390.team11.repository.ProductRepository;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,20 +15,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = Team11Application.class)
@@ -39,12 +41,18 @@ public class ProductMachineryControllerTest {
     @Autowired
     private ProductMachineryRepository productMachineryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     private Map<String, ProductMachinery> machineryMap = new HashMap<>();
+    private List<Product> productList = new LinkedList<>();
 
     @AfterEach
     public void resetDb() {
         machineryMap.forEach((k, v) -> productMachineryRepository.deleteById(v.getId()));
         machineryMap.clear();
+        productList.forEach(product -> productRepository.delete(product));
+        productList.clear();
     }
 
     @Test
@@ -70,6 +78,28 @@ public class ProductMachineryControllerTest {
                 .andExpect(jsonPath("$", hasSize(equalTo(2))))
                 .andExpect(jsonPath("$[0].id", equalTo(expectedId0)))
                 .andExpect(jsonPath("$[1].name", equalTo(expectedName1)));
+    }
+
+    @Test
+    public void createProductMachineryWithExistingProduct_Success() throws Exception {
+        Product dummyProduct = new Product();
+        productRepository.save(dummyProduct);
+        productList.add(dummyProduct);
+
+        ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine", "running", 50, dummyProduct.getProductid());
+
+        MvcResult mvcResult = mockMvc.perform(put("/machinery")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
+                .content(new ObjectMapper().writeValueAsString(productMachineryDto))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        String machineryId = mvcResult.getResponse().getContentAsString();
+
+        assertNotNull(machineryId);
+
+        machineryMap.put("testCreationMachinery", productMachineryRepository.findById(machineryId).get());
     }
 
     private String obtainAccessToken() throws Exception {
