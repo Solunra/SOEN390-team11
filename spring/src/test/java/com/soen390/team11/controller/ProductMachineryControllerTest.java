@@ -6,9 +6,7 @@ import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
 import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.ProductRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,19 +45,31 @@ public class ProductMachineryControllerTest {
     private Map<String, ProductMachinery> machineryMap = new HashMap<>();
     private List<Product> productList = new LinkedList<>();
 
+    @BeforeAll
+    public void setUpProductDb() {
+        Product dummyProduct = new Product();
+        productRepository.save(dummyProduct);
+        productList.add(dummyProduct);
+    }
+
     @AfterEach
-    public void resetDb() {
+    public void resetMachineryDb() {
         machineryMap.forEach((k, v) -> productMachineryRepository.delete(v));
         machineryMap.clear();
+    }
+
+    @AfterAll
+    public void resetProductDb() {
         productList.forEach(product -> productRepository.delete(product));
         productList.clear();
     }
 
+
     @Test
     public void getProductMachineries_Success() throws Exception {
 
-        machineryMap.put("machine0", new ProductMachinery());
-        machineryMap.put("machine1", new ProductMachinery());
+        machineryMap.put("machine0", new ProductMachinery("abc machine", "stopped", 100, productList.get(0)));
+        machineryMap.put("machine1", new ProductMachinery("xyz machine", "stopped", 450, productList.get(0)));
 
         productMachineryRepository.save(machineryMap.get("machine0"));
         productMachineryRepository.save(machineryMap.get("machine1"));
@@ -80,11 +90,8 @@ public class ProductMachineryControllerTest {
 
     @Test
     public void createProductMachineryWithExistingProduct_Success() throws Exception {
-        Product dummyProduct = new Product();
-        productRepository.save(dummyProduct);
-        productList.add(dummyProduct);
 
-        ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine", "running", 50, dummyProduct.getProductid());
+        ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine", "running", 50, productList.get(0).getProductid());
 
         MvcResult mvcResult = mockMvc.perform(put("/machinery")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
