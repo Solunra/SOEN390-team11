@@ -15,8 +15,10 @@ public class ProductMachineryController {
     private ProductMachineryService productMachineryService;
 
     @GetMapping
-    public ResponseEntity<?> getAllMachineries() {
+    public ResponseEntity<?> retrieveAllMachineries() {
         return ResponseEntity.ok(productMachineryService.getAllMachineries());
     }
+
+
 
 }
