@@ -68,8 +68,8 @@ public class ProductMachineryControllerTest {
     @Test
     public void getProductMachineries_Success() throws Exception {
 
-        machineryMap.put("machine0", new ProductMachinery("abc machine", "stopped", 100, productList.get(0)));
-        machineryMap.put("machine1", new ProductMachinery("xyz machine", "stopped", 450, productList.get(0)));
+        machineryMap.put("machine0", new ProductMachinery("abc machine", "stopped", 100, null));
+        machineryMap.put("machine1", new ProductMachinery("xyz machine", "stopped", 450, null));
 
         productMachineryRepository.save(machineryMap.get("machine0"));
         productMachineryRepository.save(machineryMap.get("machine1"));

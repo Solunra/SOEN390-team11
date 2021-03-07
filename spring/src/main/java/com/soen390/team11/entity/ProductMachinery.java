@@ -21,7 +21,7 @@ public class ProductMachinery {
     private int timer;
 
     @OneToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     public ProductMachinery() {
