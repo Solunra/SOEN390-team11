@@ -2,18 +2,30 @@ package com.soen390.team11.entity;
 
 
 
-import javax.persistence.*;
-import java.util.List;
+import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name="rawMaterial")
+import javax.persistence.*;
+
+
+@Entity(name="rawmaterial")
 public class RawMaterial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name="rawmaterialid", strategy = "com.soen390.team11.generator.RawMaterialIDGenerator")
+    @GeneratedValue(generator="rawmaterialid")
     private String rawmaterialid;
 
     @Column
     private String name;
+
+    @Column
+    private String description;
+
+    @Column
+    private double price;
+
+    @Column
+    private String unit;
 
     public RawMaterial() {
 
@@ -22,6 +34,13 @@ public class RawMaterial {
     public RawMaterial(String rawmaterialid, String name) {
         this.rawmaterialid = rawmaterialid;
         this.name = name;
+    }
+
+    public RawMaterial(String name, String description, double price, String unit) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.unit = unit;
     }
 
     public String getrawmaterialid() {
@@ -38,5 +57,29 @@ public class RawMaterial {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }
