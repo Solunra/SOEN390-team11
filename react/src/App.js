@@ -7,6 +7,7 @@ import {NavCustomer , NavAdmin } from './components/Navbar';
 import {Production} from './components/Production';
 import { useHistory } from "react-router-dom";
 import {Inventory} from './components/Inventory';
+import {RawMaterial} from "./components/RawMaterial";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -54,6 +55,7 @@ function App() {
                   <Route path="/customer/info" > </Route>
                   <Route path = "/admin/production" component={Production}/>
                   <Route path = "/admin/inventory" component={Inventory}/>
+                  <Route path = "/admin/rawMaterial" component={RawMaterial}/>
 
               </div>
           </HashRouter>

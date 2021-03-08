@@ -1,52 +1,48 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React, {useState} from 'react';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CloseIcon from "@material-ui/icons/Close";
-
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-});
+import {CustomTable} from "../Utils/CustomTable";
+import BuildIcon from '@material-ui/icons/Build';
 
 
 const PartTable = (props)=> {
-    const {rows,setMaterialTable , getPartMaterial,setPartTable} = props;
-    const classes = useStyles();
+    const {rows,setMaterialTable , getPartMaterial,setPartTable,setPartMaterialTitle,productPartTitle} = props;
+    const columns = [
+        { title: 'Part Name', field: 'name' },
+    ];
+
+    const actions = [
+        {
+            icon: () => {return <CloseIcon />;},
+            position: "toolbar",
+            export: false,
+            onClick: () => {
+                setPartTable(false);
+            }
+        },
+        {
+            icon: () => {return <ArrowForwardIcon />;},
+            export: false,
+            onClick: (event, rowData) => {
+                setPartMaterialTitle(rowData['name'])
+                handleClickDetailMaterial(rowData['partid']);
+            }
+        }
+    ];
     const handleClickDetailMaterial=(id)=>{
         getPartMaterial(id);
         setMaterialTable(true);
     }
     return (
-        <TableContainer component={Paper}>
-            <CloseIcon onClick={()=>{setPartTable(false);setMaterialTable(false);}}/>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Part</TableCell>
-                        <TableCell>See Material</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row)=> (
-                        <TableRow >
-                            <TableCell align="center" >{row.name}
-                            </TableCell>
-                            <TableCell >
-                                <ArrowForwardIcon fontSize="small" onClick={()=>{handleClickDetailMaterial(row.partid) }} ></ArrowForwardIcon>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <CustomTable
+                data = {rows}
+                columns ={columns}
+                actions = {actions}
+                title ={`Part list table of ${productPartTitle}` }
+            >
+            </CustomTable>
+        </>
     );
-}
+};
 export {PartTable};

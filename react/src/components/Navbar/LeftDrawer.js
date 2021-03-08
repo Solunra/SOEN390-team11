@@ -13,6 +13,7 @@ import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounde
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
+import GrainIcon from '@material-ui/icons/Grain';
 
 const useStyles = makeStyles({
     drawer: {
@@ -71,6 +72,13 @@ const LeftDrawer = props => {
                 icon: <ListAltOutlinedIcon />,
                 onClick: () =>{
                     handleClick("inventory")
+                }
+            },
+            {
+                text: "Raw Material",
+                icon: <GrainIcon />,
+                onClick: () =>{
+                    handleClick("rawMaterial");
                 }
             },
             {
