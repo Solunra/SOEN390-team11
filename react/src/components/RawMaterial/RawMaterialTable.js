@@ -10,13 +10,9 @@ import BuildIcon from "@material-ui/icons/Build";
 import {RawMaterialForm} from "./RawMaterialForm";
 
 const RawMaterialTable = (props) => {
-    const {rows,re_render, setRe_render ,setPartTable,setErrMessage, setProductPartTitle} = props;
+    const {rows,re_render, setRe_render } = props;
     const [open, setOpen] = useState(false);
     const [data, setData] = useState(false);
-    const datarows = [
-        {"name":"rawMaterial1","description":"description1","vendor":"1","price":"45","unit":"10l"},
-        {"name":"rawMaterial1","description":"description1","vendor":"1","price":"45","unit":"10l"}
-        ];
     const columns = [
         // { title: 'Id', field: 'productid' },
         { title: 'Raw material Name', field: 'name' },
@@ -64,11 +60,10 @@ const RawMaterialTable = (props) => {
         setOpen(true);
     }
     const handleAdd = () =>{
-        // setData({});
+        setData({});
         setOpen(true);
     }
     const handleDelete = (row) =>{
-        alert(row);
         // request
         //     .delete(BuildPath("/product/delete/"+row['productid']))
         //     .set('Authorization', localStorage.getItem("Authorization"))
@@ -87,7 +82,7 @@ const RawMaterialTable = (props) => {
     return (
         <>
             <CustomTable
-                data={datarows}
+                data={rows}
                 columns = {columns}
                 handleDelete = {handleDelete}
                 handleEdit = {handleEdit}
@@ -100,6 +95,9 @@ const RawMaterialTable = (props) => {
                 open={open}
                 handleClose={handleClose}
                 rowData={data}
+                setRowData={setData}
+                re_render={re_render}
+                setRe_render={setRe_render}
             >
 
             </RawMaterialForm>
