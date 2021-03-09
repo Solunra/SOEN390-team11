@@ -66,5 +66,40 @@ public class RawMaterialService {
         return rawMaterialidID;
     }
 
+    public String updateRawMaterial(String rid, RawMaterialRequestDto rawMaterialRequestDto) throws Exception {
+        if(!rawmaterialRepository.existsById(rid)){
+            throw new Exception("Raw material not found");
+        }
+
+        if(!vendorsRepository.existsById(rawMaterialRequestDto.getVendorID())){
+            throw new Exception("Vendor does not exist");
+        }
+
+        Optional<VendorSale> vendorSale = vendorSaleRepository.findById( new VendorSaleId(rawMaterialRequestDto.getVendorID(),rid));
+        if(!vendorSale.isPresent()){
+            Optional<VendorSale> oldVendor = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
+            if(!oldVendor.isPresent()){
+                throw new Exception("This raw material does not have a vendor");
+            }
+            vendorSaleRepository.delete(oldVendor.get());
+            VendorSale newVendorSale = new VendorSale(
+                    new VendorSaleId(rawMaterialRequestDto.getVendorID(),rid),
+                    Type.RAW_MATERIAL
+            );
+            vendorSaleRepository.save(newVendorSale);
+        }
+
+        RawMaterial rawMaterial = rawmaterialRepository.findById(rid).get();
+        rawMaterial.setName(rawMaterialRequestDto.getname());
+        rawMaterial.setDescription(rawMaterialRequestDto.getDescription());
+        rawMaterial.setPrice(rawMaterialRequestDto.getPrice());
+        rawMaterial.setUnit(rawMaterialRequestDto.getUnit());
+        rawmaterialRepository.save(rawMaterial);
+
+        return rid;
+
+    }
+    
+
 
 }
