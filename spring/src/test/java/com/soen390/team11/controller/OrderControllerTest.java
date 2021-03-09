@@ -2,10 +2,12 @@ package com.soen390.team11.controller;
 
 import com.soen390.team11.constant.Type;
 import com.soen390.team11.dto.OrderDto;
+import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.dto.VendorDto;
-import com.soen390.team11.entity.Orders;
-import com.soen390.team11.entity.Vendors;
+import com.soen390.team11.entity.*;
 import com.soen390.team11.repository.OrdersRepository;
+import com.soen390.team11.repository.RawMaterialRepository;
+import com.soen390.team11.repository.VendorSaleRepository;
 import com.soen390.team11.repository.VendorsRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,10 +40,17 @@ public class OrderControllerTest {
     @Autowired
     VendorController vendorController;
     @Autowired
+    RawMaterialController rawMaterialController;
+    @Autowired
+    RawMaterialRepository rawMaterialRepository;
+    @Autowired
     VendorsRepository vendorsRepository;
+    @Autowired
+    VendorSaleRepository vendorSaleRepository;
 
     OrderDto orderDto;
     String vendorId;
+    String rawMaterialId;
     String orderId;
     OffsetDateTime time;
     int sizeOfOrders;
@@ -49,11 +58,13 @@ public class OrderControllerTest {
     @BeforeAll
     public void setup()
     {
-        ResponseEntity responseEntity = vendorController.createVendor(new VendorDto(Type.MATERIAL, "1"));
+        ResponseEntity responseEntity = vendorController.createVendor(new VendorDto("Bike Company","Address","514-515-1323","bikecompany@email.com"));
         vendorId = (String) responseEntity.getBody();
+        responseEntity = rawMaterialController.defineRawMaterial(new RawMaterialRequestDto("Steel","description",12.22,"kg",vendorId));
+        rawMaterialId = (String) responseEntity.getBody();
         sizeOfOrders = ((List) orderController.getAllOrders().getBody()).size();
         time = OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        orderDto = new OrderDto(vendorId, 1, time);
+        orderDto = new OrderDto(vendorId, rawMaterialId,1, time);
     }
 
     @Test
@@ -72,6 +83,7 @@ public class OrderControllerTest {
         ResponseEntity responseEntity = orderController.getOrderById(orderId);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(vendorId, ((OrderDto) responseEntity.getBody()).getVendorID());
+        assertEquals(rawMaterialId, ((OrderDto) responseEntity.getBody()).getSaleID());
         assertEquals(1, ((OrderDto) responseEntity.getBody()).getQuantity());
         assertEquals(time, ((OrderDto) responseEntity.getBody()).getDateTime());
     }
@@ -98,6 +110,12 @@ public class OrderControllerTest {
     {
         Optional<Orders> orders = ordersRepository.findByOrderID(orderId);
         ordersRepository.delete(orders.get());
+
+        Optional<VendorSale> vendorSale = vendorSaleRepository.findById(new VendorSaleId(vendorId, rawMaterialId));
+        vendorSaleRepository.delete(vendorSale.get());
+
+        Optional<RawMaterial> rawMaterial = rawMaterialRepository.findById(rawMaterialId);
+        rawMaterialRepository.delete(rawMaterial.get());
 
         Optional<Vendors> vendors = vendorsRepository.findByVendorID(vendorId);
         vendorsRepository.delete(vendors.get());

@@ -5,17 +5,23 @@ import java.time.OffsetDateTime;
 public class OrderDto {
 
     private String vendorID;
+    private String saleID;
     private int quantity;
     private OffsetDateTime dateTime;
 
-    public OrderDto(String vendorID, int quantity, OffsetDateTime dateTime) {
+    public OrderDto(String vendorID, String saleID,int quantity, OffsetDateTime dateTime) {
         this.vendorID = vendorID;
+        this.saleID = saleID;
         this.quantity = quantity;
         this.dateTime = dateTime;
     }
 
     public String getVendorID() {
         return vendorID;
+    }
+
+    public String getSaleID() {
+        return saleID;
     }
 
     public int getQuantity() {

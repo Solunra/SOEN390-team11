@@ -1,9 +1,12 @@
 package com.soen390.team11.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.VendorDto;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.service.VendorsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +20,15 @@ import java.util.Optional;
 @RequestMapping("/vendor")
 public class VendorController {
 
+    ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     public VendorsService vendorsService;
+
+    @GetMapping("/")
+    public ResponseEntity<?> retrieveAllVendors(){
+        return new ResponseEntity<>(vendorsService.getAllVendors(), HttpStatus.OK);
+    }
 
     @GetMapping("/{vid}")
     public ResponseEntity getVendorById(@PathVariable String vid)
@@ -26,7 +36,13 @@ public class VendorController {
         Optional<Vendors> vendor = vendorsService.getVendor(vid);
         if (vendor.isPresent())
         {
-            VendorDto vendorDto = new VendorDto(vendor.get().getVendorID(), vendor.get().getType(), vendor.get().getSaleID());
+            VendorDto vendorDto = new VendorDto(
+                    vendor.get().getVendorID(),
+                    vendor.get().getCompanyname(),
+                    vendor.get().getAddress(),
+                    vendor.get().getPhone(),
+                    vendor.get().getEmail()
+                    );
             return ResponseEntity.ok(vendorDto);
         }
         else

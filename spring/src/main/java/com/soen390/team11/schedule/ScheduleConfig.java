@@ -1,16 +1,7 @@
 package com.soen390.team11.schedule;
 
-import com.soen390.team11.entity.MaterialInventory;
-import com.soen390.team11.entity.Orders;
-import com.soen390.team11.entity.PartInventory;
-import com.soen390.team11.entity.ProductInventory;
-import com.soen390.team11.entity.Vendors;
-import com.soen390.team11.repository.MaterialInventoryRepository;
-import com.soen390.team11.repository.OrdersRepository;
-import com.soen390.team11.repository.PartInventoryRepository;
-import com.soen390.team11.repository.ProductInventoryRepository;
-import com.soen390.team11.repository.RawMaterialRepository;
-import com.soen390.team11.repository.VendorsRepository;
+import com.soen390.team11.entity.*;
+import com.soen390.team11.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,7 +17,7 @@ public class ScheduleConfig {
     private OrdersRepository ordersRepository;
 
     @Autowired
-    private VendorsRepository vendorsRepository;
+    private VendorSaleRepository vendorSaleRepository;
 
     @Autowired
     private PartInventoryRepository partInventoryRepository;
@@ -45,14 +36,14 @@ public class ScheduleConfig {
         Iterable<Orders> ordersToDo = ordersRepository.findAllByTimeBefore(OffsetDateTime.now());
         for (Orders order: ordersToDo)
         {
-            Optional<Vendors> vendor = vendorsRepository.findByVendorID(order.getVendorID());
-            if (vendor.isPresent())
+            Optional<VendorSale> vendorSale = vendorSaleRepository.findById(new VendorSaleId(order.getVendorID(),order.getSaleID()));
+            if (vendorSale.isPresent())
             {
-                switch(vendor.get().getType())
+                switch(vendorSale.get().getType())
                 {
-                    case PART -> processPart(vendor.get().getSaleID(), order.getQuantity());
-                    case PRODUCT -> processProduct(vendor.get().getSaleID(), order.getQuantity());
-                    case MATERIAL -> processMaterial(vendor.get().getSaleID(), order.getQuantity());
+                    case PART -> processPart(vendorSale.get().getVendorSaleId().getSaleID(), order.getQuantity());
+                    case PRODUCT -> processProduct(vendorSale.get().getVendorSaleId().getSaleID(), order.getQuantity());
+                    case MATERIAL -> processMaterial(vendorSale.get().getVendorSaleId().getSaleID(), order.getQuantity());
                 }
             }
         }
