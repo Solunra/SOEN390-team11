@@ -29,16 +29,11 @@ public class RawMaterialController {
     public ResponseEntity<?> retrieveRawMaterial(@PathVariable String rid){
         String rawMaterialID = String.valueOf(rid);
         RawMaterialRequestDto rawMaterialRequestDto = rawMaterialService.getRawMaterialById(rawMaterialID);
-        try {
-            if (rawMaterialRequestDto != null) {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialRequestDto), HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>("Raw material was not found", HttpStatus.NOT_FOUND);
-            }
+        if (rawMaterialRequestDto != null) {
+            return new ResponseEntity<>(rawMaterialRequestDto, HttpStatus.OK);
         }
-        catch (JsonProcessingException e) {
-            return new ResponseEntity<>("cannot convert to json", HttpStatus.NOT_FOUND);
+        else{
+            return new ResponseEntity<>("Raw material was not found", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -56,7 +51,7 @@ public class RawMaterialController {
     @PutMapping("/edit/{rid}")
     public ResponseEntity<?> editRawMaterial(@PathVariable String rid, @RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
-            return new ResponseEntity<>(rawMaterialService.updateRawMaterial(rid,rawMaterialRequestDto), HttpStatus.CREATED);
+            return new ResponseEntity<>(rawMaterialService.updateRawMaterial(rid,rawMaterialRequestDto), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         } catch (Exception e){
@@ -67,7 +62,7 @@ public class RawMaterialController {
     @DeleteMapping("/delete/{rid}")
     public ResponseEntity<?> removeRawMaterial(@PathVariable String rid){
         try {
-            return new ResponseEntity<>(rawMaterialService.deleteRawMaterial(rid), HttpStatus.CREATED);
+            return new ResponseEntity<>(rawMaterialService.deleteRawMaterial(rid), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         } catch (Exception e){
