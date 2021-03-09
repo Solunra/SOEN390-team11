@@ -34,9 +34,11 @@ public class RawMaterialController {
     @PostMapping("/define")
     public ResponseEntity<?> defineRawMaterial(@RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.createNewRawMaterial(rawMaterialRequestDto)), HttpStatus.CREATED);
+            return new ResponseEntity<>(rawMaterialService.createNewRawMaterial(rawMaterialRequestDto), HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 

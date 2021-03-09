@@ -1,29 +1,38 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.Type;
 import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.entity.RawMaterial;
+import com.soen390.team11.entity.VendorSale;
+import com.soen390.team11.entity.VendorSaleId;
 import com.soen390.team11.repository.RawMaterialRepository;
+import com.soen390.team11.repository.VendorSaleRepository;
+import com.soen390.team11.repository.VendorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RawMaterialService {
 
     @Autowired
     RawMaterialRepository rawmaterialRepository;
+    @Autowired
+    VendorsRepository vendorsRepository;
+    @Autowired
+    VendorSaleRepository vendorSaleRepository;
 
 
 
 
     public List<RawMaterial> getAllRawMaterial() {
-        return (List<RawMaterial>) rawmaterialRepository.findAll();
-//        List<RawMaterial> RawMaterials = new ArrayList<>();
-//        rawmaterialRepository.findAll()
-//                .forEach(RawMaterials::add);
-//        return RawMaterials;
+        List<RawMaterial> RawMaterials = new ArrayList<>();
+        rawmaterialRepository.findAll()
+                .forEach(RawMaterials::add);
+        return RawMaterials;
     }
 
 
@@ -37,7 +46,12 @@ public class RawMaterialService {
         }
     }
 
-    public String createNewRawMaterial(RawMaterialRequestDto rawMaterialRequestDto){
+    public String createNewRawMaterial(RawMaterialRequestDto rawMaterialRequestDto) throws Exception {
+
+        if(!vendorsRepository.existsById(rawMaterialRequestDto.getVendorID())){
+            throw new Exception("Vendor does not exist");
+        }
+
         RawMaterial newRawMaterial = new RawMaterial(
                 rawMaterialRequestDto.getname(),
                 rawMaterialRequestDto.getDescription(),
@@ -45,6 +59,10 @@ public class RawMaterialService {
                 rawMaterialRequestDto.getUnit()
         );
         String rawMaterialidID = rawmaterialRepository.save(newRawMaterial).getrawmaterialid();
+
+        VendorSaleId vendorSaleId = new VendorSaleId(rawMaterialRequestDto.getVendorID(), rawMaterialidID);
+        VendorSale vendorSale = new VendorSale(vendorSaleId, Type.RAW_MATERIAL);
+        vendorSaleRepository.save(vendorSale);
         return rawMaterialidID;
     }
 
