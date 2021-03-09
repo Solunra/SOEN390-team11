@@ -50,4 +50,15 @@ public class RawMaterialController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+
+    @DeleteMapping("/delete/{rid}")
+    public ResponseEntity<?> removeRawMaterial(@PathVariable String rid){
+        try {
+            return new ResponseEntity<>(rawMaterialService.deleteRawMaterial(rid), HttpStatus.CREATED);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
 }

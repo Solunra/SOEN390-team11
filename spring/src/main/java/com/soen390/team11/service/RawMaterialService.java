@@ -99,7 +99,19 @@ public class RawMaterialService {
         return rid;
 
     }
-    
+
+    public String deleteRawMaterial(String rid) throws Exception {
+        Optional<RawMaterial> rawMaterial = rawmaterialRepository.findById(rid);
+        if(!rawMaterial.isPresent()){
+            throw new Exception("Raw material was not found");
+        }
+        Optional<VendorSale> vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
+        if(vendorSale.isPresent()){
+            vendorSaleRepository.delete(vendorSale.get());
+        }
+        rawmaterialRepository.delete(rawMaterial.get());
+        return "Delete Successful";
+    }
 
 
 }
