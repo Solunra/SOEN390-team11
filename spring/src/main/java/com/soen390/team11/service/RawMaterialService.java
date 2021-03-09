@@ -28,18 +28,28 @@ public class RawMaterialService {
 
 
 
-    public List<RawMaterial> getAllRawMaterial() {
-        List<RawMaterial> RawMaterials = new ArrayList<>();
-        rawmaterialRepository.findAll()
-                .forEach(RawMaterials::add);
-        return RawMaterials;
+    public List<RawMaterialRequestDto> getAllRawMaterial() {
+        List<RawMaterialRequestDto> rawMaterialRequestDtos = new ArrayList<>();
+        Iterable<RawMaterial> rawMaterials = rawmaterialRepository.findAll();
+        for(RawMaterial rawMaterial:rawMaterials){
+            rawMaterialRequestDtos.add(getRawMaterialById(rawMaterial.getrawmaterialid()));
+        }
+        return rawMaterialRequestDtos;
     }
 
 
-    public RawMaterial getRawMaterialById(String id) {
+    public RawMaterialRequestDto getRawMaterialById(String id) {
         try {
             RawMaterial rawmaterial= rawmaterialRepository.findById(id).get();
-            return rawmaterial;
+            VendorSale vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rawmaterial.getrawmaterialid()).get();
+            RawMaterialRequestDto rawMaterialRequestDto = new RawMaterialRequestDto();
+            rawMaterialRequestDto.setrawmaterialid(rawmaterial.getrawmaterialid());
+            rawMaterialRequestDto.setname(rawmaterial.getName());
+            rawMaterialRequestDto.setDescription(rawmaterial.getDescription());
+            rawMaterialRequestDto.setPrice(rawmaterial.getPrice());
+            rawMaterialRequestDto.setUnit(rawmaterial.getUnit());
+            rawMaterialRequestDto.setVendorID(vendorSale.getVendorSaleId().getVendorID());
+            return rawMaterialRequestDto;
         } catch (Exception e) {
             return null;
 

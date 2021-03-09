@@ -22,9 +22,22 @@ public class RawMaterialController {
 
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllRawMaterials(){
+        return new ResponseEntity<>(rawMaterialService.getAllRawMaterial(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{rid}")
+    public ResponseEntity<?> retrieveRawMaterial(@PathVariable String rid){
+        String rawMaterialID = String.valueOf(rid);
+        RawMaterialRequestDto rawMaterialRequestDto = rawMaterialService.getRawMaterialById(rawMaterialID);
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.getAllRawMaterial()), HttpStatus.OK);
-        } catch (JsonProcessingException e) {
+            if (rawMaterialRequestDto != null) {
+                return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialRequestDto), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("Raw material was not found", HttpStatus.NOT_FOUND);
+            }
+        }
+        catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.NOT_FOUND);
         }
     }
