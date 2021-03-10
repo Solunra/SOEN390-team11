@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -31,22 +31,35 @@ const RawMaterialForm = (props) =>{
     const {open, handleClose,setRowData,rowData,re_render, setRe_render} = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [vendor, setVendor] = useState('');
+    const [vendorID, setVendorID] = useState('');
+    const [vendorList, setVendorList] = useState([]);
     const [price, setPrice] = useState(0);
     const [unit, setUnit] = useState('');
-    const unitlist = ["None","Ton","L","kg"];
-    const vendorlist = [
-        {"vendorID":1,"type":"Vendor1","saleID":"saleid 1"},
-        {"vendorID":2,"type":"Vendor2","saleID":"saleid 2"},
-        {"vendorID":3,"type":"Vendor3","saleID":"saleid 3"},
-        {"vendorID":4,"type":"Vendor4","saleID":"saleid 4"},
-    ];
-    console.log(`Vendor ${rowData['vendor']}`);
+    const unitList = ["None","Ton","L","kg"];
     const classes = useStyles();
-
+    const getVendorList = () =>{
+        request
+            .get(BuildPath("/vendor/"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if (res.status === 200)
+                {
+                    if(JSON.stringify(vendorList) !== JSON.stringify(res.body)){
+                        setVendorList(res.body);
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+    useEffect(()=>{
+        getVendorList();
+    },[vendorList])
     const clearValue =() => {
         setUnit('');
-        setVendor('');
+        setVendorID('');
         setPrice(0);
         setDescription('');
         setName('');
@@ -54,7 +67,7 @@ const RawMaterialForm = (props) =>{
 
     const checkValue = ()=>{
         // console.log(!name +"\t"+ !description +"\t"+ price===0 +"\t"+ !price +"\t"+ unit ==="None"+"\t"+vendor==="None");
-        if(!name || !description || price===0 || !price || unit ==="None"||vendor==="None"){
+        if(!name || !description || price===0 || !price || unit ==="None"||vendorID === "None"){
             return false;
         }
         return true;
@@ -83,7 +96,6 @@ const RawMaterialForm = (props) =>{
 
     }
     const addOperation =()=>{
-        console.log(checkValue());
         if(checkValue())
         {
             request
@@ -95,7 +107,8 @@ const RawMaterialForm = (props) =>{
                         "name":name,
                         "description":description,
                         "price":price,
-                        "unit":unit
+                        "unit":unit,
+                        "vendorID":vendorID,
                     }
                 )
                 .then(res => {
@@ -163,12 +176,12 @@ const RawMaterialForm = (props) =>{
                     <InputLabel>Vendor</InputLabel>
                     <Select
                         value={`Vendor ${rowData['vendor']}`}
-                        onChange={e => setVendor(e.target.value)}
+                        onChange={e => setVendorID(e.target.value)}
                         label="Unit"
                     >
                         <MenuItem value={`None`}>None</MenuItem>
-                        {vendorlist.map((row) =>{
-                            return <MenuItem value={`Vendor ${row.vendorID}`} >Vendor {row.vendorID}</MenuItem>;
+                        {vendorList.map((row) =>{
+                            return <MenuItem value={`${row.vendorID}`} >{row.companyname}</MenuItem>;
                         })}
                     </Select>
                 </FormControl>
@@ -190,7 +203,7 @@ const RawMaterialForm = (props) =>{
                         onChange={e => setUnit(e.target.value)}
                         label="Unit"
                     >
-                        {unitlist.map((row) =>{
+                        {unitList.map((row) =>{
                             return <MenuItem value={row} >{row}</MenuItem>;
                         })}
                     </Select>

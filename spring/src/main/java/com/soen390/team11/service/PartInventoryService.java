@@ -27,7 +27,7 @@ public class PartInventoryService {
         PartInventoryResponse partInventoryResponse = new PartInventoryResponse();
         for(PartInventory pi : partInventories){
             for(Part p : parts){
-                if(p.getPartid() == pi.getPartid()){
+                if(p.getPartid().equals(pi.getPartid())){
                     partInventoryResponse=new PartInventoryResponse(pi.getId(),pi.getLocation(),pi.getQuantity(),pi.getPartid(),p.getName());
                 }
             }

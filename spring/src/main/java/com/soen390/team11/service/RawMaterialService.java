@@ -5,6 +5,7 @@ import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.entity.RawMaterial;
 import com.soen390.team11.entity.VendorSale;
 import com.soen390.team11.entity.VendorSaleId;
+import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.RawMaterialRepository;
 import com.soen390.team11.repository.VendorSaleRepository;
 import com.soen390.team11.repository.VendorsRepository;
@@ -42,6 +43,7 @@ public class RawMaterialService {
         try {
             RawMaterial rawmaterial= rawmaterialRepository.findById(id).get();
             VendorSale vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rawmaterial.getrawmaterialid()).get();
+            Vendors vendors = vendorsRepository.findByVendorID(vendorSale.getVendorSaleId().getVendorID()).get();
             RawMaterialRequestDto rawMaterialRequestDto = new RawMaterialRequestDto();
             rawMaterialRequestDto.setrawmaterialid(rawmaterial.getrawmaterialid());
             rawMaterialRequestDto.setname(rawmaterial.getName());
@@ -49,6 +51,7 @@ public class RawMaterialService {
             rawMaterialRequestDto.setPrice(rawmaterial.getPrice());
             rawMaterialRequestDto.setUnit(rawmaterial.getUnit());
             rawMaterialRequestDto.setVendorID(vendorSale.getVendorSaleId().getVendorID());
+            rawMaterialRequestDto.setCompanyname(vendors.getCompanyname());
             return rawMaterialRequestDto;
         } catch (Exception e) {
             return null;

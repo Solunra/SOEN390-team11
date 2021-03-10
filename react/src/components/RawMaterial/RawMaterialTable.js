@@ -12,12 +12,12 @@ import {RawMaterialForm} from "./RawMaterialForm";
 const RawMaterialTable = (props) => {
     const {rows,re_render, setRe_render } = props;
     const [open, setOpen] = useState(false);
-    const [data, setData] = useState(false);
+    const [data, setData] = useState({});
     const columns = [
         // { title: 'Id', field: 'productid' },
         { title: 'Raw material Name', field: 'name' },
         { title: 'Description', field: 'description' },
-        { title: 'Vendor', field: 'venderid' },
+        { title: 'Vendor', field: 'companyname' },
         { title: 'Price', field: 'price'},
         { title: 'Per unit', field: 'unit' },
     ];

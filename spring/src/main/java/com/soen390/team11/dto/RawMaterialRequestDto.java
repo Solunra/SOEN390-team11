@@ -13,8 +13,7 @@ public class RawMaterialRequestDto {
     private double price;
     private  String unit;
     private String vendorID;
-
-
+    private String companyname;
 
     public RawMaterialRequestDto() {
 
@@ -85,7 +84,13 @@ public class RawMaterialRequestDto {
     public RawMaterial getMaterial(){
         return new RawMaterial(rawmaterialid, name);
     }
+    public String getCompanyname() {
+        return companyname;
+    }
 
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
 
 
 }
