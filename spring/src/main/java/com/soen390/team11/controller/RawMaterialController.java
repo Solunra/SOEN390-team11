@@ -22,25 +22,35 @@ public class RawMaterialController {
 
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllRawMaterials(){
-        return new ResponseEntity<>(rawMaterialService.getAllRawMaterial(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.getAllRawMaterial()) , HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/{rid}")
     public ResponseEntity<?> retrieveRawMaterial(@PathVariable String rid){
         String rawMaterialID = String.valueOf(rid);
         RawMaterialRequestDto rawMaterialRequestDto = rawMaterialService.getRawMaterialById(rawMaterialID);
-        if (rawMaterialRequestDto != null) {
-            return new ResponseEntity<>(rawMaterialRequestDto, HttpStatus.OK);
+        try{
+            if (rawMaterialRequestDto != null) {
+                return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialRequestDto), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("Raw material was not found", HttpStatus.NOT_FOUND);
+            }
         }
-        else{
-            return new ResponseEntity<>("Raw material was not found", HttpStatus.NOT_FOUND);
+        catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
+
     }
 
     @PostMapping("/define")
     public ResponseEntity<?> defineRawMaterial(@RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
-            return new ResponseEntity<>(rawMaterialService.createNewRawMaterial(rawMaterialRequestDto), HttpStatus.CREATED);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.createNewRawMaterial(rawMaterialRequestDto)) , HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         } catch (Exception e){
@@ -51,7 +61,7 @@ public class RawMaterialController {
     @PutMapping("/edit/{rid}")
     public ResponseEntity<?> editRawMaterial(@PathVariable String rid, @RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
-            return new ResponseEntity<>(rawMaterialService.updateRawMaterial(rid,rawMaterialRequestDto), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.updateRawMaterial(rid,rawMaterialRequestDto)) , HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         } catch (Exception e){
@@ -62,7 +72,7 @@ public class RawMaterialController {
     @DeleteMapping("/delete/{rid}")
     public ResponseEntity<?> removeRawMaterial(@PathVariable String rid){
         try {
-            return new ResponseEntity<>(rawMaterialService.deleteRawMaterial(rid), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.deleteRawMaterial(rid)) , HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         } catch (Exception e){

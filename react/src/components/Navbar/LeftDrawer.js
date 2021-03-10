@@ -92,7 +92,7 @@ const LeftDrawer = props => {
     return (
         <div>
             <AppBar position="fixed">
-                <Toolbar>
+                <Toolbar style={{color: "black"}}>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" className={classes.drawer}>

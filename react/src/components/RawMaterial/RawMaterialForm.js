@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const RawMaterialForm = (props) =>{
 
-    const {open, handleClose,setRowData,rowData,re_render, setRe_render} = props;
+    const {open, handleClose,setRowData,rowData,re_render, setRe_render,setErrMessage} = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [vendorID, setVendorID] = useState('');
@@ -119,32 +119,36 @@ const RawMaterialForm = (props) =>{
                     }
                 })
                 .catch(err => {
-                    console.log(err);
                     cleanup();
+                    setErrMessage("cannot add");
                 });
         }
     }
     const editOperation =() => {
         request
-            .put(BuildPath())
-        // .set('Authorization', localStorage.getItem("Authorization"))
-        // .set('Accept', 'application/json')
-        // .send(
-        //     {
-        //         "type":!type?rowData['type']:type,
-        //         "saleID":!saleID?rowData['saleID']:saleID
-        //     }
-        // )
-        // .then(res => {
-        //     console.log(res.body);
-        //     if (res.status === 200) {
-        //         cleanup();
-        //     }
-        // })
-        // .catch(err => {
-        //     cleanup();
-        //     // setErrMessage(err.response.body['message']);
-        // });
+            ///edit/{rid}
+            .put(BuildPath("/rawmaterials/edit/"+rowData['rawmaterialid']))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .send(
+                {
+                    "name":!name?rowData['name']:name,
+                    "description":!description?rowData['description']:description,
+                    "price":!price?rowData['price']:price,
+                    "unit":!unit?rowData['unit']:unit,
+                    "vendorID":!vendorID?rowData['vendorID']:vendorID,
+                }
+            )
+            .then(res => {
+                if (res.status === 200) {
+                    setRe_render(!re_render);
+                    cleanup();
+                }
+            })
+            .catch(err => {
+                cleanup();
+                setErrMessage("cannot edit");
+            });
     }
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" classes={ classes.dialogWrapper }>
@@ -175,9 +179,9 @@ const RawMaterialForm = (props) =>{
                 <FormControl variant="outlined" fullWidth >
                     <InputLabel>Vendor</InputLabel>
                     <Select
-                        value={`Vendor ${rowData['vendor']}`}
+                        value={rowData['vendorID']}
                         onChange={e => setVendorID(e.target.value)}
-                        label="Unit"
+                        label="Vendor"
                     >
                         <MenuItem value={`None`}>None</MenuItem>
                         {vendorList.map((row) =>{
