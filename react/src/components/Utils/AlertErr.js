@@ -16,6 +16,7 @@ const AlertErr=(props) => {
     const {message, closeAlert} = props;
     const classes = useStyles();
 
+
     return (
         <div className={classes.alertRoot}>
             <Alert severity="error">

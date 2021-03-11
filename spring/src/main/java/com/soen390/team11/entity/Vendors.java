@@ -15,20 +15,23 @@ public class Vendors {
     @GenericGenerator(name="vendor_id", strategy = "com.soen390.team11.generator.VendorIDGenerator")
     @GeneratedValue(generator="vendor_id")
     private String vendorID;
-
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
-    private String saleID;
+    private String companyname;
+    private String address;
+    private String phone;
+    private String email;
 
     public Vendors() {
         // Empty Constructor
     }
 
-    public Vendors(Type type, String saleID) {
-        this.type = type;
-        this.saleID = saleID;
+    public Vendors(String companyname, String address, String phone, String email) {
+        this.companyname = companyname;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
     }
+
+
 
     public String getVendorID() {
         return vendorID;
@@ -38,19 +41,35 @@ public class Vendors {
         this.vendorID = vendorID;
     }
 
-    public Type getType() {
-        return type;
+    public String getCompanyname() {
+        return companyname;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
-    public String getSaleID() {
-        return saleID;
+    public String getAddress() {
+        return address;
     }
 
-    public void setSaleID(String saleID) {
-        this.saleID = saleID;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

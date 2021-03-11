@@ -3,12 +3,17 @@ import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 import './style.css'
 import { useHistory } from "react-router-dom";
+import {Grid} from "@material-ui/core";
+import {AlertErr} from "../Utils/AlertErr";
 
 const LoginComponent = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
-
+    const [errMessage, setErrMessage] = useState('');
+    const closeAlert = ()=>{
+        setErrMessage('');
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
         request
@@ -90,6 +95,11 @@ const LoginComponent = () => {
                 </tbody>
             </table>
         </form>
+        <Grid>
+            <Grid item xs={12}>
+                {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}
+            </Grid>
+        </Grid>
     </div>
     );
 }

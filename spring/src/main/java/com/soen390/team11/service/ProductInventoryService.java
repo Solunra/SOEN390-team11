@@ -78,7 +78,7 @@ public class ProductInventoryService {
         ProductInventoryResponse productInventoryResponse = new ProductInventoryResponse();
         for(ProductInventory pi : productInventories){
             for(Product p : products){
-                if(pi.getProductid() == p.getProductid()){
+                if(pi.getProductid().equals(p.getProductid()) ){
                     productInventoryResponse = new ProductInventoryResponse(pi.getId(),pi.getLocation(),pi.getQuantity(),pi.getProductid(),p.getName());
                 }
             }

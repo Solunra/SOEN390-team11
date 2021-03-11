@@ -27,7 +27,7 @@ public class MaterialInventoryService {
         MaterialInventoryResponse materialInventoryResponse= new MaterialInventoryResponse();
         for(MaterialInventory mi: materialInventories){
             for(Material m : materials){
-                if(mi.getMaterialid() == m.getMaterialid()){
+                if(mi.getMaterialid().equals(m.getMaterialid())){
                     materialInventoryResponse = new MaterialInventoryResponse(mi.getId(),mi.getLocation(),mi.getQuantity(),mi.getMaterialid(),m.getName());
                 }
             }

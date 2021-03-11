@@ -18,7 +18,7 @@ public class OrdersService {
 
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getQuantity(), orderDto.getDateTime());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }
@@ -28,7 +28,7 @@ public class OrdersService {
         Optional<Orders> order = ordersRepository.findByOrderID(orderID);
         if (order.isPresent())
         {
-            return Optional.of(new OrderDto(order.get().getVendorID(), order.get().getQuantity(), order.get().getTime()));
+            return Optional.of(new OrderDto(order.get().getVendorID(), order.get().getSaleID(),order.get().getQuantity(), order.get().getTime()));
         }
         else
         {
@@ -41,7 +41,7 @@ public class OrdersService {
         Iterable<Orders> orders = ordersRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Orders order: orders) {
-            orderDtos.add(new OrderDto(order.getVendorID(), order.getQuantity(), order.getTime()));
+            orderDtos.add(new OrderDto(order.getVendorID(), order.getSaleID(), order.getQuantity(), order.getTime()));
         }
         return orderDtos;
     }

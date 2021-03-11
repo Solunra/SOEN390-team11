@@ -7,6 +7,8 @@ import {NavCustomer , NavAdmin } from './components/Navbar';
 import {Production} from './components/Production';
 import { useHistory } from "react-router-dom";
 import {Inventory} from './components/Inventory';
+import {RawMaterial} from "./components/RawMaterial";
+import './App.css';
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -44,7 +46,7 @@ function App() {
                   <Tab  label = "Shop" component={Link} to={"/shop"}/>
                   <Tab  label = "Account" component={Link} to={"/account"}/>
               </Tabs>
-              <div className="content">
+              <div className="appContent">
                   <Route exact path = "/" />
                   <Route path = "/customer" component={NavCustomer}/>
                   <Route path = "/admin" component={NavAdmin}/>
@@ -54,6 +56,7 @@ function App() {
                   <Route path="/customer/info" > </Route>
                   <Route path = "/admin/production" component={Production}/>
                   <Route path = "/admin/inventory" component={Inventory}/>
+                  <Route path = "/admin/rawMaterial" component={RawMaterial}/>
 
               </div>
           </HashRouter>

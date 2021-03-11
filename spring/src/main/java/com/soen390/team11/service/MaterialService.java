@@ -1,6 +1,7 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.dto.MaterialRequestDto;
+import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.entity.Material;
 import com.soen390.team11.entity.RawMaterial;
 import com.soen390.team11.entity.MaterialRawMaterials;
@@ -67,8 +68,8 @@ public class MaterialService {
     }
 
     //return every raw material in a material
-    public List<RawMaterial> getAllMaterialRawMaterial(String materialid){
-        List<RawMaterial> rawMaterial= new ArrayList<>();
+    public List<RawMaterialRequestDto> getAllMaterialRawMaterial(String materialid){
+        List<RawMaterialRequestDto> rawMaterial= new ArrayList<>();
         List<MaterialRawMaterials> MaterialRawMaterialsList = materialrawmaterialRepository.findByMaterialRawMaterialsIdRawmaterialid(materialid);
         for(MaterialRawMaterials materialRawMaterials : MaterialRawMaterialsList){
             rawMaterial.add(rawmaterialService.getRawMaterialById(materialRawMaterials.getMaterialRawMaterialsId().getRawmaterialid()));

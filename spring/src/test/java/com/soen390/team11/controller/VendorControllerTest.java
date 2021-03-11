@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,11 +35,14 @@ public class VendorControllerTest {
 
     VendorDto vendorDto;
     String ID;
+    int sizeOfVendors;
+
 
     @BeforeAll
     public void setup()
     {
-        vendorDto = new VendorDto(Type.MATERIAL, "1");
+        vendorDto = new VendorDto("Bike Company","Address","514-515-1323","bikecompany@email.com");
+        sizeOfVendors = ((List) vendorController.retrieveAllVendors().getBody()).size();
     }
 
     @Test
@@ -51,16 +56,27 @@ public class VendorControllerTest {
 
     @Test
     @Order(2)
-    public void testGetVendor()
+    public void testGetAllVendors()
     {
-        ResponseEntity responseEntity = vendorController.getVendorById(ID);
+        ResponseEntity responseEntity = vendorController.retrieveAllVendors();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(Type.MATERIAL, ((VendorDto) responseEntity.getBody()).getType());
-        assertEquals("1", ((VendorDto) responseEntity.getBody()).getSaleID());
+        assertEquals(sizeOfVendors+1, ((List<Vendors>) responseEntity.getBody()).size());
     }
 
     @Test
     @Order(3)
+    public void testGetVendor()
+    {
+        ResponseEntity responseEntity = vendorController.getVendorById(ID);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Bike Company", ((VendorDto) responseEntity.getBody()).getCompanyName());
+        assertEquals("Address", ((VendorDto) responseEntity.getBody()).getAddress());
+        assertEquals("514-515-1323", ((VendorDto) responseEntity.getBody()).getPhone());
+        assertEquals("bikecompany@email.com", ((VendorDto) responseEntity.getBody()).getEmail());
+    }
+
+    @Test
+    @Order(4)
     public void testGetNoVendor()
     {
         ResponseEntity responseEntity = vendorController.getVendorById("v-98");
