@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
 import {useHistory} from 'react-router-dom';
 import './style.css'
+import {AlertErr} from "../Utils/AlertErr";
+import {Grid} from "@material-ui/core";
 
 const SignupComponent = () => {
     const [username, setUsername] = useState('');
@@ -10,6 +12,10 @@ const SignupComponent = () => {
     const [password, setPassword] = useState('');
     const [passwordVerification, setPasswordVerification] = useState('');
     const history = useHistory();
+    const [errMessage, setErrMessage] = useState('');
+    const closeAlert = ()=>{
+        setErrMessage('');
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -30,7 +36,14 @@ const SignupComponent = () => {
                 {
                     history.push("/account/login");
                 }
+            })
+            .catch(err =>{
+                setErrMessage("Cannot Create account");
+                setTimeout(()=>{
+                    setErrMessage("")
+                }, 45000);
             });
+
 
         event.target.reset();
     }
@@ -111,6 +124,11 @@ const SignupComponent = () => {
             </table>
             <button type="submit" disabled={isDisabled()}>Submit</button>
         </form>
+        <Grid>
+            <Grid item xs={12}>
+                {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}
+            </Grid>
+        </Grid>
     </div>
     );
 }

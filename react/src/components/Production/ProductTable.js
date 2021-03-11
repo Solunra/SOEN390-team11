@@ -78,7 +78,9 @@ const ProductTable = (props) => {
             })
             .catch(err => {
                 setErrMessage(err.response.body['message']);
-                setTimeout(err.response.body[''], 45000);
+                setTimeout(()=>{
+                    setErrMessage("")
+                }, 45000);
             });
     }
 

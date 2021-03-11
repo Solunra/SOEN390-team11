@@ -34,13 +34,11 @@ const Production = ()=>
     const [productPartTitle, setProductPartTitle] = useState('');
     const [partMaterialTitle, setPartMaterialTitle] = useState('');
     const classes = useStyles();
-
     const [open, setOpen] =useState(false);
-
     const handleClose = () => {
         setOpen(false);
-
     };
+
     const getProducts = () =>{
         request
             .get(BuildPath("/product/"))
