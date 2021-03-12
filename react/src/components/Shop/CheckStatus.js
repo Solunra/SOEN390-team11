@@ -37,7 +37,7 @@ const CheckStatus = (props) =>{
 
     const handleCheckStatus =()=>{
         if(invoiceId ==='' || invoiceId.trim()===''){
-            setErrMessage("All field is required");
+            setErrMessage("Invoice ID is required");
             setTimeout(()=>{
                 setErrMessage("")
             }, 3000);

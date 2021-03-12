@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import {Inventory} from './components/Inventory';
 import {RawMaterial} from "./components/RawMaterial";
 import './App.css';
-import {Shop} from "./components/shop";
+import {Shop} from "./components/Shop";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();

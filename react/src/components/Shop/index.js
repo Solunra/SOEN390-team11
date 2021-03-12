@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
     wrapper: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(5, 1fr)',
         gap: '20px',
     },
     button:{
