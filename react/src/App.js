@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import {Inventory} from './components/Inventory';
 import {RawMaterial} from "./components/RawMaterial";
 import './App.css';
+import {Shop} from "./components/Shop";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -51,9 +52,7 @@ function App() {
                   <Route path = "/customer" component={NavCustomer}/>
                   <Route path = "/admin" component={NavAdmin}/>
                   <Route path = "/account" component = {SignupLoginParentComponent} />
-                  <Route path="/customer/shop" > </Route>
-                  <Route path="/customer/carte" > </Route>
-                  <Route path="/customer/info" > </Route>
+                  <Route path = "/customer/shop" component={Shop}/>
                   <Route path = "/admin/production" component={Production}/>
                   <Route path = "/admin/inventory" component={Inventory}/>
                   <Route path = "/admin/rawMaterial" component={RawMaterial}/>
