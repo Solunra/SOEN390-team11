@@ -1,7 +1,10 @@
 import { Grid,  makeStyles} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
+import request from "superagent";
+import BuildPath from "../RequestBuilder";
 import {Product} from "./Product";
 import Button from "@material-ui/core/Button";
+import {Cart} from "../Carte";
 const useStyles = makeStyles(theme => ({
 
     container: {
@@ -79,22 +82,21 @@ const Shop = ()=>{
     }
     const getProducts = () =>{
         // should get from the invtory with the price
-        // request
-        //     .get(BuildPath("/product/"))
-        //     .set('Authorization', localStorage.getItem("Authorization"))
-        //     .set('Accept', 'application/json')
-        //     .then(res => {
-        //         if (res.status === 200)
-        //         {
-        //             var prolist = JSON.stringify(res.body);
-        //             if(JSON.stringify(productList) !== prolist){
-        //                 setProductList(res.body);
-        //             }
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+        request
+            .get(BuildPath("/product/"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if (res.status === 200)
+                {
+                    if(JSON.stringify(productList) !== JSON.stringify(res.body)){
+                        setProductList(res.body);
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
     useEffect(() => {
         getProducts();
@@ -122,6 +124,14 @@ const Shop = ()=>{
                     return (<Product product={row} handleAdd={handleAdd}></Product>);
                     })}
             </Grid>
+            <Cart
+                open={open}
+                handleClose={handleClose}
+                cartList = {cart}
+                handleIncrement={handleIncrement}
+                handleCheckOut={handleCheckOut}
+                handleRemove={handleRemove}
+            />
 
         </>
     );
