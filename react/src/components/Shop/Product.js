@@ -26,6 +26,12 @@ const Product = props => {
 
             <Card className={classes.container}>
                 <CardHeader
+                    // avatar={<Avatar src={avatarUrl} />}
+                    // action={
+                    //     <IconButton aria-label="settings">
+                    //         <ShareIcon />
+                    //     </IconButton>
+                    // }
                     title={product['name']}
                     subheader={`100$`}
                 />

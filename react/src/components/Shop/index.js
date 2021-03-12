@@ -3,8 +3,12 @@ import React, {useEffect, useState} from "react";
 import request from "superagent";
 import BuildPath from "../RequestBuilder";
 import {Product} from "./Product";
-import Button from "@material-ui/core/Button";
 import {Cart} from "../Carte";
+import Button from "@material-ui/core/Button";
+import {CheckOut} from "../Carte/Checkout";
+import {CheckStatus} from "./CheckStatus";
+import {Customize} from "./Customize";
+
 const useStyles = makeStyles(theme => ({
 
     container: {
@@ -16,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
     wrapper: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: 'repeat(3, 1fr)',
         gap: '20px',
     },
     button:{
@@ -89,7 +93,8 @@ const Shop = ()=>{
             .then(res => {
                 if (res.status === 200)
                 {
-                    if(JSON.stringify(productList) !== JSON.stringify(res.body)){
+                    var prolist = JSON.stringify(res.body);
+                    if(JSON.stringify(productList) !== prolist){
                         setProductList(res.body);
                     }
                 }
@@ -131,6 +136,22 @@ const Shop = ()=>{
                 handleIncrement={handleIncrement}
                 handleCheckOut={handleCheckOut}
                 handleRemove={handleRemove}
+            />
+            <CheckOut
+                openCheckOut={openCheckout}
+                handleCloseCheckOut={handleCloseCheckOut}
+                cartList = {cart}
+                setCartList={setCart}
+            />
+            <CheckStatus
+                openCheckStatus={openCheckStatus}
+                setOpenCheckStatus={setOpenCheckStatus}
+                productList={productList}
+            />
+            <Customize
+                openCustomize={openCustomize}
+                setOpenCustomize={setOpenCustomize}
+                handleAdd={handleAdd}
             />
 
         </>
