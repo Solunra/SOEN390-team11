@@ -38,14 +38,32 @@ public class ProductMachineryService {
         }
     }
 
-    public boolean updateMachineryStatus(String machineryId, String status) {
+    public boolean updateMachineryStatus(String machineryId, String operation) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);
         if (optionalProductMachinery.isPresent()) {
-            optionalProductMachinery.get().setStatus(status);
-            return true;
-        } else {
-            return false;
+            boolean setSuccess = true;
+            switch (operation) {
+                case "launch":
+                    setSuccess = optionalProductMachinery.get().setStatus("ready");
+                    break;
+                case "start":
+                    setSuccess = optionalProductMachinery.get().setStatus("running");
+                    break;
+                case "cancel":
+                    setSuccess = optionalProductMachinery.get().setStatus("unassigned");
+                    break;
+                case "pause":
+                    setSuccess = optionalProductMachinery.get().setStatus("paused");
+                    break;
+                default:
+                    break;
+            }
+            if (setSuccess) {
+                productMachineryRepository.save(optionalProductMachinery.get());
+                return true;
+            }
         }
+        return false;
     }
 }
