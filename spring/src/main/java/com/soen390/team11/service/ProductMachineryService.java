@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class ProductMachineryService {
+
     @Autowired
     ProductMachineryRepository productMachineryRepository;
 
@@ -24,15 +25,27 @@ public class ProductMachineryService {
     }
 
     public String createMachinery(ProductMachineryDto productMachineryDto) {
-        Optional<Product> optionalProduct = productRepository.findById(productMachineryDto.getProductId());
+        Optional<Product> optionalProduct = productRepository
+            .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
-            ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(), productMachineryDto.getStatus(), productMachineryDto.getTimer(), optionalProduct.get());
+            ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(),
+                productMachineryDto.getStatus(), productMachineryDto.getTimer(),
+                optionalProduct.get());
             productMachineryRepository.save(newMachinery);
             return newMachinery.getId();
-        }
-        else
-        {
+        } else {
             return "";
+        }
+    }
+
+    public boolean updateMachineryStatus(String machineryId, String status) {
+        Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
+            .findById(machineryId);
+        if (optionalProductMachinery.isPresent()) {
+            optionalProductMachinery.get().setStatus(status);
+            return true;
+        } else {
+            return false;
         }
     }
 }
