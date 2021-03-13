@@ -1,5 +1,7 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.MachineryOp;
+import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
@@ -29,7 +31,7 @@ public class ProductMachineryService {
             .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
             ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(),
-                productMachineryDto.getStatus(), productMachineryDto.getTimer(),
+                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()), productMachineryDto.getTimer(),
                 optionalProduct.get());
             productMachineryRepository.save(newMachinery);
             return newMachinery.getId();

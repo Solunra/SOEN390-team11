@@ -1,6 +1,7 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.Team11Application;
+import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
@@ -68,8 +69,8 @@ public class ProductMachineryControllerTest {
     @Test
     public void getProductMachineries_Success() throws Exception {
 
-        machineryMap.put("machine0", new ProductMachinery("abc machine", "stopped", 100, null));
-        machineryMap.put("machine1", new ProductMachinery("xyz machine", "stopped", 450, null));
+        machineryMap.put("machine0", new ProductMachinery("abc machine", MachineryState.READY, 100, null));
+        machineryMap.put("machine1", new ProductMachinery("xyz machine", MachineryState.READY, 450, null));
 
         productMachineryRepository.save(machineryMap.get("machine0"));
         productMachineryRepository.save(machineryMap.get("machine1"));
