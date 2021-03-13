@@ -1,5 +1,6 @@
 package com.soen390.team11.controller;
 
+import com.soen390.team11.constant.MachineryOp;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.service.ProductMachineryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,19 @@ public class ProductMachineryController {
     public ResponseEntity<?> createMachinery(@RequestBody ProductMachineryDto productMachineryDto) {
         String machineryId = productMachineryService.createMachinery(productMachineryDto);
         return ResponseEntity.ok(machineryId);
+    }
+
+    @PostMapping("/{machineryId}/{op}")
+    public ResponseEntity<?> updateMachineryStatus(@PathVariable String machineryId, @PathVariable String op) {
+        for (MachineryOp state : MachineryOp.values()) {
+            if (state.toString().equals(op)) {
+                if (productMachineryService.updateMachineryStatus(machineryId, op))
+                    return ResponseEntity.ok("Success");
+                else
+                    return ResponseEntity.notFound().build();
+            }
+        }
+        return ResponseEntity.badRequest().body("Operation not supported");
     }
 
 }
