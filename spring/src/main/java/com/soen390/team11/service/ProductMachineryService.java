@@ -91,4 +91,32 @@ public class ProductMachineryService {
         }
         return "";
     }
+
+    public String occupyMachinery(String machineryId, String productId) {
+        Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
+            .findById(machineryId);
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProductMachinery.isPresent() && optionalProduct.isPresent()) {
+
+            if (optionalProductMachinery.get().setProduct(optionalProduct.get())) {
+
+                optionalProductMachinery.get()
+                    .setTimer(50); // FIXME replace fixed time with specific time for each machine
+
+                optionalProductMachinery.get().setStatus(MachineryState.READY);
+
+                productMachineryRepository.save(optionalProductMachinery.get());
+                return "Success";
+
+            } else {
+                return "Machine is unavailable";
+            }
+        } else {
+            if (optionalProductMachinery.isPresent()) return "PRODUCT!";
+            else return "MACHINE!";
+//            return "Either machinery or product does not exist";
+        }
+    }
 }

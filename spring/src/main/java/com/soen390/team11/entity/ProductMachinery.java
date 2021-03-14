@@ -72,7 +72,11 @@ public class ProductMachinery {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public boolean setProduct(Product product) {
+        if (this.status.equals(MachineryState.UNASSIGNED)) {
+            this.product = product;
+            return true;
+        }
+        return false;
     }
 }

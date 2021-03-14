@@ -40,4 +40,18 @@ public class ProductMachineryController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @PostMapping("/product/{productId}")
+    public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
+
+        // try to find an unassigned machinery and occupy it
+        String result = productMachineryService.occupyMachinery(
+            productMachineryService.findAvailableMachinery(), productId);
+
+        if (result != null && result.equals("Success"))
+            return ResponseEntity.ok(result);
+
+        return ResponseEntity.badRequest().body(result);
+
+    }
+
 }
