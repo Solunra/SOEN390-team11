@@ -16,11 +16,17 @@ import java.util.Optional;
 @Service
 public class ProductMachineryService {
 
-    @Autowired
     ProductMachineryRepository productMachineryRepository;
 
-    @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    public ProductMachineryService(
+        ProductMachineryRepository productMachineryRepository,
+        ProductRepository productRepository) {
+        this.productMachineryRepository = productMachineryRepository;
+        this.productRepository = productRepository;
+    }
 
     public List<ProductMachinery> getAllMachineries() {
         return (List<ProductMachinery>) productMachineryRepository.findAll();
