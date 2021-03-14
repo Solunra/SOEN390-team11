@@ -27,17 +27,27 @@ public class ProductMachineryService {
     }
 
     public String createMachinery(ProductMachineryDto productMachineryDto) {
+
+        // if no product is bound
+        if (productMachineryDto.getProductId().trim().isEmpty()) {
+            return productMachineryRepository
+                .save(new ProductMachinery(productMachineryDto.getName(), MachineryState.UNASSIGNED,
+                    0, null)).getId();
+        }
+
+        // if product is bound
         Optional<Product> optionalProduct = productRepository
             .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
             ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(),
-                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()), productMachineryDto.getTimer(),
+                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()),
+                productMachineryDto.getTimer(),
                 optionalProduct.get());
-            productMachineryRepository.save(newMachinery);
-            return newMachinery.getId();
-        } else {
-            return "";
+            return productMachineryRepository.save(newMachinery).getId();
         }
+
+        // if product is invalid
+        return "";
     }
 
     public boolean updateMachineryStatus(String machineryId, String op) {
@@ -51,7 +61,8 @@ public class ProductMachineryService {
 
                 // if found, validate the transition using setStatus
                 if (definedOp.toString().equals(op.toUpperCase())) {
-                    if (optionalProductMachinery.get().setStatus(MachineryOp.getTransitionState(definedOp))) {
+                    if (optionalProductMachinery.get()
+                        .setStatus(MachineryOp.getTransitionState(definedOp))) {
                         productMachineryRepository.save(optionalProductMachinery.get());
                         return true;
                     }
