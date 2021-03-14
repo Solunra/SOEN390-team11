@@ -1,7 +1,7 @@
 const HomeComponent = () => {
     return (
         <div>
-            <h3>Welcome to Team 11's ERP Solution</h3>
+            <h3>Welcome to BicyclERP Solution</h3>
         </div>
     );
 }

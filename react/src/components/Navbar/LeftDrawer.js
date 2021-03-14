@@ -14,6 +14,7 @@ import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import GrainIcon from '@material-ui/icons/Grain';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 const useStyles = makeStyles({
     drawer: {
@@ -79,6 +80,13 @@ const LeftDrawer = props => {
                 icon: <GrainIcon />,
                 onClick: () =>{
                     handleClick("rawMaterial");
+                }
+            },
+            {
+                text: "Order",
+                icon: <BorderColorIcon />,
+                onClick: () =>{
+                    handleClick("order");
                 }
             },
             {
