@@ -3,6 +3,7 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.OrderDto;
+import com.soen390.team11.dto.OrderResponseDto;
 import com.soen390.team11.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class OrderController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllOrders()
     {
-        List<OrderDto> listOfOrders = ordersService.getAllOrders();
+        List<OrderResponseDto> listOfOrders = ordersService.getAllOrders();
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(listOfOrders), HttpStatus.OK);
         } catch (JsonProcessingException e) {

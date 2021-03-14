@@ -1,7 +1,8 @@
 import {Grid, makeStyles} from "@material-ui/core";
 import React, {useEffect, useState} from "react";
 import {OrderTable} from "./OrderTable";
-
+import request from 'superagent';
+import BuildPath from '../RequestBuilder'
 
 const useStyles = makeStyles(theme => ({
 
@@ -14,42 +15,40 @@ const useStyles = makeStyles(theme => ({
 }))
 const Order = ()=>{
     const [orderList, setOrderList] = useState([]);
-    const [re_render, setRe_render] = useState(false);
-    //create data to display in the order table without back-end
-    const data =[
-        { title: 'Vendor', field: 'vendorname' },
-        { title: 'Type', field: 'type' },
-        { title: 'Name', field: 'name' },
-        { title: 'Quantity', field: 'quantity'},
-        { title: 'Status', field: 'unit' },
-        {'vendorname':'vendor1', 'type':'raw material', 'name': 'handle', 'quantity':30},
-        {'vendorname':'vendor1', 'type':'raw material', 'name': 'handle', 'quantity':30},
-        {'vendorname':'vendor1', 'type':'raw material', 'name': 'handle', 'quantity':30},
-        {'vendorname':'vendor1', 'type':'raw material', 'name': 'handle', 'quantity':30},
+    const [loading, setLoading] = useState(true);
 
-    ]
+    // const data=[
+    //     // { title: 'Vendor', field: 'vendorname' },
+    //     //         { title: 'Type', field: 'type' },
+    //     //         { title: 'Type Name', field: 'name' },
+    //     //         { title: 'Quantity', field: 'quantity'},
+    //     //         { title: 'Status', field: 'unit' },
+    //     {'vendorname':'vendor1', 'type': 'raw material', 'name': 'handle ','quantity':30 },
+    //     {'vendorname':'vendor1', 'type': 'raw material', 'name': 'handle ','quantity':30 },
+    //     {'vendorname':'vendor1', 'type': 'raw material', 'name': 'handle ','quantity':30 },
+    //     {'vendorname':'vendor1', 'type': 'raw material', 'name': 'handle ','quantity':30 },
+    // ]
     const getOrder = () =>{
-        // request
-        //     .get(BuildPath("/rawmaterials/"))
-        //     .set('Authorization', localStorage.getItem("Authorization"))
-        //     .set('Accept', 'application/json')
-        //     .then(res => {
-        //         if (res.status === 200)
-        //         {
-        //             if(JSON.stringify(orderList) !== JSON.stringify(res.body)){
-        //                 setOrderList(res.body);
-        //             }
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+        request
+            .get(BuildPath("/orders/all"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if (res.status === 200)
+                {
+                    let temp = orderList;
+                    if(JSON.stringify(temp) !== JSON.stringify(res.body)){
+                        setOrderList(res.body);
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
     useEffect(() => {
-        //in case if re_rander pages have been modified, call it one more time.
-        //it will get order back.
         getOrder();
-    },[re_render]);
+    },[loading]);
     const classes = useStyles();
     return(
         <>
@@ -57,11 +56,9 @@ const Order = ()=>{
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <OrderTable
-                            rows={data}
-                            //reload pages when the system read the data
-                            re_render={re_render}
-                            setRe_render={setRe_render}
+                            rows={orderList}
                         />
+
                     </Grid>
                 </Grid>
             </div>

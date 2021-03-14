@@ -13,23 +13,23 @@ const OrderTable = (props) => {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
     const [errMessage, setErrMessage] = useState('');
+    console.log(rows);
     const columns = [
-
         { title: 'Vendor', field: 'vendorname' },
         { title: 'Type', field: 'type' },
-        { title: 'Name', field: 'name' },
+        { title: 'Type Name', field: 'rawname' },
         { title: 'Quantity', field: 'quantity'},
-        { title: 'Status', field: 'unit' },
+        { title: 'Status', field: 'status' },
     ];
-    const actions = [
-        {
-            icon: () => { return <EditIcon />;},
-            export: false,
-            onClick: (event, rowData) => {
-                handleEdit(rowData);
-            }
-        },
-    ];
+    // const actions = [
+    //     {
+    //         icon: () => { return <EditIcon />;},
+    //         export: false,
+    //         onClick: (event, rowData) => {
+    //             handleEdit(rowData);
+    //         }
+    //     },
+    // ];
     const handleClose = () => {
         setOpen(false);
     };
@@ -41,36 +41,16 @@ const OrderTable = (props) => {
         setData({});
         setOpen(true);
     }
-    const handleDelete = (row) =>{
-        // request
-        //     .delete(BuildPath("/rawmaterials/delete/"+row['rawmaterialid']))
-        //     .set('Authorization', localStorage.getItem("Authorization"))
-        //     .set('Accept', 'application/json')
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             setRe_render(!re_render);
-        //         }
-        //     })
-        //     .catch(err => {
-        //         setErrMessage(err.response.body['message']);
-        //     });
-    }
 
     return (
         <>
             <CustomTable
                 data={rows}
                 columns = {columns}
-                //handleDelete = {handleDelete}
-                handleEdit = {handleEdit}
-                //handleAdd = {handleAdd}
-                actions = {actions}
                 title = {`Order Table`}
             >
             </CustomTable>
-
         </>
     );
 }
-
 export {OrderTable};
