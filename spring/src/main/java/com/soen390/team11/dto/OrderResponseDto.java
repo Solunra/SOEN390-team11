@@ -30,39 +30,19 @@ public class OrderResponseDto {
         return vendorname;
     }
 
-    public void setVendorname(String vendorname) {
-        this.vendorname = vendorname;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getRawname() {
         return rawname;
     }
 
-    public void setRawname(String rawname) {
-        this.rawname = rawname;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
