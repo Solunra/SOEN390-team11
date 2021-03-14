@@ -87,7 +87,7 @@ public class PartMaterial {
      * 
      * @return the material_quantity of the instance
      */
-    public Integer getmaterial_quantity() {
+    public Integer getMaterial_quantity() {
         return material_quantity;
     }
 

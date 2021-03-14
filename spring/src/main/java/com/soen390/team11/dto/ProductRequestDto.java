@@ -9,17 +9,22 @@ public class ProductRequestDto {
     private String color;
     private String finish;
     private String grade;
+    private float cost;
+    private float price;
 
     public ProductRequestDto() {
     }
 
-    public ProductRequestDto(String name, String type, String size, String color, String finish, String grade) {
+    public ProductRequestDto(String name, String type, String size, String color, String finish, String grade,
+            float cost, float price) {
         this.name = name;
         this.type = type;
         this.size = size;
         this.color = color;
         this.finish = finish;
         this.grade = grade;
+        this.cost = cost;
+        this.price = price;
     }
 
     public String getName() {
@@ -69,8 +74,24 @@ public class ProductRequestDto {
     public void setGrade(String grade) {
         this.grade = grade;
     }
-    public Product getProduct(){
-        return new Product(name, type, size, color ,finish ,grade);
+
+    public float getCost() {
+        return cost;
     }
 
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public Product getProduct() {
+        return new Product(name, type, size, color, finish, grade, cost, price);
+    }
 }
