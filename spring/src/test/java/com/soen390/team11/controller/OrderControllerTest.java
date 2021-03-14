@@ -1,5 +1,7 @@
 package com.soen390.team11.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.constant.Type;
 import com.soen390.team11.dto.OrderDto;
 import com.soen390.team11.dto.RawMaterialRequestDto;
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,7 +65,13 @@ public class OrderControllerTest {
         vendorId = (String) responseEntity.getBody();
         responseEntity = rawMaterialController.defineRawMaterial(new RawMaterialRequestDto("Steel","description",12.22,"kg",vendorId));
         rawMaterialId = ((String) responseEntity.getBody()).replace("\"","");
-        sizeOfOrders = ((List) orderController.getAllOrders().getBody()).size();
+        ArrayList<?> rawMaterialList = null;
+        try {
+            rawMaterialList = new ObjectMapper().readValue(orderController.getAllOrders().getBody().toString(), ArrayList.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        sizeOfOrders = rawMaterialList.size();
         time = OffsetDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         orderDto = new OrderDto(vendorId, rawMaterialId,1, time);
     }
@@ -73,13 +82,14 @@ public class OrderControllerTest {
     {
         ResponseEntity responseEntity = orderController.createOrder(orderDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        orderId = (String) responseEntity.getBody();
+        orderId = ((String) responseEntity.getBody()).replace("\"","");;
     }
 
     @Test
     @Order(2)
     public void testGetOrderById()
     {
+        System.out.println(orderId);
         ResponseEntity responseEntity = orderController.getOrderById(orderId);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -89,8 +99,14 @@ public class OrderControllerTest {
     public void testGetAllOrders()
     {
         ResponseEntity responseEntity = orderController.getAllOrders();
+        ArrayList<?> orderDTOList = null;
+        try {
+            orderDTOList = new ObjectMapper().readValue(responseEntity.getBody().toString(), ArrayList.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(sizeOfOrders + 1, ((List<OrderDto>) responseEntity.getBody()).size());
+        assertEquals(sizeOfOrders + 1, orderDTOList.size());
     }
 
     @Test
