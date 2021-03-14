@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,12 +24,10 @@ import com.soen390.team11.repository.ProductRepository;
 import com.soen390.team11.service.ProductMachineryService;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
@@ -62,13 +61,13 @@ public class ProductMachineryControllerTest {
     private ProductMachineryService productMachineryService;
 
     private final Map<String, ProductMachinery> machineryMap = new HashMap<>();
-    private final List<Product> productList = new LinkedList<>();
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         Product dummyProduct = new Product();
         when(productRepository.findById(Mockito.anyString())).thenReturn(
             java.util.Optional.of(dummyProduct));
+
         ProductMachinery dummyMachinery = new ProductMachinery("xyz machine", MachineryState.READY, 450,
             null);
         when(productMachineryRepository.save(Mockito.any())).thenReturn(dummyMachinery);
@@ -110,7 +109,7 @@ public class ProductMachineryControllerTest {
     public void createProductMachineryWithExistingProduct_Success() throws Exception {
 
         ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine",
-            "running", 50, "dummy-productid");
+            "running", 50, "prod-randomid");
 
         MvcResult mvcResult = mockMvc.perform(put("/machinery")
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
@@ -126,14 +125,10 @@ public class ProductMachineryControllerTest {
 
     @Test
     public void ChangeMachineryStatusFromReadyToRunning_Success() throws Exception {
-        String machineName = "dummy_machinery";
-        machineryMap
-            .put(machineName, new ProductMachinery("abc machine", MachineryState.READY, 100, null));
-
         String machineryId = "prodmac-randomid";
 
         when(productMachineryRepository.findById(machineryId)).thenReturn(java.util.Optional
-            .of(machineryMap.get(machineName)));
+            .of(new ProductMachinery("abc machine", MachineryState.READY, 100, null)));
 
         mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
@@ -144,14 +139,10 @@ public class ProductMachineryControllerTest {
 
     @Test
     public void ChangeMachineryStatusFromUnassignedToRunning_Fail() throws Exception {
-        String machineName = "dummy_machinery";
-        machineryMap.put(machineName,
-            new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null));
-
         String machineryId = "prodmac-randomid";
 
         when(productMachineryRepository.findById(machineryId)).thenReturn(java.util.Optional
-            .of(machineryMap.get(machineName)));
+            .of(new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null)));
 
         mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
