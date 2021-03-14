@@ -154,6 +154,27 @@ public class ProductMachineryControllerTest {
             productMachineryRepository.findById(machineryId).get().getStatus());
     }
 
+
+    @Test
+    public void associateProductToMachineryWhenThereIsAnUnassignedMachine_Success() throws Exception {
+        String machineryId = "prodmac-randomid";
+        String productId = "prod-randomid";
+
+        when(productMachineryRepository.findById(anyString())).thenReturn(java.util.Optional
+            .of(new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null)));
+        when(productRepository.findById(anyString())).thenReturn(java.util.Optional
+            .of(new Product("random_product_name", "", "", "", "", "")));
+
+        mockMvc.perform(post(String.format("/machinery/product/%s", productId))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+
+        assertEquals("random_product_name",
+            productMachineryRepository.findById(machineryId).get().getProduct().getName());
+    }
+
     private String obtainAccessToken() throws Exception {
 
         String content = "{\"username\": \"admin@erp.com\", \"password\": \"admin\"}";
