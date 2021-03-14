@@ -72,4 +72,14 @@ public class ProductMachineryService {
         }
         return false;
     }
+
+    public String findAvailableMachinery() {
+        Iterable<ProductMachinery> machineries = productMachineryRepository.findAll();
+        for (ProductMachinery machinery : machineries) {
+            if (machinery.getStatus().equals(MachineryState.UNASSIGNED)) {
+                return machinery.getId();
+            }
+        }
+        return "";
+    }
 }
