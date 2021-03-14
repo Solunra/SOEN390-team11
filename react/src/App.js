@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import {Inventory} from './components/Inventory';
 import {RawMaterial} from "./components/RawMaterial";
 import './App.css';
+import {Order} from "./components/Order";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -57,6 +58,7 @@ function App() {
                   <Route path = "/admin/production" component={Production}/>
                   <Route path = "/admin/inventory" component={Inventory}/>
                   <Route path = "/admin/rawMaterial" component={RawMaterial}/>
+                  <Route path = "/admin/order" component={Order}/>
 
               </div>
           </HashRouter>
