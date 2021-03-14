@@ -32,12 +32,12 @@ public class ProductMachineryController {
 
     @PostMapping("/{machineryId}/{op}")
     public ResponseEntity<?> updateMachineryStatus(@PathVariable String machineryId, @PathVariable String op) {
-
+        String result = productMachineryService.updateMachineryStatus(machineryId, op);
         // try to find the machinery and update its machinery status
-        if (productMachineryService.updateMachineryStatus(machineryId, op))
-            return ResponseEntity.ok("Success");
+        if (result != null && result.equals("Success"))
+            return ResponseEntity.ok(result);
 
-        return ResponseEntity.badRequest().body("Operation not supported");
+        return ResponseEntity.badRequest().body(result);
     }
 
 }

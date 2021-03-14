@@ -50,7 +50,7 @@ public class ProductMachineryService {
         return "";
     }
 
-    public boolean updateMachineryStatus(String machineryId, String op) {
+    public String updateMachineryStatus(String machineryId, String op) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);
 
@@ -64,13 +64,16 @@ public class ProductMachineryService {
                     if (optionalProductMachinery.get()
                         .setStatus(MachineryOp.getTransitionState(definedOp))) {
                         productMachineryRepository.save(optionalProductMachinery.get());
-                        return true;
+                        return "Success";
                     }
-                    return false;
+                    return "State transition is invalid";
                 }
             }
+
+            return "Operation is not supported";
+        } else {
+            return "Machinery does not exist";
         }
-        return false;
     }
 
     public String findAvailableMachinery() {
