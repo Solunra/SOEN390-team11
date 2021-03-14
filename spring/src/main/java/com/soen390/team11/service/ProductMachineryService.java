@@ -1,5 +1,7 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.MachineryOp;
+import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class ProductMachineryService {
+
     @Autowired
     ProductMachineryRepository productMachineryRepository;
 
@@ -24,15 +27,38 @@ public class ProductMachineryService {
     }
 
     public String createMachinery(ProductMachineryDto productMachineryDto) {
-        Optional<Product> optionalProduct = productRepository.findById(productMachineryDto.getProductId());
+        Optional<Product> optionalProduct = productRepository
+            .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
-            ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(), productMachineryDto.getStatus(), productMachineryDto.getTimer(), optionalProduct.get());
+            ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(),
+                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()), productMachineryDto.getTimer(),
+                optionalProduct.get());
             productMachineryRepository.save(newMachinery);
             return newMachinery.getId();
-        }
-        else
-        {
+        } else {
             return "";
         }
+    }
+
+    public boolean updateMachineryStatus(String machineryId, String op) {
+        Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
+            .findById(machineryId);
+
+        if (optionalProductMachinery.isPresent()) {
+
+            // search for the requested operation in the defined operation enum class
+            for (MachineryOp definedOp : MachineryOp.values()) {
+
+                // if found, validate the transition using setStatus
+                if (definedOp.toString().equals(op.toUpperCase())) {
+                    if (optionalProductMachinery.get().setStatus(MachineryOp.getTransitionState(definedOp))) {
+                        productMachineryRepository.save(optionalProductMachinery.get());
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }

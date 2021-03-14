@@ -1,5 +1,6 @@
 package com.soen390.team11.entity;
 
+import com.soen390.team11.constant.MachineryState;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ public class ProductMachinery {
     private String name;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private MachineryState status;
 
     @Column(nullable = false)
     private int timer;
@@ -27,7 +29,7 @@ public class ProductMachinery {
     public ProductMachinery() {
     }
 
-    public ProductMachinery(String name, String status, int timer, Product product) {
+    public ProductMachinery(String name, MachineryState status, int timer, Product product) {
         this.name = name;
         this.status = status;
         this.timer = timer;
@@ -46,12 +48,16 @@ public class ProductMachinery {
         this.name = name;
     }
 
-    public String getStatus() {
+    public MachineryState getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public boolean setStatus(MachineryState status) {
+        if (MachineryState.validateStateTransition(this.status, status)) {
+            this.status = status;
+            return true;
+        }
+        return false;
     }
 
     public int getTimer() {
