@@ -114,9 +114,7 @@ public class ProductMachineryService {
                 return "Machine is unavailable";
             }
         } else {
-            if (optionalProductMachinery.isPresent()) return "PRODUCT!";
-            else return "MACHINE!";
-//            return "Either machinery or product does not exist";
+            return "Either machinery or product does not exist";
         }
     }
 }
