@@ -1,0 +1,16 @@
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('alloy', 'Alloy', 0.05);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('steel', 'Steel', 0.05);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('paint', 'Paint', 0.3);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('rubber', 'Rubber', 0.1);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('nylon', 'Nylon Mesh', 2.5);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('brake1', 'Long Brake', 5.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('brake2', 'Short Brake', 4.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('derailleur1', '3*6 Derailleur', 20.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('derailleur2', '2*4 Derailleur', 15.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('hub1', 'Mountain Bike Hub', 3.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('hub2', 'Road Bike Hub', 2.5);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('shockAbs1', 'Mountain Bike Shock Absorber', 10.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('shockAbs2', 'Road Bike Shock Absorber', 8.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('valve', 'Valve', 4.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('pedal', 'Pedal', 3.0);
+INSERT INTO rawmaterial (rawmaterialid, name, cost) VALUES('crankarm', 'Crank Arm', 2.5);
