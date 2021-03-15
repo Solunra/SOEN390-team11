@@ -164,4 +164,18 @@ public class ProductRequestDto {
     public Product getProduct() {
         return new Product(name, type, size, color, finish, grade, cost, price);
     }
+
+    @Override
+    public String toString() {
+        return "ProductRequestDto{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
+                ", finish='" + finish + '\'' +
+                ", grade='" + grade + '\'' +
+                ", cost=" + cost +
+                ", price=" + price +
+                '}';
+    }
 }
