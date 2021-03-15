@@ -35,7 +35,7 @@ const RawMaterialForm = (props) =>{
     const [vendorList, setVendorList] = useState([]);
     const [price, setPrice] = useState(0);
     const [unit, setUnit] = useState('');
-    const unitList = ["None","Ton","L","kg"];
+    const unitList = ["None","Ton","L","kg","Piece"];
     const classes = useStyles();
     const getVendorList = () =>{
         request
@@ -106,7 +106,7 @@ const RawMaterialForm = (props) =>{
                     {
                         "name":name,
                         "description":description,
-                        "price":price,
+                        "cost":price,
                         "unit":unit,
                         "vendorID":vendorID,
                     }
@@ -134,7 +134,7 @@ const RawMaterialForm = (props) =>{
                 {
                     "name":!name?rowData['name']:name,
                     "description":!description?rowData['description']:description,
-                    "price":!price?rowData['price']:price,
+                    "cost":!price?rowData['cost']:price,
                     "unit":!unit?rowData['unit']:unit,
                     "vendorID":!vendorID?rowData['vendorID']:vendorID,
                 }
@@ -194,7 +194,7 @@ const RawMaterialForm = (props) =>{
                     type="number"
                     autoFocus
                     margin="dense"
-                    defaultValue={rowData['price']}
+                    defaultValue={rowData['cost']}
                     onChange = {e => setPrice(e.target.value)}
                     label="price"
                     variant="outlined"

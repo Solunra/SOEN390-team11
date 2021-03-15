@@ -5,5 +5,5 @@ CREATE TABLE material_rawmaterials(
     CONSTRAINT FK_Material FOREIGN KEY(materialid)
                 REFERENCES material(materialid),
     CONSTRAINT FK_RawMaterial FOREIGN KEY(rawmaterialid)
-            REFERENCES rawmaterial(rawmaterialid)
+            REFERENCES rawmaterial(rawmaterialid) on delete cascade
 );

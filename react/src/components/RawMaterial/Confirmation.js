@@ -80,7 +80,7 @@ const Confirmation =(props)=> {
                     disabled
                     margin="dense"
                     variant="outlined"
-                    defaultValue={orderData['price']*quantity}
+                    defaultValue={orderData['cost']*quantity}
                 />
         </Grid>
         </>

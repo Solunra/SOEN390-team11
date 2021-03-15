@@ -162,7 +162,7 @@ public class ProductMachineryControllerTest {
         when(productMachineryRepository.findById(anyString())).thenReturn(java.util.Optional
             .of(new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null)));
         when(productRepository.findById(anyString())).thenReturn(java.util.Optional
-            .of(new Product("random_product_name", "", "", "", "", "")));
+            .of(new Product("random_product_name", "", "", "", "", "",0,0)));
 
         mockMvc.perform(post(String.format("/machinery/product/%s", productId))
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())

@@ -47,12 +47,12 @@ public class ProductInventoryControllerTest {
 
     @BeforeAll
     public  void setup(){
-        Product product1 = new Product("bike1","mountain","medium","black","matte","A");
-        Product product2 = new Product("bike2","road","large","red","matte","A");
+        Product product1 = new Product("bike1","mountain","medium","black","matte","A",0,0);
+        Product product2 = new Product("bike2","road","large","red","matte","A",0,0);
         productList.add(productRepository.save(product1));
         productList.add(productRepository.save(product2));
-        Part part1 = new Part("part1");
-        Part part2 = new Part("part2");
+        Part part1 = new Part("part1","part1");
+        Part part2 = new Part("part2","part2");
         partList.add(partRepository.save(part1));
         partList.add(partRepository.save(part2));
         ProductPartsId productPartsId1 = new ProductPartsId(partList.get(0).getPartid(),productList.get(0).getProductid());
