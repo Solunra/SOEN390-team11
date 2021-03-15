@@ -6,11 +6,7 @@ import javax.persistence.Entity;
 /**
  * Database Entity for Product's Parts
  */
-<<<<<<< HEAD
-@Entity(name = "product_parts")
-=======
 @Entity(name="product_parts")
->>>>>>> 7e2c3eb34977b167a1437d34839044030bdd5b75
 public class ProductParts {
 
     @EmbeddedId
