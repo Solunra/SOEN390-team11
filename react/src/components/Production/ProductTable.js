@@ -55,6 +55,7 @@ const ProductTable = (props) => {
             export: false,
             onClick: (event, rowData) => {
                 alert("Start product");
+                handleStart(rowData);
             }
         }
     ];
@@ -83,17 +84,13 @@ const ProductTable = (props) => {
                 }, 45000);
             });
     }
-    const handleStart=()=>{
+    const handleStart=(row)=>{
         request
-            .put(BuildPath("/machinery/start"))
+            .post(BuildPath("/machinery/product/"+row['productid']))
             .set('Authorization', localStorage.getItem("Authorization"))
             .set('Accept', 'application/json')
-            .send(
-                {
-
-                }
-            )
             .then(res => {
+                console.log("start production machine");
                 if (res.status === 200) {
                     setRe_render(!re_render);
                 }
