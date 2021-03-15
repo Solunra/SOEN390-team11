@@ -17,13 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller for Orders
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
     ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     public OrdersService ordersService;
 
+    /**
+     * Gets all orders
+     *
+     * @return A list of all orders
+     */
     @GetMapping("/all")
     public ResponseEntity<?> getAllOrders()
     {
@@ -35,6 +45,12 @@ public class OrderController {
         }
     }
 
+    /**
+     * Creates a new order
+     *
+     * @param orderDto The request body
+     * @return The ID of the new order
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderDto orderDto)
     {
@@ -46,6 +62,12 @@ public class OrderController {
         }
     }
 
+    /**
+     * Obtain an order
+     *
+     * @param oid The order's ID
+     * @return The order
+     */
     @GetMapping("/{oid}")
     public ResponseEntity<?> getOrderById(@PathVariable String oid)
     {

@@ -11,11 +11,13 @@ import com.soen390.team11.repository.VendorSaleRepository;
 import com.soen390.team11.repository.VendorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service Layer for Raw Material
+ */
 @Service
 public class RawMaterialService {
 
@@ -26,9 +28,11 @@ public class RawMaterialService {
     @Autowired
     VendorSaleRepository vendorSaleRepository;
 
-
-
-
+    /**
+     * Gets all Raw Materials
+     *
+     * @return List of Raw Materials
+     */
     public List<RawMaterialRequestDto> getAllRawMaterial() {
         List<RawMaterialRequestDto> rawMaterialRequestDtos = new ArrayList<>();
         Iterable<RawMaterial> rawMaterials = rawmaterialRepository.findAll();
@@ -38,7 +42,12 @@ public class RawMaterialService {
         return rawMaterialRequestDtos;
     }
 
-
+    /**
+     * Gets a Raw Material by its ID
+     *
+     * @param id Raw Material's ID
+     * @return Object with the necessary Raw Material's Information
+     */
     public RawMaterialRequestDto getRawMaterialById(String id) {
         try {
             RawMaterial rawmaterial= rawmaterialRepository.findById(id).get();
@@ -59,6 +68,13 @@ public class RawMaterialService {
         }
     }
 
+    /**
+     * Creates a new Raw Material
+     *
+     * @param rawMaterialRequestDto The Raw Material's Details
+     * @return The new Raw Material's ID
+     * @throws Exception Thrown if the vendor for the raw material does not exist
+     */
     public String createNewRawMaterial(RawMaterialRequestDto rawMaterialRequestDto) throws Exception {
 
         if(!vendorsRepository.existsById(rawMaterialRequestDto.getVendorID())){
@@ -79,6 +95,14 @@ public class RawMaterialService {
         return rawMaterialidID;
     }
 
+    /**
+     * Update an existing raw material
+     *
+     * @param rid The raw material's ID
+     * @param rawMaterialRequestDto The Raw Material's updated information
+     * @return The raw material's ID
+     * @throws Exception Thrown if the ID does not exist or the vendor no longer exists
+     */
     public String updateRawMaterial(String rid, RawMaterialRequestDto rawMaterialRequestDto) throws Exception {
         if(!rawmaterialRepository.existsById(rid)){
             throw new Exception("Raw material not found");
@@ -88,7 +112,7 @@ public class RawMaterialService {
             throw new Exception("Vendor does not exist");
         }
 
-        Optional<VendorSale> vendorSale = vendorSaleRepository.findById( new VendorSaleId(rawMaterialRequestDto.getVendorID(),rid));
+        Optional<VendorSale> vendorSale = vendorSaleRepository.findById(new VendorSaleId(rawMaterialRequestDto.getVendorID(),rid));
         if(!vendorSale.isPresent()){
             Optional<VendorSale> oldVendor = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
             if(!oldVendor.isPresent()){
@@ -113,6 +137,13 @@ public class RawMaterialService {
 
     }
 
+    /**
+     * Delete Raw Materials
+     *
+     * @param rid The Raw Material's ID
+     * @return Success message
+     * @throws Exception Thrown if the raw material does not exist
+     */
     public String deleteRawMaterial(String rid) throws Exception {
         Optional<RawMaterial> rawMaterial = rawmaterialRepository.findById(rid);
         if(!rawMaterial.isPresent()){

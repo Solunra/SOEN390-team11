@@ -9,10 +9,12 @@ import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service Layer for Product Machinery
+ */
 @Service
 public class ProductMachineryService {
 
@@ -22,10 +24,21 @@ public class ProductMachineryService {
     @Autowired
     ProductRepository productRepository;
 
+    /**
+     * Gets all the product machinery
+     *
+     * @return List of Product Machinery
+     */
     public List<ProductMachinery> getAllMachineries() {
         return (List<ProductMachinery>) productMachineryRepository.findAll();
     }
 
+    /**
+     * Create a new Product Machinery
+     *
+     * @param productMachineryDto The Machine's details
+     * @return New Product Machinery's ID
+     */
     public String createMachinery(ProductMachineryDto productMachineryDto) {
         Optional<Product> optionalProduct = productRepository
             .findById(productMachineryDto.getProductId());
@@ -40,6 +53,13 @@ public class ProductMachineryService {
         }
     }
 
+    /**
+     * Updates the product machinery's status
+     *
+     * @param machineryId The Product Machinery ID to be updated
+     * @param op The Operation done on it
+     * @return True if the status change was successful
+     */
     public boolean updateMachineryStatus(String machineryId, String op) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);

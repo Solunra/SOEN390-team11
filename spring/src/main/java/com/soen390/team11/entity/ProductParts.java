@@ -3,6 +3,9 @@ package com.soen390.team11.entity;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+/**
+ * Database Entity for Product's Parts
+ */
 @Entity(name="product_parts")
 public class ProductParts {
 

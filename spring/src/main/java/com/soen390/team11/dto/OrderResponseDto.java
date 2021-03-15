@@ -1,8 +1,10 @@
 package com.soen390.team11.dto;
 
-import javax.persistence.EnumType;
 import java.time.OffsetDateTime;
 
+/**
+ * Response body for Order
+ */
 public class OrderResponseDto {
     private String vendorname;
     private String type;

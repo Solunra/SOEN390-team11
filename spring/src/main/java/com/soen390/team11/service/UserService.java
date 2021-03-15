@@ -12,12 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 
+/**
+ * Service Layer for Users
+ */
 @Service
 public class UserService implements UserDetailsService {
-
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -25,6 +26,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserAccountRepository userAccountRepository;
 
+    /**
+     * Creates a new user
+     *
+     * @param userSignUpRequestDto User information
+     */
     public void createUser(UserSignUpRequestDto userSignUpRequestDto){
         UserAccount userAccount=  new UserAccount(userSignUpRequestDto.getUsername(),
                 bCryptPasswordEncoder.encode(userSignUpRequestDto.getPassword()),
@@ -47,7 +53,6 @@ public class UserService implements UserDetailsService {
             System.out.println(e);
         }
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

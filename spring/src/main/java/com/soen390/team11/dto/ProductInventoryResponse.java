@@ -1,7 +1,9 @@
 package com.soen390.team11.dto;
 
 
-
+/**
+ * Response body for Product Inventory
+ */
 public class ProductInventoryResponse {
     private String prodinvid;
     private String location;
