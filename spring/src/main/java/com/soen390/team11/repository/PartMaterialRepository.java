@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PartMaterialRepository extends CrudRepository<PartMaterial, String> {
-    List<PartMaterial> findAllByPartId(String partId);
+    List<PartMaterial> findAllByPart_id(String part_id);
 }
