@@ -1,25 +1,42 @@
-import {PlayCircleFilled, PauseCircleFilled} from '@material-ui/icons';
-import React, {useState} from 'react';
+import {PlayCircleFilled, PauseCircleFilled,CancelOutlined} from '@material-ui/icons';
+import React, {useEffect, useState} from 'react';
 import {CustomTable} from "../Utils/CustomTable";
+import request from "superagent";
+import BuildPath from "../RequestBuilder";
+import {Grid} from "@material-ui/core";
 
 // Return a machine table that will display the characteristics of a machine (ID, name, product)
 const MachineryTable = (props) => {
-    const {rows} = props;
     const [data, setData] = useState({});
-    
-    
-   /* const rowData = [
-        {"machineid":1,"name":"","productName": "product name"},
-        {"machineid":2,"name":"machine name","productName": "product name"},
-        {"machineid":3,"name":"machine name","productName": "product name"},
-        {"machineid":4,"name":"machine name","productName": "product name"},
-        {"machineid":5,"name":"machine name","productName": "product name"},
-    ];*/
+    const [machineryList, setMachineryList] = useState([]);
+    const [re_render, setRe_render] = useState(true);
+    const [error,setError]=useState('');
+    const getMachinery = () =>{
+        request
+            .get(BuildPath("/machinery/"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if (res.status === 200)
+                {
+                    if(JSON.stringify(machineryList) !== JSON.stringify(res.body)){
+                        setMachineryList(res.body);
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+    useEffect(() => {
+        getMachinery();
+    },[re_render]);
+
 
     const columns = [
-        {title: 'Machine id', field: "machineid"},
-        {title: 'Name', field: "name"},
-        {title: 'Product Name', field: "productName"}
+        {title: 'Machine Name', field: "name"},
+        {title: 'Status', field: "status"},
+        {title: 'Product name', field: "productname"}
     ];
 
     const actions = [
@@ -27,47 +44,93 @@ const MachineryTable = (props) => {
             icon: () => {return <PlayCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
-                alert("Start");
+                console.log(rowData);
+                handleStart(rowData);
             }
         },
-
         {
             icon: () => {return <PauseCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
-                alert("Pause"); 
+                handlePause(rowData);
+                console.log(rowData);
+            }
         }
-
+        ,
+        {
+            icon: () => {
+                return <CancelOutlined/>
+            },
+            export: false,
+            onClick: (event, rowData) => {
+                handleCancel(rowData);
+                console.log(rowData);
+            }
         }
     ];
-
-    const handleEdit = (row) =>{ 
-        setData(row);
-        console.log(row);
+    const handleStart=(row)=>{
+        request
+            .post(BuildPath("/machinery/"+row['macId']+"/START"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if(res.status ===200){
+                    setRe_render(!re_render);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                handleError("operation start not success");
+            });
     }
-
-    const handleDelete = (row) => {
-        alert(row)
+    const handlePause=(row)=> {
+        request
+            .post(BuildPath("/machinery/"+row['macId']+"/PAUSE"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if(res.status ===200){
+                    setRe_render(!re_render);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                handleError("operation pause not success");
+            });
+    };
+    const handleCancel =(row)=>{
+        request
+            .post(BuildPath("/machinery/"+row['macId']+"/CANCEL"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .then(res => {
+                if(res.status ===200){
+                    setRe_render(!re_render);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                handleError("operation cancel not success");
+            });
+    };
+    const handleError=(err)=>{
+        setError(err)
+        setTimeout(()=>{
+            setError("")
+        }, 3000);
     }
-
-    const handleAdd = () =>{
-        setData({});
-    }
-
     return (
         <>
-
             <CustomTable
-                data={rows}
-                columns = {columns}
-                handleEdit = {handleEdit}
-                handleAdd ={handleAdd}
-                handleDelete = {handleDelete}
-                actions = {actions}
-                title = {"Machinery Table"}
+                data={machineryList}
+                columns={columns}
+                actions={actions}
+                title = {`Machinery Table`}
             >
             </CustomTable>
-
+            <Grid item xs={12}>
+                <div style={ {color: 'red' }}>{error}</div>
+            </Grid>
     </>
     
     );

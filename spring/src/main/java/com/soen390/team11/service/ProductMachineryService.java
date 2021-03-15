@@ -9,6 +9,8 @@ import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,25 @@ public class ProductMachineryService {
     public List<ProductMachinery> getAllMachineries() {
         return (List<ProductMachinery>) productMachineryRepository.findAll();
     }
+    public List<ProductMachineryDto> getAllMachineriesWithDto() {
+        List<ProductMachineryDto> productMachineryDtoList = new ArrayList<>();
+        Iterable<ProductMachinery> productMachineries= productMachineryRepository.findAll();
+        ProductMachineryDto productMachineryDto=null;
+        for(ProductMachinery pm: productMachineries){
+            if(pm.getProduct() == null){
+                productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),pm.getTimer(),
+                        "empty","empty");
+            }
+            else{
+                productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),pm.getTimer(),
+                        pm.getProduct().getProductid(),pm.getProduct().getName());
+            }
+            productMachineryDtoList.add(productMachineryDto);
+
+        }
+        return productMachineryDtoList;
+    }
+
 
     /**
      * Create a new Product Machinery

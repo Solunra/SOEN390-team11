@@ -7,13 +7,7 @@ import com.soen390.team11.service.ProductMachineryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for the product machinery
@@ -32,10 +26,10 @@ public class ProductMachineryController {
      *
      * @return List of all product machinery
      */
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<?> retrieveAllMachineries() {
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(productMachineryService.getAllMachineries()), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(productMachineryService.getAllMachineriesWithDto()), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
@@ -88,7 +82,7 @@ public class ProductMachineryController {
      */
     @PostMapping("/product/{productId}")
     public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
-
+        System.out.println("attemp product");
         try {
             // try to find an unassigned machinery and occupy it
             String result = productMachineryService.occupyMachinery(
