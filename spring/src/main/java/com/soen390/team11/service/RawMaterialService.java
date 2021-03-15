@@ -149,11 +149,11 @@ public class RawMaterialService {
         if(!rawMaterial.isPresent()){
             throw new Exception("Raw material was not found");
         }
+        rawmaterialRepository.delete(rawMaterial.get());
         Optional<VendorSale> vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
         if(vendorSale.isPresent()){
             vendorSaleRepository.delete(vendorSale.get());
         }
-        rawmaterialRepository.delete(rawMaterial.get());
         return "Delete Successful";
     }
 

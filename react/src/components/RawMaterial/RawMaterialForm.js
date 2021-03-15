@@ -134,7 +134,7 @@ const RawMaterialForm = (props) =>{
                 {
                     "name":!name?rowData['name']:name,
                     "description":!description?rowData['description']:description,
-                    "price":!price?rowData['price']:price,
+                    "cost":!price?rowData['cost']:price,
                     "unit":!unit?rowData['unit']:unit,
                     "vendorID":!vendorID?rowData['vendorID']:vendorID,
                 }
@@ -194,7 +194,7 @@ const RawMaterialForm = (props) =>{
                     type="number"
                     autoFocus
                     margin="dense"
-                    defaultValue={rowData['price']}
+                    defaultValue={rowData['cost']}
                     onChange = {e => setPrice(e.target.value)}
                     label="price"
                     variant="outlined"

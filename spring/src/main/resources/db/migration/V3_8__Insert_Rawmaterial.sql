@@ -1,4 +1,4 @@
-INSERT INTO rawmaterial (rawmaterialid, name,description, cost,unit) VALUES('alloy', 'Alloy','Alloy', 0.05 , 'Kg');
+INSERT INTO rawmaterial (rawmaterialid, name, description, cost,unit) VALUES('alloy', 'Alloy','Alloy', 0.05 , 'Kg');
 INSERT INTO rawmaterial (rawmaterialid, name, description, cost,unit) VALUES('steel', 'Steel','Steel', 0.05,'Kg');
 INSERT INTO rawmaterial (rawmaterialid, name, description, cost,unit) VALUES('paint', 'Paint','Paint', 0.3,'L');
 INSERT INTO rawmaterial (rawmaterialid, name, description, cost,unit) VALUES('rubber', 'Rubber', 'Rubber',0.1,'Kg');
