@@ -18,6 +18,8 @@ const ProductTable = (props) => {
         { title: 'Color', field: 'color'},
         { title: 'Finish', field: 'finish' },
         { title: 'Grade', field: 'grade'},
+        { title: 'Cost', field: 'cost'},
+        { title: 'Price', field: 'price'},
     ];
     const actions = [
         {
