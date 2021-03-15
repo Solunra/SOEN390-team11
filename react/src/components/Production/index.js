@@ -3,12 +3,10 @@ import request from 'superagent';
 import BuildPath from '../RequestBuilder';
 import {ProductTable} from "./ProductTable";
 import {ProductForm} from "./ProductForm";
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import {Grid, makeStyles} from "@material-ui/core";
 import {PartTable} from "./PartTable";
 import {MaterialTable} from "./MaterialTable";
-import {AlertErr} from "./AlertErr";
+import {AlertErr} from "../Utils/AlertErr";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -33,16 +31,14 @@ const Production = ()=>
     const [part, setPart] = useState([]);
     const [partMaterial, setPartMaterial] = useState([]);
     const [errMessage, setErrMessage] = useState('');
+    const [productPartTitle, setProductPartTitle] = useState('');
+    const [partMaterialTitle, setPartMaterialTitle] = useState('');
     const classes = useStyles();
-    const HandleAddProduct = ()=>{
-        setOpen(true);
-    }
-    const [open, setOpen] = React.useState(false);
-
+    const [open, setOpen] =useState(false);
     const handleClose = () => {
         setOpen(false);
-
     };
+
     const getProducts = () =>{
         request
             .get(BuildPath("/product/"))
@@ -112,11 +108,6 @@ const Production = ()=>
             <div className={classes.rootGrid}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} className={classes.container}>
-                        <IconButton onClick={()=>HandleAddProduct()}>
-                            <AddCircleRoundedIcon/>
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={12}>
                         <ProductTable
                             rows={productList}
                             setOpen={setOpen}
@@ -125,13 +116,25 @@ const Production = ()=>
                             setData={setData}
                             setErrMessage={setErrMessage}
                             setPartTable={setPartTable}
+                            setProductPartTitle={setProductPartTitle}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        {partTable && <PartTable setPartTable={setPartTable} setMaterialTable={setMaterialTable} getPartMaterial={getPartMaterial} rows={part}/>}
+                        {partTable && <PartTable
+                            setPartTable={setPartTable}
+                            setMaterialTable={setMaterialTable}
+                            getPartMaterial={getPartMaterial}
+                            rows={part}
+                            setPartMaterialTitle={setPartMaterialTitle}
+                            productPartTitle={productPartTitle}
+                        />}
                     </Grid>
                     <Grid item xs={12}>
-                        {materialTable && <MaterialTable rows={partMaterial} setMaterialTable={setMaterialTable}/>}
+                        {materialTable && <MaterialTable
+                            rows={partMaterial}
+                            setMaterialTable={setMaterialTable}
+                            partMaterialTitle={partMaterialTitle}
+                        />}
                     </Grid>
                     <Grid item xs={12}>
                         {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}

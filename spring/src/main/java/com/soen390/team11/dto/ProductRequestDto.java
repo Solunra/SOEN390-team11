@@ -2,6 +2,9 @@ package com.soen390.team11.dto;
 
 import com.soen390.team11.entity.Product;
 
+/**
+ * Product Request Body
+ */
 public class ProductRequestDto {
     private String name;
     private String type;

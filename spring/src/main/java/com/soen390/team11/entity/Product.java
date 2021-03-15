@@ -1,8 +1,14 @@
 package com.soen390.team11.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+/**
+ * Database Entity for Product
+ */
 @Entity(name = "product")
 public class Product {
 

@@ -1,23 +1,34 @@
 package com.soen390.team11.dto;
 
-import com.soen390.team11.entity.Material;
 import com.soen390.team11.entity.RawMaterial;
 
-import java.util.List;
-
+/**
+ * Raw Material Request Body
+ */
 public class RawMaterialRequestDto {
     private String name;
     private String rawmaterialid;
-    private float cost;
+    private String description;
+    private double price;
+    private String unit;
+    private String vendorID;
+    private String companyname;
 
     public RawMaterialRequestDto() {
 
     }
 
-    public RawMaterialRequestDto(String name, String rawmaterialid, float cost) {
+    public RawMaterialRequestDto(String name, String rawmaterialid) {
         this.name = name;
         this.rawmaterialid = rawmaterialid;
-        this.cost = cost;
+    }
+
+    public RawMaterialRequestDto(String name, String description, double price, String unit, String vendorID) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.unit = unit;
+        this.vendorID = vendorID;
     }
 
     public String getname() {
@@ -36,15 +47,48 @@ public class RawMaterialRequestDto {
         this.rawmaterialid = rawmaterialid;
     }
 
-    public float getCost() {
-        return cost;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCost(float cost) {
-        this.cost = cost;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getVendorID() {
+        return vendorID;
+    }
+
+    public void setVendorID(String vendorID) {
+        this.vendorID = vendorID;
     }
 
     public RawMaterial getMaterial() {
-        return new RawMaterial(rawmaterialid, name, cost);
+        return new RawMaterial(rawmaterialid, name);
     }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
 }

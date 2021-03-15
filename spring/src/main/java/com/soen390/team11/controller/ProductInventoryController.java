@@ -8,8 +8,18 @@ import com.soen390.team11.service.ProductInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for the product's inventory
+ */
 @RestController
 @RequestMapping("/inventory/products")
 public class ProductInventoryController {
@@ -22,6 +32,11 @@ public class ProductInventoryController {
     @Autowired
     PartService partService;
 
+    /**
+     * Gets all products in the inventory
+     *
+     * @return List of all product inventory
+     */
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllProductsInInventory(){
         try {
@@ -31,6 +46,12 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Gets all parts of a product
+     *
+     * @param productid The product's ID
+     * @return List of the product's parts
+     */
     @GetMapping("/{productid}/parts")
     public ResponseEntity<?> retriveProductParts(@PathVariable String productid){
         try {
@@ -41,6 +62,12 @@ public class ProductInventoryController {
     }
 
 
+    /**
+     * Creates a new prodyct
+     *
+     * @param productInventoryRequestDto The request body of the new product
+     * @return The new product's ID
+     */
     @PostMapping("/add")
     public ResponseEntity<?> createProductInventory(@RequestBody ProductInventoryRequestDto productInventoryRequestDto) {
         try {
@@ -52,6 +79,12 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Delete the product inventory
+     *
+     * @param id Product's id
+     * @return A response entity with status
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProductInInventory(@PathVariable String id){
         try {
@@ -64,6 +97,13 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Updates the Product Inventory
+     *
+     * @param id The product's ID
+     * @param productInventoryRequestDto The request body of the new product
+     * @return The product inventory details
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> editProductInfoInInventory(@PathVariable String id, @RequestBody ProductInventoryRequestDto productInventoryRequestDto){
         try {

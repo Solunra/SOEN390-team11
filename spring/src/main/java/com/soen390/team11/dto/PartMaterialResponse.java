@@ -1,7 +1,8 @@
 package com.soen390.team11.dto;
 
-import javax.persistence.Column;
-
+/**
+ * Response body for Part Material
+ */
 public class PartMaterialResponse {
     private String id;
     private String partId;

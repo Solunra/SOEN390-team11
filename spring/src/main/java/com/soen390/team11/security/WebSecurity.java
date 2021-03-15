@@ -14,12 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
+import static com.soen390.team11.security.SecurityConstant.SIGN_IN_URLS;
+import static com.soen390.team11.security.SecurityConstant.SIGN_UP_URLS;
 
-import static com.soen390.team11.security.SecurityConstant.*;
-
-
+/**
+ * Web Security Configuration
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {

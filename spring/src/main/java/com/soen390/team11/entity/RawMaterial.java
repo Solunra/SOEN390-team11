@@ -1,24 +1,34 @@
 package com.soen390.team11.entity;
 
-import javax.persistence.*;
-// import java.util.List;
+import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@Entity(name = "rawMaterial")
+/**
+ * Database Entity for Raw Material
+ */
+@Entity(name = "rawmaterial")
 public class RawMaterial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "rawmaterialid", strategy = "com.soen390.team11.generator.RawMaterialIDGenerator")
+    @GeneratedValue(generator = "rawmaterialid")
     private String rawmaterialid;
 
     @Column
     private String name;
 
     @Column
-    private float cost;
+    private String description;
 
-    /**
-     * default constructor
-     */
+    @Column
+    private double price;
+
+    @Column
+    private String unit;
+
     public RawMaterial() {
 
     }
@@ -30,17 +40,18 @@ public class RawMaterial {
      * @param name          the name of the instance
      * @param cost          the cost of the instance
      */
-    public RawMaterial(String rawmaterialid, String name, float cost) {
+    public RawMaterial(String rawmaterialid, String name) {
         this.rawmaterialid = rawmaterialid;
         this.name = name;
-        this.cost = cost;
     }
 
-    /**
-     * getter method for the rawmaterialid of rawmaterial
-     * 
-     * @return the rawmaterialid of the instance
-     */
+    public RawMaterial(String name, String description, double price, String unit) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.unit = unit;
+    }
+
     public String getrawmaterialid() {
         return rawmaterialid;
     }
@@ -72,21 +83,27 @@ public class RawMaterial {
         this.name = name;
     }
 
-    /**
-     * getter method for the cost of rawmaterial
-     * 
-     * @return the cost of the instance
-     */
-    public float getCost() {
-        return cost;
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * mutator method for the cost of rawmaterial
-     * 
-     * @param cost the desired cost of the instance
-     */
-    public void setCost(float cost) {
-        this.cost = cost;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

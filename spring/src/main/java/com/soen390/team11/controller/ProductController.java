@@ -8,19 +8,35 @@ import com.soen390.team11.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * Controller for Product
+ */
 @RestController
 @RequestMapping("/product")
 public class ProductController {
+
     ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     ProductService productService;
+
+    /**
+     * Creates a new product
+     *
+     * @param productRequestDto The request body for the new product
+     * @return The product's ID
+     */
     @PostMapping("/create")
-    public ResponseEntity<?> createProduct(@RequestBody ProductRequestDto productRequestDto){
+    public ResponseEntity<?> createProduct(@RequestBody ProductRequestDto productRequestDto) {
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productService.createProduct(productRequestDto)), HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
@@ -28,6 +44,11 @@ public class ProductController {
         }
     }
 
+    /**
+     * Gets all products
+     *
+     * @return A list of all products
+     */
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllProduct(){
         try {
@@ -37,6 +58,12 @@ public class ProductController {
         }
     }
 
+    /**
+     * Gets a specified product
+     *
+     * @param pid The product's ID
+     * @return The product's information
+     */
     @GetMapping("/{pid}")
     public ResponseEntity<?> retrieveProduct(@PathVariable String pid){
         String id = String.valueOf(pid);
@@ -55,6 +82,13 @@ public class ProductController {
 
     }
 
+    /**
+     * Updated a specified product
+     *
+     * @param pid The product's ID
+     * @param productRequestDto The product's updated information
+     * @return The new product
+     */
     @PutMapping("/update/{pid}")
     public ResponseEntity<?> updateProduct(@PathVariable String pid, @RequestBody ProductRequestDto productRequestDto){
         String id = String.valueOf(pid);
@@ -68,6 +102,12 @@ public class ProductController {
         }
     }
 
+    /**
+     * Deletes a product
+     *
+     * @param pid The product's ID
+     * @return The ID of the deleted product
+     */
     @DeleteMapping("/delete/{pid}")
     public ResponseEntity<?> deleteProduct(@PathVariable String pid){
         String id = String.valueOf(pid);
@@ -81,6 +121,12 @@ public class ProductController {
             return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
+
+    /**
+     * Gets all the parts for the products
+     *
+     * @return List of parts that takes make up the product
+     */
     @GetMapping("/part")
     public ResponseEntity<?> getPreConfigParts(){
         try {

@@ -13,6 +13,8 @@ import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounde
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
+import GrainIcon from '@material-ui/icons/Grain';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 const useStyles = makeStyles({
     drawer: {
@@ -74,6 +76,20 @@ const LeftDrawer = props => {
                 }
             },
             {
+                text: "Raw Material",
+                icon: <GrainIcon />,
+                onClick: () =>{
+                    handleClick("rawMaterial");
+                }
+            },
+            {
+                text: "Order",
+                icon: <BorderColorIcon />,
+                onClick: () =>{
+                    handleClick("order");
+                }
+            },
+            {
                 text: "Logout",
                 icon: <ExitToAppRoundedIcon />,
                 onClick: () => logout()
@@ -84,7 +100,7 @@ const LeftDrawer = props => {
     return (
         <div>
             <AppBar position="fixed">
-                <Toolbar>
+                <Toolbar style={{color: "black"}}>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" className={classes.drawer}>

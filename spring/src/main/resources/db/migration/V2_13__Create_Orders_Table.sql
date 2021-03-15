@@ -1,5 +1,6 @@
 CREATE TABLE orders (
     vendorID char(255),
+    saleID char(255),
     orderID char(255),
     quantity int,
     time TIMESTAMP,

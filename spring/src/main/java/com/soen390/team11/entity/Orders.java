@@ -6,10 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
+/**
+ * Database Entity for Order
+ */
 @Entity
 public class Orders {
 
     private String vendorID;
+
+    private String saleID;
 
     @Id
     @GenericGenerator(name="order_id", strategy = "com.soen390.team11.generator.OrderIDGenerator")
@@ -23,8 +28,9 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(String vendorID, int quantity, OffsetDateTime time) {
+    public Orders(String vendorID, String saleID,int quantity, OffsetDateTime time) {
         this.vendorID = vendorID;
+        this.saleID = saleID;
         this.quantity = quantity;
         this.time = time;
     }
@@ -35,6 +41,14 @@ public class Orders {
 
     public void setVendorID(String vendorID) {
         this.vendorID = vendorID;
+    }
+
+    public String getSaleID() {
+        return saleID;
+    }
+
+    public void setSaleID(String saleID) {
+        this.saleID = saleID;
     }
 
     public String getOrderID() {

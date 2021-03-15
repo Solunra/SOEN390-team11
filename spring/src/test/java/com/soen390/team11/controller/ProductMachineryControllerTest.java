@@ -1,6 +1,7 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.Team11Application;
+import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
@@ -23,6 +24,7 @@ import java.util.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.AnyOf.anyOf;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -68,19 +70,14 @@ public class ProductMachineryControllerTest {
     @Test
     public void getProductMachineries_Success() throws Exception {
 
-        machineryMap.put("machine0", new ProductMachinery("abc machine", "stopped", 100, null));
-        machineryMap.put("machine1", new ProductMachinery("xyz machine", "stopped", 450, null));
+        machineryMap.put("machine0", new ProductMachinery("abc machine", MachineryState.READY, 100, null));
+        machineryMap.put("machine1", new ProductMachinery("xyz machine", MachineryState.READY, 450, null));
 
-        productMachineryRepository.save(machineryMap.get("machine0"));
-        productMachineryRepository.save(machineryMap.get("machine1"));
-
-        String expectedId0 = machineryMap.get("machine0").getId();
-        String expectedId1 = machineryMap.get("machine1").getId();
-
-        String token = obtainAccessToken();
+        String expectedId0 = productMachineryRepository.save(machineryMap.get("machine0")).getId();
+        String expectedId1 = productMachineryRepository.save(machineryMap.get("machine1")).getId();
 
         mockMvc.perform(get("/machinery")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -105,6 +102,38 @@ public class ProductMachineryControllerTest {
         assertNotNull(machineryId);
 
         machineryMap.put("testCreationMachinery", productMachineryRepository.findById(machineryId).get());
+    }
+
+    @Test
+    public void ChangeMachineryStatusFromReadyToRunning_Success() throws Exception {
+        String machineName = "dummy_machinery";
+        machineryMap.put(machineName, new ProductMachinery("abc machine", MachineryState.READY, 100, null));
+
+        String machineryId = productMachineryRepository.save(machineryMap.get(machineName)).getId();
+
+        mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+
+        assertEquals(MachineryState.RUNNING, productMachineryRepository.findById(machineryId).get().getStatus());
+    }
+
+    @Test
+    public void ChangeMachineryStatusFromUnassignedToRunning_Fail() throws Exception {
+        String machineName = "dummy_machinery";
+        machineryMap.put(machineName, new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null));
+
+        String machineryId = productMachineryRepository.save(machineryMap.get(machineName)).getId();
+
+        mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+
+        assertEquals(MachineryState.UNASSIGNED, productMachineryRepository.findById(machineryId).get().getStatus());
     }
 
     private String obtainAccessToken() throws Exception {

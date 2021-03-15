@@ -29,10 +29,8 @@ const Inventory = ()=>
             .then(res => {
                 if (res.status === 200)
                 {
-                    var prolist = JSON.stringify(res.body);
-                    if(JSON.stringify(prodInv) !== prolist){
+                    if(JSON.stringify(prodInv) !== JSON.stringify(res.body)){
                         setProdInv(res.body);
-                        console.log(prodInv);
                     }
                 }
             })

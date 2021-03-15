@@ -1,11 +1,13 @@
 package com.soen390.team11.entity;
 
 import com.sun.istack.NotNull;
-
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Database Object for Materials ID and Raw Material ID
+ */
 @Embeddable
 public class MaterialRawMaterialsId implements Serializable {
 
