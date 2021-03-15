@@ -8,15 +8,12 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles(theme => ({
 
     cardMedia: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9,
-      marginTop:'30'
+        height: 0,
+        paddingTop: '56.25%',
     },
     button:{
         backgroundColor: '#66ccff'
     }
-
-
 }))
 
 const Product = props => {
@@ -26,20 +23,22 @@ const Product = props => {
 
             <Card className={classes.container}>
                 <CardHeader
-                    // avatar={<Avatar src={avatarUrl} />}
-                    // action={
-                    //     <IconButton aria-label="settings">
-                    //         <ShareIcon />
-                    //     </IconButton>
-                    // }
                     title={product['name']}
-                    subheader={`100$`}
+                    subheader={product['price']}
                 />
                 <CardMedia className={classes.cardMedia} image={bike} />
                 <CardContent>
-                    {/*list all the detail in small letter here */}
                     <Typography variant="body2" component="p">
-                        {product['name']}
+                        {product['color']}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                        {product['finish']}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                        {product['grade']}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                        {product['size']}
                     </Typography>
                 </CardContent>
                 <CardActions>

@@ -37,7 +37,7 @@ const Shop = ()=>{
     const [openCheckout, setOpenCheckout] = React.useState(false);
     const [openCheckStatus, setOpenCheckStatus] = React.useState(false);
     const [openCustomize, setOpenCustomize] = React.useState(false);
-    // same element add two time
+    console.log(productList);
     const handleAdd =(product)=>{
         for (let i=0;i<cart.length;i++) {
             if(cart[i]['product']['productid'] === product['productid']){
@@ -85,9 +85,8 @@ const Shop = ()=>{
         }
     }
     const getProducts = () =>{
-        // should get from the invtory with the price
         request
-            .get(BuildPath("/product/"))
+            .get(BuildPath("/customer/allProduct"))
             .set('Authorization', localStorage.getItem("Authorization"))
             .set('Accept', 'application/json')
             .then(res => {
@@ -117,7 +116,7 @@ const Shop = ()=>{
                     <Button onClick={()=>setOpenCustomize(true)} className={classes.button}>Customize Order</Button>
                 </Grid>
                 <Grid item md={3}>
-                    <Button onClick={()=>setOpen(true)} className={classes.button}>Cart</Button>
+                    <Button onClick={()=>setOpen(true)} className={classes.button}>Carte</Button>
                 </Grid>
                 <Grid item md={3}>
                     <Button onClick={()=>setOpenCheckStatus(true)} className={classes.button}>Tracking Order</Button>

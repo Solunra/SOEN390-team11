@@ -3,12 +3,14 @@ package com.soen390.team11.service;
 import com.soen390.team11.constant.Status;
 import com.soen390.team11.dto.CheckStatusResponseDto;
 import com.soen390.team11.dto.CustomerPurchaseDto;
+import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.entity.*;
 import com.soen390.team11.repository.CustomerPurchaseRepository;
 import com.soen390.team11.repository.CustomerRepository;
 import com.soen390.team11.repository.InvoiceRepository;
 import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -27,14 +29,8 @@ public class CustomerPurchaseService {
     @Autowired
     ProductRepository productRepository;
     public String makePurchase(CustomerPurchaseDto customerPurchaseDto) {
-        // create customer
-        // create invoice
-        // relation product invoice customer
         Customer customer= customerRepository.save(customerPurchaseDto.getCustomer());// id of the customer
         Invoice invoice=invoiceRepository.save(new Invoice(OffsetDateTime.now(),customerPurchaseDto.getTotalamount()));
-//        VendorSaleId vendorSaleId = new VendorSaleId(rawMaterialRequestDto.getVendorID(), rawMaterialidID);
-//        VendorSale vendorSale = new VendorSale(vendorSaleId, Type.RAW_MATERIAL);
-//        String customerID, String productID, String invoiceID
         List<HashMap<String, Object>> carte= customerPurchaseDto.getCarte();
         CustomerPurchaseId customerPurchaseId=null;
         CustomerPurchase customerPurchase=null;
@@ -57,5 +53,24 @@ public class CustomerPurchaseService {
         }
         return responseDtoList;
     }
+    public List<Product> getAllProduct(){
+        List<Product> finalproductList = new ArrayList<>();
+        List<Product> productslist = productRepository.findFirst10BySize("Medium");
+        finalproductList.addAll(productslist);
+        productslist = productRepository.findFirst10BySize("Large");
+        finalproductList.addAll(productslist);
+        productslist = productRepository.findFirst10BySize("Small");
+        finalproductList.addAll(productslist);
+        return finalproductList;
+    }
+    public List<Product> getCustomerizeProduct(ProductRequestDto productRequestDto){
+        List<Product> customizeProduct=productRepository.findByNameAndColorAndSizeAndFinish(productRequestDto.getName(), productRequestDto.getColor(), productRequestDto.getSize(), productRequestDto.getFinish());
+        for(Product p: customizeProduct){
+            System.out.println(p);
+        }
+        return customizeProduct;
+    }
+
+
 
 }
