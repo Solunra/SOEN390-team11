@@ -21,7 +21,7 @@ const RawMaterialTable = (props) => {
         { title: 'Raw material Name', field: 'name' },
         { title: 'Description', field: 'description' },
         { title: 'Vendor', field: 'companyname' },
-        { title: 'Price', field: 'price'},
+        { title: 'Price', field: 'cost'},
         { title: 'Per unit', field: 'unit' },
     ];
     const actions = [

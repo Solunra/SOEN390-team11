@@ -57,7 +57,7 @@ public class RawMaterialService {
             rawMaterialRequestDto.setrawmaterialid(rawmaterial.getrawmaterialid());
             rawMaterialRequestDto.setname(rawmaterial.getName());
             rawMaterialRequestDto.setDescription(rawmaterial.getDescription());
-            rawMaterialRequestDto.setPrice(rawmaterial.getPrice());
+            rawMaterialRequestDto.setCost(rawmaterial.getCost());
             rawMaterialRequestDto.setUnit(rawmaterial.getUnit());
             rawMaterialRequestDto.setVendorID(vendorSale.getVendorSaleId().getVendorID());
             rawMaterialRequestDto.setCompanyname(vendors.getCompanyname());
@@ -84,7 +84,7 @@ public class RawMaterialService {
         RawMaterial newRawMaterial = new RawMaterial(
                 rawMaterialRequestDto.getname(),
                 rawMaterialRequestDto.getDescription(),
-                rawMaterialRequestDto.getPrice(),
+                rawMaterialRequestDto.getCost(),
                 rawMaterialRequestDto.getUnit()
         );
         String rawMaterialidID = rawmaterialRepository.save(newRawMaterial).getrawmaterialid();
@@ -129,7 +129,7 @@ public class RawMaterialService {
         RawMaterial rawMaterial = rawmaterialRepository.findById(rid).get();
         rawMaterial.setName(rawMaterialRequestDto.getname());
         rawMaterial.setDescription(rawMaterialRequestDto.getDescription());
-        rawMaterial.setPrice(rawMaterialRequestDto.getPrice());
+        rawMaterial.setCost(rawMaterialRequestDto.getCost());
         rawMaterial.setUnit(rawMaterialRequestDto.getUnit());
         rawmaterialRepository.save(rawMaterial);
 
@@ -149,11 +149,11 @@ public class RawMaterialService {
         if(!rawMaterial.isPresent()){
             throw new Exception("Raw material was not found");
         }
+        rawmaterialRepository.delete(rawMaterial.get());
         Optional<VendorSale> vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
         if(vendorSale.isPresent()){
             vendorSaleRepository.delete(vendorSale.get());
         }
-        rawmaterialRepository.delete(rawMaterial.get());
         return "Delete Successful";
     }
 

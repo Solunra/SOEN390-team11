@@ -9,7 +9,7 @@ public class RawMaterialRequestDto {
     private String name;
     private String rawmaterialid;
     private String description;
-    private double price;
+    private double cost;
     private String unit;
     private String vendorID;
     private String companyname;
@@ -23,10 +23,10 @@ public class RawMaterialRequestDto {
         this.rawmaterialid = rawmaterialid;
     }
 
-    public RawMaterialRequestDto(String name, String description, double price, String unit, String vendorID) {
+    public RawMaterialRequestDto(String name, String description, double cost, String unit, String vendorID) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.cost = cost;
         this.unit = unit;
         this.vendorID = vendorID;
     }
@@ -55,12 +55,12 @@ public class RawMaterialRequestDto {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public String getUnit() {

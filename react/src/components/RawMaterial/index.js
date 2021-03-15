@@ -25,6 +25,7 @@ const RawMaterial = ()=>{
             .then(res => {
                 if (res.status === 200)
                 {
+                    console.log(res.body);
                     if(JSON.stringify(rawMaterialList) !== JSON.stringify(res.body)){
                         setRawMaterialList(res.body);
                     }

@@ -36,6 +36,7 @@ public class RawMaterialController {
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllRawMaterials(){
         try {
+            System.out.println(rawMaterialService.getAllRawMaterial());
             return new ResponseEntity<>(objectMapper.writeValueAsString(rawMaterialService.getAllRawMaterial()) , HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);

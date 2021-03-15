@@ -1,0 +1,16 @@
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-1','alloy', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-5','steel', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-4','paint', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-3','rubber', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-2','nylon', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-1','brake1', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-5','brake2', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-4','derailleur1', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-2','derailleur2', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-1','hub1', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-2','hub2', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-5','shockAbs1', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-4','shockAbs2', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-1','valve', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-3','pedal', 'RAW_MATERIAL');
+INSERT INTO vendor_sale (vendorID, saleID, type) VALUES('Ven-1','crankarm', 'RAW_MATERIAL');

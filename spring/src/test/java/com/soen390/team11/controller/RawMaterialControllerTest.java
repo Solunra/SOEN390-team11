@@ -14,8 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -94,7 +92,7 @@ public class RawMaterialControllerTest {
     public void testEditRawMaterial()
     {
         rawMaterialRequestDto.setname("New Raw Material");
-        rawMaterialRequestDto.setPrice(132.22);
+        rawMaterialRequestDto.setCost(132.22);
         ResponseEntity responseEntity =rawMaterialController.editRawMaterial(rawMaterialID,rawMaterialRequestDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

@@ -28,7 +28,7 @@ class ProductControllerTest {
     @BeforeAll
     public void setup()
     {
-        productRequestDto = new ProductRequestDto("bike","mountain","medium","black","matte","A");
+        productRequestDto = new ProductRequestDto("bike","mountain","medium","black","matte","A",0,0);
     }
     @Test
     @Order(1)
@@ -36,7 +36,8 @@ class ProductControllerTest {
         ResponseEntity<?> responseEntity = productController.createProduct(productRequestDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        createdProduct = new Product(responseBody.get("name").toString(),responseBody.get("type").toString(),responseBody.get("size").toString(), responseBody.get("color").toString(),responseBody.get("finish").toString(),responseBody.get("grade").toString());
+        createdProduct = new Product(responseBody.get("name").toString(),responseBody.get("type").toString(),responseBody.get("size").toString(), responseBody.get("color").toString()
+                ,responseBody.get("finish").toString(),responseBody.get("grade").toString(),0,0);
         createdProduct.setProductid(responseBody.get("productid").toString());
     }
 
@@ -57,7 +58,7 @@ class ProductControllerTest {
     @Test
     @Order(4)
     void updateProduct() {
-        ProductRequestDto newProduct = new ProductRequestDto("bike1","mountain1","medium","black","matte","A");
+        ProductRequestDto newProduct = new ProductRequestDto("bike1","mountain1","medium","black","matte","A",0,0);
         ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid().toString(), newProduct);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -70,6 +71,4 @@ class ProductControllerTest {
         responseEntity = productController.deleteProduct(String.valueOf("1000").toString());
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
-
-
 }
