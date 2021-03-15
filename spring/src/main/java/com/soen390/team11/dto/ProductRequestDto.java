@@ -46,6 +46,17 @@ public class ProductRequestDto {
         this.pedalUnitId = pedalUnitId;
     }
 
+    public ProductRequestDto(String name, String type, String size, String color, String finish, String grade, float cost, float price) {
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.color = color;
+        this.finish = finish;
+        this.grade = grade;
+        this.cost = cost;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }
