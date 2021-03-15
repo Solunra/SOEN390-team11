@@ -23,8 +23,8 @@ public class ProductPartService {
     @Autowired
     ProductPartsRepository productPartsRepository;
 
-    public ProductParts createProductParts(ProductRequestDto productRequestDto){
-        return productPartsRepository.save(productRequestDto)
-    }
+    // public ProductParts createProductParts(ProductRequestDto productRequestDto){
+    // return productPartsRepository.save(productRequestDto);
+    // }
 
 }
