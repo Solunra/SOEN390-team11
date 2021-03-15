@@ -31,9 +31,8 @@ public class PartMaterialService {
      */
     public Map<String, Integer> getPartMaterials(String partId) {
         Map<String, Integer> materialMap = new HashMap<>();
-        partMaterialRepository.findAllByPartId(partId).forEach(partInventory ->
-            materialMap.put(partInventory.getMaterialId(), partInventory.getMaterialQuantity())
-        );
+        partMaterialRepository.findAllByPartId(partId).forEach(
+                partInventory -> materialMap.put(partInventory.getMaterialId(), partInventory.getmaterialQuantity()));
         return materialMap;
     }
 
@@ -43,21 +42,21 @@ public class PartMaterialService {
      * @param partId The Part
      * @return The Part's materials
      */
-    public List<PartMaterialResponse> getAllMaterialsOfPart(String partId){
-        List<PartMaterial> partMaterialList=  partMaterialRepository.findAllByPartId(partId);
+    public List<PartMaterialResponse> getAllMaterialsOfPart(String partId) {
+        List<PartMaterial> partMaterialList = partMaterialRepository.findAllByPartId(partId);
         List<Material> materials = (List<Material>) materialRepository.findAll();
-        List<PartMaterialResponse> PartMaterialResponselist= new ArrayList<>();
+        List<PartMaterialResponse> PartMaterialResponselist = new ArrayList<>();
         PartMaterialResponse partMaterialResponse = new PartMaterialResponse();
-        for(PartMaterial pm: partMaterialList){
-            for(Material m: materials){
-                if(pm.getMaterialId().equals(m.getMaterialid())){
-                    partMaterialResponse = new PartMaterialResponse(pm.getId(),pm.getPartId(),pm.getMaterialId(),pm.getMaterialQuantity(),m.getName());
+        for (PartMaterial pm : partMaterialList) {
+            for (Material m : materials) {
+                if (pm.getMaterialId().equals(m.getMaterialid())) {
+                    partMaterialResponse = new PartMaterialResponse(pm.getId(), pm.getPartId(), pm.getMaterialId(),
+                            pm.getmaterialQuantity(), m.getName());
                 }
             }
             PartMaterialResponselist.add(partMaterialResponse);
         }
         return PartMaterialResponselist;
     }
-
 
 }

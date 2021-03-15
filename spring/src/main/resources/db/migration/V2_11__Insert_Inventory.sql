@@ -1,7 +1,7 @@
-INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-1','Raaw bikes','Mountain','Medium','White','Matte','9%');
-INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-2','Rocky bikes','Mountain','Large','Red','Polish','8%');
-INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-3','Ghost bikes','Road','Small','Maroon','Polish','5%');
-INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-4','Aero','Road','Large','Black','Matte','6%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-1','Raaw bikes','Mountain','Medium','White','Matte','10%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-2','Rocky bikes','Mountain','Large','Red','Polish','10%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-3','Ghost bikes','Road','Small','Maroon','Polish','10%');
+INSERT INTO product (productid,name ,type,  size ,color,finish,grade) VALUES('prod-4','Aero','Road','Large','Black','Matte','10%');
 INSERT INTO product_inventory (id, location,quantity,productID) VALUES('prodinv-1','Warehouse', 5, 'prod-1');
 INSERT INTO product_inventory (id, location,quantity,productID) VALUES('prodinv-2','Warehouse', 4, 'prod-2');
 INSERT INTO product_inventory (id, location,quantity,productID) VALUES('prodinv-3','Warehouse', 8, 'prod-3');

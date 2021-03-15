@@ -38,8 +38,8 @@ public class PartMaterialControllerTest {
 
     @BeforeAll
     public void setup() {
-        partMap.put("saddle", partRepository.save(new Part("saddle")));
-        partMap.put("wheel", partRepository.save(new Part("wheel")));
+        partMap.put("saddle", partRepository.save(new Part("saddle","saddle")));
+        partMap.put("wheel", partRepository.save(new Part("wheel","wheel")));
         materialMap.put("dummy1", materialRepository.save(new Material("mat-100", "dummy1")));
         materialMap.put("dummy2", materialRepository.save(new Material("mat-101", "dummy2")));
         PartMaterial partMaterial1 = new PartMaterial(partMap.get("saddle").getPartid(), materialMap.get("dummy1").getMaterialid(), 7);

@@ -26,6 +26,8 @@ const ProductForm = (props) =>{
     const [color, setColor] = useState('');
     const [finish, setFinish] = useState('');
     const [grade, setGrade] = useState('');
+    const [cost, setCost] = useState('');
+    const [price, setPrice] = useState('');
     const classes = useStyles();
 
     const clearValue =() => {
@@ -35,10 +37,12 @@ const ProductForm = (props) =>{
         setColor('');
         setType('');
         setSize('');
+        setCost('');
+        setPrice('');
     }
 
     const checkValue = ()=>{
-        if(!name|| !type|| !size || !color || !finish || !grade){
+        if(!name|| !type|| !size || !color || !finish || !grade ||!cost ||!price){
             return false;
         }
         return true;
@@ -74,7 +78,9 @@ const ProductForm = (props) =>{
                         "color":color,
                         "size":size,
                         "finish":finish,
-                        "grade":grade
+                        "grade":grade,
+                        "cost":cost,
+                        "price":price
                     }
                 )
                 .then(res => {
@@ -102,7 +108,9 @@ const ProductForm = (props) =>{
                         "color":!color?data['color']:color,
                         "size":!size?data['size']:size,
                         "finish":!finish?data['finish']:finish,
-                        "grade":!grade?data['grade']:grade
+                        "grade":!grade?data['grade']:grade,
+                        "cost":!cost?data['cost']:cost,
+                        "price":!price?data['price']:price
                     }
                 )
                 .then(res => {
@@ -125,7 +133,7 @@ const ProductForm = (props) =>{
     }
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" classes={ classes.dialogWrapper }>
-            <DialogTitle id="form-dialog-title">Product From</DialogTitle>
+            <DialogTitle id="form-dialog-title">Product Form</DialogTitle>
             <DialogContent>
                 <DialogContentText> Create or Edit product</DialogContentText>
                     <TextField
@@ -180,6 +188,26 @@ const ProductForm = (props) =>{
                         onChange = {e => setGrade(e.target.value)
                         }
                         label="Grade"
+                        fullWidth
+                        variant="outlined"
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        defaultValue={data['cost']}
+                        onChange = {e => setCost(e.target.value)
+                        }
+                        label="Cost"
+                        fullWidth
+                        variant="outlined"
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        defaultValue={data['price']}
+                        onChange = {e => setPrice(e.target.value)
+                        }
+                        label="Price"
                         fullWidth
                         variant="outlined"
                     />

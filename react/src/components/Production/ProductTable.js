@@ -18,6 +18,8 @@ const ProductTable = (props) => {
         { title: 'Color', field: 'color'},
         { title: 'Finish', field: 'finish' },
         { title: 'Grade', field: 'grade'},
+        { title: 'Cost', field: 'cost'},
+        { title: 'Price', field: 'price'},
     ];
     const actions = [
         {
@@ -83,6 +85,29 @@ const ProductTable = (props) => {
                 }, 45000);
             });
     }
+    const handleStart=()=>{
+        request
+            .put(BuildPath("/machinery/start"))
+            .set('Authorization', localStorage.getItem("Authorization"))
+            .set('Accept', 'application/json')
+            .send(
+                {
+
+                }
+            )
+            .then(res => {
+                if (res.status === 200) {
+                    setRe_render(!re_render);
+                }
+            })
+            .catch(err => {
+                setErrMessage(err.response.body['message']);
+                setTimeout(()=>{
+                    setErrMessage("")
+                }, 45000);
+            });
+    }
+
 
     return (
             <>

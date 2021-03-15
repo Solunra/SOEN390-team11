@@ -9,12 +9,12 @@ import javax.persistence.Id;
 /**
  * Database Entity for Raw Material
  */
-@Entity(name="rawmaterial")
+@Entity(name = "rawmaterial")
 public class RawMaterial {
 
     @Id
-    @GenericGenerator(name="rawmaterialid", strategy = "com.soen390.team11.generator.RawMaterialIDGenerator")
-    @GeneratedValue(generator="rawmaterialid")
+    @GenericGenerator(name = "rawmaterialid", strategy = "com.soen390.team11.generator.RawMaterialIDGenerator")
+    @GeneratedValue(generator = "rawmaterialid")
     private String rawmaterialid;
 
     @Column
@@ -24,7 +24,7 @@ public class RawMaterial {
     private String description;
 
     @Column
-    private double price;
+    private double cost;
 
     @Column
     private String unit;
@@ -33,15 +33,22 @@ public class RawMaterial {
 
     }
 
+    /**
+     * constructor with all params
+     * 
+     * @param rawmaterialid the rawmaterialid of the instance
+     * @param name          the name of the instance
+     * @param cost          the cost of the instance
+     */
     public RawMaterial(String rawmaterialid, String name) {
         this.rawmaterialid = rawmaterialid;
         this.name = name;
     }
 
-    public RawMaterial(String name, String description, double price, String unit) {
+    public RawMaterial(String name, String description, double cost, String unit) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.cost = cost;
         this.unit = unit;
     }
 
@@ -49,14 +56,29 @@ public class RawMaterial {
         return rawmaterialid;
     }
 
+    /**
+     * mutator method for the rawmaterialid of rawmaterial
+     * 
+     * @param rawmaterialid the desired rawmaterialid of the instance
+     */
     public void setrawmaterialid(String rawmaterialid) {
         this.rawmaterialid = rawmaterialid;
     }
 
+    /**
+     * getter method for the name of rawmaterial
+     * 
+     * @return the name of the instance
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * mutator method for the name of rawmaterial
+     * 
+     * @param name the desired name of the instance
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -69,12 +91,12 @@ public class RawMaterial {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCost(double price) {
+        this.cost = price;
     }
 
     public String getUnit() {
