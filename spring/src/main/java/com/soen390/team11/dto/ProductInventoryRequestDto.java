@@ -1,11 +1,11 @@
 package com.soen390.team11.dto;
 
 
-import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductInventory;
 
-import java.util.List;
-
+/**
+ * Request body for Product Inventory
+ */
 public class ProductInventoryRequestDto {
     private String location;
     private int quantity;

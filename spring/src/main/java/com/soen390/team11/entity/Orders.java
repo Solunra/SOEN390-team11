@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
+/**
+ * Database Entity for Order
+ */
 @Entity
 public class Orders {
 

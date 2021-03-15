@@ -1,7 +1,8 @@
 package com.soen390.team11.dto;
 
-import com.soen390.team11.constant.Type;
-
+/**
+ * Vendor Request Body
+ */
 public class VendorDto {
 
     private String vendorID;

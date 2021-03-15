@@ -1,7 +1,16 @@
 package com.soen390.team11.schedule;
 
-import com.soen390.team11.entity.*;
-import com.soen390.team11.repository.*;
+import com.soen390.team11.entity.MaterialInventory;
+import com.soen390.team11.entity.Orders;
+import com.soen390.team11.entity.PartInventory;
+import com.soen390.team11.entity.ProductInventory;
+import com.soen390.team11.entity.VendorSale;
+import com.soen390.team11.entity.VendorSaleId;
+import com.soen390.team11.repository.MaterialInventoryRepository;
+import com.soen390.team11.repository.OrdersRepository;
+import com.soen390.team11.repository.PartInventoryRepository;
+import com.soen390.team11.repository.ProductInventoryRepository;
+import com.soen390.team11.repository.VendorSaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -9,6 +18,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
+/**
+ * Scheduled Jobs for the ERP Solution
+ */
 @Configuration
 @EnableScheduling
 public class ScheduleConfig {
@@ -30,8 +42,11 @@ public class ScheduleConfig {
 
     public static final int ONE_MINUTE = 1000 * 60;
 
+    /**
+     * Processes the order every 30 minutes
+     */
     @Scheduled(fixedRate = 30 * ONE_MINUTE)
-    public void doesSomething()
+    public void processOrders()
     {
         Iterable<Orders> ordersToDo = ordersRepository.findAllByTimeBefore(OffsetDateTime.now());
         for (Orders order: ordersToDo)
@@ -49,6 +64,12 @@ public class ScheduleConfig {
         }
     }
 
+    /**
+     * Processes a parts's order
+     *
+     * @param id The Part's ID
+     * @param quantity The Quantity for the Part
+     */
     private void processPart(String id, int quantity)
     {
         Optional<PartInventory> partInventory = partInventoryRepository.findById(String.valueOf(id));
@@ -59,6 +80,12 @@ public class ScheduleConfig {
         }
     }
 
+    /**
+     * Processes a products's order
+     *
+     * @param id The Product's ID
+     * @param quantity The Quantity for the Product
+     */
     private void processProduct(String id, int quantity)
     {
         Optional<ProductInventory> productInventory = productInventoryRepository.findById(String.valueOf(id));
@@ -69,6 +96,12 @@ public class ScheduleConfig {
         }
     }
 
+    /**
+     * Processes a material's order
+     *
+     * @param id The Material's ID
+     * @param quantity The Quantity for the Material
+     */
     private void processMaterial(String id, int quantity)
     {
         Optional<MaterialInventory> materialInventory = materialInventoryRepository.findById(String.valueOf(id));

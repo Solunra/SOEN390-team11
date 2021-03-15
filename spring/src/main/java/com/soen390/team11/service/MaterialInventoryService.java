@@ -7,19 +7,25 @@ import com.soen390.team11.repository.MaterialInventoryRepository;
 import com.soen390.team11.repository.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Service Layer for Material Inventory
+ */
 @Service
 public class MaterialInventoryService {
+
     @Autowired
     MaterialInventoryRepository materialInventoryRepository;
     @Autowired
     MaterialRepository materialRepository;
 
+    /**
+     * Gets all Material Inventory
+     *
+     * @return List of all Material's Inventory
+     */
     public ArrayList<MaterialInventoryResponse> getAllMaterialInventory() {
         List<MaterialInventory> materialInventories= (List<MaterialInventory>) materialInventoryRepository.findAll();
         List<Material> materials = (List<Material>) materialRepository.findAll();

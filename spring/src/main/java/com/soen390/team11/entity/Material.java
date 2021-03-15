@@ -1,11 +1,14 @@
 package com.soen390.team11.entity;
 
-
-
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+/**
+ * Database Entity for Material
+ */
 @Entity(name="material")
 public class Material {
 
@@ -20,6 +23,7 @@ public class Material {
     public Material() {
 
     }
+
     public Material(String name){
         this.name = name;
     }

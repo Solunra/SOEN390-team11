@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service Layer for Order
+ */
 @Service
 public class OrdersService {
 
@@ -26,6 +29,12 @@ public class OrdersService {
     @Autowired
     RawMaterialRepository rawMaterialRepository;
 
+    /**
+     * Creates a new Order
+     *
+     * @param orderDto The Order details
+     * @return The new Order's ID
+     */
     public String createOrder(OrderDto orderDto)
     {
         Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime());
@@ -33,6 +42,12 @@ public class OrdersService {
         return result.getOrderID();
     }
 
+    /**
+     * Gets an Order
+     *
+     * @param orderID The order's ID
+     * @return The Order
+     */
     public Optional<OrderDto> getOrderById(String orderID)
     {
         Optional<Orders> order = ordersRepository.findByOrderID(orderID);
@@ -46,6 +61,11 @@ public class OrdersService {
         }
     }
 
+    /**
+     * Gets all Orders
+     *
+     * @return List of all Orders
+     */
     public List<OrderResponseDto> getAllOrders()
     {
         Iterable<Orders> orders = ordersRepository.findAll();
@@ -66,7 +86,13 @@ public class OrdersService {
         }
         return orderDtos;
     }
-    public Iterable<Orders> getOrdersByRecent()
+
+    /**
+     * Gets all orders before a certain time
+     *
+     * @return Iterable of orders before a time
+     */
+    public Iterable<Orders> getOrdersBeforeNow()
     {
         return ordersRepository.findAllByTimeBefore(OffsetDateTime.now());
     }

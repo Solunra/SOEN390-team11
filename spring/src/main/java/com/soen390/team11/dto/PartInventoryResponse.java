@@ -1,6 +1,8 @@
 package com.soen390.team11.dto;
 
-
+/**
+ * Response body for part inventory
+ */
 public class PartInventoryResponse {
     private String partInvid;
     private String location;

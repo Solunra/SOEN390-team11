@@ -1,5 +1,8 @@
 package com.soen390.team11.dto;
 
+/**
+ * Sign up Request Body
+ */
 public class UserSignUpRequestDto {
 
     private String username;

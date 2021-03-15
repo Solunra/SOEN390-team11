@@ -1,8 +1,14 @@
 package com.soen390.team11.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+/**
+ * Database Entity for Part Inventory
+ */
 @Entity(name = "part_inventory")
 public class PartInventory {
 

@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.soen390.team11.security.SecurityConstant.*;
+import static com.soen390.team11.security.SecurityConstant.EXPIRATION_TIME;
+import static com.soen390.team11.security.SecurityConstant.HEADER_STRING;
+import static com.soen390.team11.security.SecurityConstant.SECRET;
+import static com.soen390.team11.security.SecurityConstant.TOKEN_PREFIX;
 
 /**
  * authentication help to define who is the person is, so we need to get the username(email) and password from client

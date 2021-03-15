@@ -1,6 +1,8 @@
 package com.soen390.team11.dto;
 
-
+/**
+ * Material Inventory Response Body
+ */
 public class MaterialInventoryResponse {
     private String matInvid;
     private String location;

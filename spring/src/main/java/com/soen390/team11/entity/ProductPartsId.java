@@ -1,11 +1,13 @@
 package com.soen390.team11.entity;
 
 import com.sun.istack.NotNull;
-
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Database Object for Product ID and Parts ID
+ */
 @Embeddable
 public class ProductPartsId implements Serializable {
 

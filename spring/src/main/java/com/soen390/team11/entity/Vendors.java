@@ -1,13 +1,13 @@
 package com.soen390.team11.entity;
 
-import com.soen390.team11.constant.Type;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Database Entity for Vendors
+ */
 @Entity
 public class Vendors {
 
