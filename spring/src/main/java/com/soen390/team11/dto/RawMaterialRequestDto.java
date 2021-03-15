@@ -1,11 +1,10 @@
 package com.soen390.team11.dto;
 
-
-
 import com.soen390.team11.entity.RawMaterial;
 
-import java.util.List;
-
+/**
+ * Raw Material Request Body
+ */
 public class RawMaterialRequestDto {
     private String name;
     private String rawmaterialid;

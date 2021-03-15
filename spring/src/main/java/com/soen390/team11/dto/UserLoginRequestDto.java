@@ -1,5 +1,8 @@
 package com.soen390.team11.dto;
 
+/**
+ * Login Request Body
+ */
 public class UserLoginRequestDto
 {
     private String username;

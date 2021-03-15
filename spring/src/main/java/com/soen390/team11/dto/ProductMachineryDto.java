@@ -1,5 +1,8 @@
 package com.soen390.team11.dto;
 
+/**
+ * Product Machinery Request Body
+ */
 public class ProductMachineryDto {
 
     private String name;

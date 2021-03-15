@@ -8,14 +8,32 @@ import com.soen390.team11.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller responsible for the materials
+ */
 @RestController
 @RequestMapping("/material")
 public class MaterialController {
     ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     MaterialService materialService;
+
+    /**
+     * Creates a new material
+     *
+     * @param materialRequestDto The expected body of the request
+     * @return
+     */
     @PostMapping("/create")
     public ResponseEntity<?> createMaterial(@RequestBody MaterialRequestDto materialRequestDto){
         try {
@@ -25,6 +43,11 @@ public class MaterialController {
         }
     }
 
+    /**
+     * Method to retrieve all materials
+     *
+     * @return A list of all materials registered in the ERP solution
+     */
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllMaterial(){
         try {
@@ -34,6 +57,12 @@ public class MaterialController {
         }
     }
 
+    /**
+     * Method to retrieve a specific material
+     *
+     * @param id The id of the material
+     * @return The material's information
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> retrieveMaterial(@PathVariable String id){
         Material material = materialService.getMaterialById(id);
@@ -50,7 +79,14 @@ public class MaterialController {
         }
      }
 
-     @PutMapping("/update/{id}")
+    /**
+     * Updates a specific material accessed via its ID
+     *
+     * @param id The material's ID
+     * @param materialRequestDto The expected request body
+     * @return The
+     */
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateMaterial(@PathVariable String id, @RequestBody MaterialRequestDto materialRequestDto){
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(materialService.updateMaterial(id,materialRequestDto)), HttpStatus.OK);
@@ -62,6 +98,12 @@ public class MaterialController {
         }
     }
 
+    /**
+     * Deletes a material
+     *
+     * @param id The material's ID
+     * @return The ID of the material
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteMaterial(@PathVariable String id){
         try {
@@ -74,6 +116,12 @@ public class MaterialController {
         }
     }
 
+    /**
+     * Obtains a specific material based on the provided ID
+     *
+     * @param materialid The material's ID
+     * @return The raw materials that consists a material
+     */
     @GetMapping("/{materialid}")
     public ResponseEntity<?> retrieveAllRawMaterialsInMaterial(@PathVariable String materialid){
         try {
@@ -83,6 +131,11 @@ public class MaterialController {
         }
     }
 
+    /**
+     * Gets all materials
+     *
+     * @return List of all materials
+     */
     @GetMapping("/rawmaterial")
     public ResponseEntity<?> retrieveAllMaterials(){
         try {

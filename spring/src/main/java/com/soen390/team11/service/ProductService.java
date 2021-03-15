@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/**
+ * Service Layer for Product
+ */
 @Service
 public class ProductService {
     @Autowired
@@ -20,14 +23,31 @@ public class ProductService {
     @Autowired
     ProductInventoryRepository productInventoryRepository;
 
+    /**
+     * Create a new Product
+     *
+     * @param productRequestDto New Product's details
+     * @return
+     */
     public Product createProduct(ProductRequestDto productRequestDto){
         return productRepository.save(productRequestDto.getProduct());
     }
 
+    /**
+     * Gets all products
+     *
+     * @return List of all products
+     */
     public List<Product> getAllProduct(){
         return (List<Product>) productRepository.findAll();
     }
 
+    /**
+     * Gets a product
+     *
+     * @param id The product's ID
+     * @return The product's details
+     */
     public Product getProductById(String id){
         try{
             Product product= productRepository.findById(id).get();
@@ -38,6 +58,13 @@ public class ProductService {
         }
     }
 
+    /**
+     * Deletes a product
+     *
+     * @param id The Product's ID
+     * @return Success message
+     * @throws Exception Thrown if the id does not exist or violates a policy
+     */
     public String deleteProduct(String id) throws Exception {
         if(checkInventory(id)){
             throw new Exception("cannot delete product, already product in inventory");
@@ -49,6 +76,14 @@ public class ProductService {
         return "success";
     }
 
+    /**
+     * Updates a product
+     *
+     * @param id Product's ID
+     * @param productRequestDto Product's Details
+     * @return The updated Product's details
+     * @throws Exception Thrown if the id does not exist or violates a policy
+     */
     public Product updateProduct(String id, ProductRequestDto productRequestDto) throws Exception {
         if(checkInventory(id)){
             throw new Exception("cannot edit product, already produced in inventory");
@@ -61,10 +96,22 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    /**
+     * Gets all product parts
+     *
+     * @return List of parts of the product
+     */
     public List<Part> getAllProductPart() {
         List<Part> allParts = (List<Part>) partRepository.findAll();
         return allParts;
     }
+
+    /**
+     * Verifies if the product exists in inventory
+     *
+     * @param id The Product's ID
+     * @return True if the product exists in inventory
+     */
     public boolean checkInventory(String id){
         ProductInventory productInventory =  productInventoryRepository.findByProductid(id);
         return productInventory !=null;

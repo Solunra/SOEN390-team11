@@ -8,8 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller for Raw Materials
+ */
 @Controller
 @RequestMapping("/rawmaterials")
 public class RawMaterialController {
@@ -19,6 +28,11 @@ public class RawMaterialController {
     @Autowired
     RawMaterialService rawMaterialService;
 
+    /**
+     * Gets all raw materials
+     *
+     * @return List of all raw materials
+     */
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllRawMaterials(){
         try {
@@ -28,6 +42,12 @@ public class RawMaterialController {
         }
     }
 
+    /**
+     * Gets a specified raw material
+     *
+     * @param rid The raw material's ID
+     * @return The raw material's information
+     */
     @GetMapping("/{rid}")
     public ResponseEntity<?> retrieveRawMaterial(@PathVariable String rid){
         String rawMaterialID = String.valueOf(rid);
@@ -46,6 +66,12 @@ public class RawMaterialController {
 
     }
 
+    /**
+     * Create a new raw material
+     *
+     * @param rawMaterialRequestDto The new raw material information
+     * @return The new raw material
+     */
     @PostMapping("/define")
     public ResponseEntity<?> defineRawMaterial(@RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
@@ -57,6 +83,13 @@ public class RawMaterialController {
         }
     }
 
+    /**
+     * Edits an existing raw material
+     *
+     * @param rid The ID of the new raw material
+     * @param rawMaterialRequestDto The information for the new raw material
+     * @return The ID
+     */
     @PutMapping("/edit/{rid}")
     public ResponseEntity<?> editRawMaterial(@PathVariable String rid, @RequestBody RawMaterialRequestDto rawMaterialRequestDto){
         try {
@@ -68,6 +101,12 @@ public class RawMaterialController {
         }
     }
 
+    /**
+     * Deletes a raw material
+     *
+     * @param rid The raw material's ID
+     * @return A message of its status
+     */
     @DeleteMapping("/delete/{rid}")
     public ResponseEntity<?> removeRawMaterial(@PathVariable String rid){
         try {
