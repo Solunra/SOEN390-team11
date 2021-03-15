@@ -12,6 +12,9 @@ public class ProductMachineryDto {
     private String productname;
     private String macId;
 
+    public ProductMachineryDto() {
+    }
+
     public ProductMachineryDto(String name, String status, int timer, String productId) {
         this.name = name;
         this.status = status;
