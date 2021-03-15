@@ -9,10 +9,12 @@ import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service Layer for Product Machinery
+ */
 @Service
 public class ProductMachineryService {
 
@@ -28,10 +30,21 @@ public class ProductMachineryService {
         this.productRepository = productRepository;
     }
 
+    /**
+     * Gets all the product machinery
+     *
+     * @return List of Product Machinery
+     */
     public List<ProductMachinery> getAllMachineries() {
         return (List<ProductMachinery>) productMachineryRepository.findAll();
     }
 
+    /**
+     * Create a new Product Machinery
+     *
+     * @param productMachineryDto The Machine's details
+     * @return New Product Machinery's ID
+     */
     public String createMachinery(ProductMachineryDto productMachineryDto) {
 
         // if no product is bound
@@ -56,6 +69,13 @@ public class ProductMachineryService {
         return "";
     }
 
+    /**
+     * Updates the product machinery's status
+     *
+     * @param machineryId The Product Machinery ID to be updated
+     * @param op The Operation done on it
+     * @return True if the status change was successful
+     */
     public String updateMachineryStatus(String machineryId, String op) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);
@@ -82,6 +102,11 @@ public class ProductMachineryService {
         }
     }
 
+    /**
+     * Search for an UNASSIGNED machinery in the list of machineries.
+     *
+     * @return the ID of the available machinery if found, else empty String
+     */
     public String findAvailableMachinery() {
         Iterable<ProductMachinery> machineries = productMachineryRepository.findAll();
         for (ProductMachinery machinery : machineries) {
@@ -92,6 +117,13 @@ public class ProductMachineryService {
         return "";
     }
 
+    /**
+     * Set the product to produce for a given machinery.
+     *
+     * @param machineryId The Product Machinery ID to be updated
+     * @param productId The Product ID to be updated
+     * @return Result message of the operation
+     */
     public String occupyMachinery(String machineryId, String productId) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);

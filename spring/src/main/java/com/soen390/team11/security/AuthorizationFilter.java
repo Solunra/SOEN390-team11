@@ -5,15 +5,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.soen390.team11.security.SecurityConstant.*;
+import static com.soen390.team11.security.SecurityConstant.HEADER_STRING;
+import static com.soen390.team11.security.SecurityConstant.SECRET;
+import static com.soen390.team11.security.SecurityConstant.TOKEN_PREFIX;
 
 /**
  * authorization help to define what the user are allow to do

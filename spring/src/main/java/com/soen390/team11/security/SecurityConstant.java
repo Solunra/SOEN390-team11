@@ -1,5 +1,8 @@
 package com.soen390.team11.security;
 
+/**
+ * Constants used in the Security Layer
+ */
 public class SecurityConstant {
     public static final String SIGN_UP_URLS = "/account/signup";
     public static final String SIGN_IN_URLS = "/account/signin";

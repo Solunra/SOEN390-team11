@@ -2,6 +2,9 @@ package com.soen390.team11.dto;
 
 import java.time.OffsetDateTime;
 
+/**
+ * Request body for Orders
+ */
 public class OrderDto {
 
     private String vendorID;

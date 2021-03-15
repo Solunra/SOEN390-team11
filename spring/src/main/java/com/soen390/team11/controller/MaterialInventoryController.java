@@ -9,11 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for the material inventory
+ */
 @RestController
 @RequestMapping("/inventory/material")
 public class MaterialInventoryController {
+
     @Autowired
     MaterialInventoryService materialInventoryService;
+
+    /**
+     * Gets all the materials' inventory
+     * @return Returns a list of all materials
+     */
     @GetMapping("/")
     public ResponseEntity<?> retrieveAllMatInInventory(){
         return new ResponseEntity<>(materialInventoryService.getAllMaterialInventory(), HttpStatus.OK);

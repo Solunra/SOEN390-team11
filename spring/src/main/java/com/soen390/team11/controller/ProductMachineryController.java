@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for the product machinery
+ */
 @RestController
 @RequestMapping("/machinery")
 public class ProductMachineryController {
@@ -24,6 +27,11 @@ public class ProductMachineryController {
     @Autowired
     private ProductMachineryService productMachineryService;
 
+    /**
+     * Retrieves all product machinery
+     *
+     * @return List of all product machinery
+     */
     @GetMapping
     public ResponseEntity<?> retrieveAllMachineries() {
         try {
@@ -33,6 +41,12 @@ public class ProductMachineryController {
         }
     }
 
+    /**
+     * Creates a new product machinery
+     *
+     * @param productMachineryDto Request body with the new Product Machinery
+     * @return The ID of the new product machinery
+     */
     @PutMapping
     public ResponseEntity<?> createMachinery(@RequestBody ProductMachineryDto productMachineryDto) {
         try {
@@ -43,6 +57,13 @@ public class ProductMachineryController {
         }
     }
 
+    /**
+     * Updates a specified product machinery
+     *
+     * @param machineryId The product machinery's ID
+     * @param op The Operation to do on the product machinery
+     * @return A success message
+     */
     @PostMapping("/{machineryId}/{op}")
     public ResponseEntity<?> updateMachineryStatus(@PathVariable String machineryId, @PathVariable String op) {
         try {
@@ -57,6 +78,14 @@ public class ProductMachineryController {
         }
     }
 
+    /**
+     * Attempt to associate a machinery with a product to produce.
+     *
+     * It first tries to find an UNASSIGNED machinery, then tries to set the product of the machinery.
+     *
+     * @param productId The product's ID
+     * @return A success message
+     */
     @PostMapping("/product/{productId}")
     public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
 

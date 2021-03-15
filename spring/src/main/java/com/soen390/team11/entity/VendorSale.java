@@ -1,12 +1,14 @@
 package com.soen390.team11.entity;
 
 import com.soen390.team11.constant.Type;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+/**
+ * Database Entity for Vendor Sale ID
+ */
 @Entity(name = "vendor_sale")
 public class VendorSale {
 

@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 const RawMaterial = ()=>{
     const [rawMaterialList, setRawMaterialList] = useState([]);
     const [re_render, setRe_render] = useState(false);
+    console.log(rawMaterialList);
     const getRawMaterial = () =>{
         request
             .get(BuildPath("/rawmaterials/"))
@@ -24,7 +25,6 @@ const RawMaterial = ()=>{
             .then(res => {
                 if (res.status === 200)
                 {
-                    console.log(JSON.stringify(res.body))
                     if(JSON.stringify(rawMaterialList) !== JSON.stringify(res.body)){
                         setRawMaterialList(res.body);
                     }

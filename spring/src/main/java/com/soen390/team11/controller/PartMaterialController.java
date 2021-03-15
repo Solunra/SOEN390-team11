@@ -12,20 +12,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for part's materials
+ */
 @RestController
 @RequestMapping("/parts")
 public class PartMaterialController {
+
     ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     PartMaterialService partMaterialService;
 
     @Autowired
     PartService partService;
 
+    /**
+     * Gets the amount of material that consists a specific part
+     *
+     * @param partId The specified Part's ID
+     * @return A list of a Part's materials
+     */
     @GetMapping("/{partId}/materials")
-    public ResponseEntity<?> retrivePartMaterials(@PathVariable String partId){
+    public ResponseEntity<?> retrivePartMaterials(@PathVariable String partId) {
         return ResponseEntity.ok((partMaterialService.getPartMaterials(partId)));
     }
+
+    /**
+     * Gets the part's materials
+     *
+     * @param partId The part's id
+     * @return List of Part Materials
+     */
     @GetMapping("/materials/{partId}")
     public ResponseEntity<?> retrieveAllMaterailByParts(@PathVariable String partId){
         String pid = String.valueOf(partId);

@@ -8,14 +8,16 @@ import {RawMaterialForm} from "./RawMaterialForm";
 import {AlertErr} from "../Utils/AlertErr";
 import BuildPath from "../RequestBuilder";
 import request from 'superagent';
+import {Order} from "./Order";
 
 const RawMaterialTable = (props) => {
     const {rows,re_render, setRe_render } = props;
     const [open, setOpen] = useState(false);
+    const [openOrder, setOpenOrder] = useState(false);
+    const [orderData, setOrderData] = useState({});
     const [data, setData] = useState({});
     const [errMessage, setErrMessage] = useState('');
     const columns = [
-        // { title: 'Id', field: 'productid' },
         { title: 'Raw material Name', field: 'name' },
         { title: 'Description', field: 'description' },
         { title: 'Vendor', field: 'companyname' },
@@ -26,8 +28,8 @@ const RawMaterialTable = (props) => {
         {
             icon: () => { return <EditIcon />;},
             export: false,
-            onClick: (event, rowData) => {
-                handleEdit(rowData);
+            onClick: (event, row) => {
+                handleEdit(row);
             }
         },
         {
@@ -48,8 +50,9 @@ const RawMaterialTable = (props) => {
         {
             icon: () => {return <ShoppingBasketTwoToneIcon />;},
             export: false,
-            onClick: (event, rowData) => {
-                alert("order raw material");
+            onClick: (event, row) => {
+                setOpenOrder(true);
+                setOrderData(row);
             }
         }
     ];
@@ -58,6 +61,7 @@ const RawMaterialTable = (props) => {
     };
     const handleEdit = (row) =>{
         setData(row);
+        console.log(row);
         setOpen(true);
     }
     const handleAdd = () =>{
@@ -87,6 +91,8 @@ const RawMaterialTable = (props) => {
                 handleDelete = {handleDelete}
                 handleEdit = {handleEdit}
                 handleAdd = {handleAdd}
+                setOpenOrder={setOpenOrder}
+                setOrderData={setOrderData}
                 actions = {actions}
                 title = {`Raw Material Table`}
             >
@@ -100,8 +106,12 @@ const RawMaterialTable = (props) => {
                 setRe_render={setRe_render}
                 setErrMessage={setErrMessage}
             >
-
             </RawMaterialForm>
+            <Order
+                open={openOrder}
+                setOpen={setOpenOrder}
+                orderData={orderData}
+                />
         </>
     );
 }
