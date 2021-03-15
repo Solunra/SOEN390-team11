@@ -35,7 +35,7 @@ const RawMaterialForm = (props) =>{
     const [vendorList, setVendorList] = useState([]);
     const [price, setPrice] = useState(0);
     const [unit, setUnit] = useState('');
-    const unitList = ["None","Ton","L","kg"];
+    const unitList = ["None","Ton","L","kg","Piece"];
     const classes = useStyles();
     const getVendorList = () =>{
         request
@@ -106,7 +106,7 @@ const RawMaterialForm = (props) =>{
                     {
                         "name":name,
                         "description":description,
-                        "price":price,
+                        "cost":price,
                         "unit":unit,
                         "vendorID":vendorID,
                     }

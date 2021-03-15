@@ -24,7 +24,7 @@ public class RawMaterial {
     private String description;
 
     @Column
-    private double price;
+    private double cost;
 
     @Column
     private String unit;
@@ -45,10 +45,10 @@ public class RawMaterial {
         this.name = name;
     }
 
-    public RawMaterial(String name, String description, double price, String unit) {
+    public RawMaterial(String name, String description, double cost, String unit) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.cost = cost;
         this.unit = unit;
     }
 
@@ -91,12 +91,12 @@ public class RawMaterial {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCost(double price) {
+        this.cost = price;
     }
 
     public String getUnit() {
