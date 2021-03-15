@@ -12,13 +12,13 @@ public class PartMaterial {
     private String id;
 
     @Column
-    private String part_id;
+    private String partId;
 
     @Column
-    private String material_id;
+    private String materialId;
 
     @Column
-    private Integer material_quantity;
+    private Integer materialQuantity;
 
     /**
      * default constructor
@@ -30,29 +30,29 @@ public class PartMaterial {
     /**
      * constructor with an auto-generated id
      * 
-     * @param part_id           the part_id of the instance
-     * @param material_id       the material_id of the instance
-     * @param material_quantity the material_quantity of the instance
+     * @param partId           the partId of the instance
+     * @param materialId       the materialId of the instance
+     * @param materialQuantity the materialQuantity of the instance
      */
-    public PartMaterial(String part_id, String material_id, Integer material_quantity) {
-        this.part_id = part_id;
-        this.material_id = material_id;
-        this.material_quantity = material_quantity;
+    public PartMaterial(String partId, String materialId, Integer materialQuantity) {
+        this.partId = partId;
+        this.materialId = materialId;
+        this.materialQuantity = materialQuantity;
     }
 
     /**
      * cosntructor with all params
      * 
-     * @param id                the id of the instance
-     * @param part_id           the part_id of the instance
-     * @param material_id       the material_id of the instance
-     * @param material_quantity the material_quantity of the instance
+     * @param id               the id of the instance
+     * @param partId           the partId of the instance
+     * @param materialId       the materialId of the instance
+     * @param materialQuantity the materialQuantity of the instance
      */
-    public PartMaterial(String id, String part_id, String material_id, Integer material_quantity) {
+    public PartMaterial(String id, String partId, String materialId, Integer materialQuantity) {
         this.id = id;
-        this.part_id = part_id;
-        this.material_id = material_id;
-        this.material_quantity = material_quantity;
+        this.partId = partId;
+        this.materialId = materialId;
+        this.materialQuantity = materialQuantity;
     }
 
     /**
@@ -65,12 +65,12 @@ public class PartMaterial {
     }
 
     /**
-     * getter method for the part_id of partMaterial
+     * getter method for the partId of partMaterial
      * 
      * @return the partid of the instance
      */
     public String getPartId() {
-        return part_id;
+        return partId;
     }
 
     /**
@@ -79,16 +79,16 @@ public class PartMaterial {
      * @return the materialid of the instance
      */
     public String getMaterialId() {
-        return material_id;
+        return materialId;
     }
 
     /**
-     * getter method for the material_quantity of partMaterial
+     * getter method for the materialQuantity of partMaterial
      * 
-     * @return the material_quantity of the instance
+     * @return the materialQuantity of the instance
      */
-    public Integer getMaterial_quantity() {
-        return material_quantity;
+    public Integer getmaterialQuantity() {
+        return materialQuantity;
     }
 
     /**
@@ -103,27 +103,27 @@ public class PartMaterial {
     /**
      * mutator method for the partmaterial id
      * 
-     * @param part_id the desired partid of the instance
+     * @param partId the desired partid of the instance
      */
-    public void setPartId(String part_id) {
-        this.part_id = part_id;
+    public void setPartId(String partId) {
+        this.partId = partId;
     }
 
     /**
      * mutator method for the partmaterial id
      * 
-     * @param material_id the desired materialid of the instance
+     * @param materialId the desired materialid of the instance
      */
-    public void setMaterialId(String material_id) {
-        this.material_id = material_id;
+    public void setMaterialId(String materialId) {
+        this.materialId = materialId;
     }
 
     /**
      * mutator method for the partmaterial id
      * 
-     * @param material_quantity the desired material_quantity of the instance
+     * @param materialQuantity the desired materialQuantity of the instance
      */
-    public void setmaterial_quantity(Integer material_quantity) {
-        this.material_quantity = material_quantity;
+    public void setmaterialQuantity(Integer materialQuantity) {
+        this.materialQuantity = materialQuantity;
     }
 }

@@ -23,15 +23,15 @@ public class PartMaterialService {
     @Autowired
     MaterialRepository materialRepository;
 
-    public Map<String, Integer> getPartMaterials(String part_id) {
+    public Map<String, Integer> getPartMaterials(String partId) {
         Map<String, Integer> materialMap = new HashMap<>();
-        partMaterialRepository.findAllByPart_id(part_id).forEach(
-                partInventory -> materialMap.put(partInventory.getMaterialId(), partInventory.getMaterial_quantity()));
+        partMaterialRepository.findAllByPartId(partId).forEach(
+                partInventory -> materialMap.put(partInventory.getMaterialId(), partInventory.getmaterialQuantity()));
         return materialMap;
     }
 
-    public List<PartMaterialResponse> getAllMaterialsOfPart(String part_id) {
-        List<PartMaterial> partMaterialList = partMaterialRepository.findAllByPart_id(part_id);
+    public List<PartMaterialResponse> getAllMaterialsOfPart(String partId) {
+        List<PartMaterial> partMaterialList = partMaterialRepository.findAllByPartId(partId);
         List<Material> materials = (List<Material>) materialRepository.findAll();
         List<PartMaterialResponse> PartMaterialResponselist = new ArrayList<>();
         PartMaterialResponse partMaterialResponse = new PartMaterialResponse();
@@ -39,7 +39,7 @@ public class PartMaterialService {
             for (Material m : materials) {
                 if (pm.getMaterialId().equals(m.getMaterialid())) {
                     partMaterialResponse = new PartMaterialResponse(pm.getId(), pm.getPartId(), pm.getMaterialId(),
-                            pm.getMaterial_quantity(), m.getName());
+                            pm.getmaterialQuantity(), m.getName());
                 }
             }
             PartMaterialResponselist.add(partMaterialResponse);
