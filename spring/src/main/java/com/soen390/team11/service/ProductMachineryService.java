@@ -18,11 +18,17 @@ import java.util.Optional;
 @Service
 public class ProductMachineryService {
 
-    @Autowired
     ProductMachineryRepository productMachineryRepository;
 
-    @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    public ProductMachineryService(
+        ProductMachineryRepository productMachineryRepository,
+        ProductRepository productRepository) {
+        this.productMachineryRepository = productMachineryRepository;
+        this.productRepository = productRepository;
+    }
 
     /**
      * Gets all the product machinery
@@ -40,17 +46,27 @@ public class ProductMachineryService {
      * @return New Product Machinery's ID
      */
     public String createMachinery(ProductMachineryDto productMachineryDto) {
+
+        // if no product is bound
+        if (productMachineryDto.getProductId().trim().isEmpty()) {
+            return productMachineryRepository
+                .save(new ProductMachinery(productMachineryDto.getName(), MachineryState.UNASSIGNED,
+                    0, null)).getId();
+        }
+
+        // if product is bound
         Optional<Product> optionalProduct = productRepository
             .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
             ProductMachinery newMachinery = new ProductMachinery(productMachineryDto.getName(),
-                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()), productMachineryDto.getTimer(),
+                MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()),
+                productMachineryDto.getTimer(),
                 optionalProduct.get());
-            productMachineryRepository.save(newMachinery);
-            return newMachinery.getId();
-        } else {
-            return "";
+            return productMachineryRepository.save(newMachinery).getId();
         }
+
+        // if product is invalid
+        return "";
     }
 
     /**
@@ -60,7 +76,7 @@ public class ProductMachineryService {
      * @param op The Operation done on it
      * @return True if the status change was successful
      */
-    public boolean updateMachineryStatus(String machineryId, String op) {
+    public String updateMachineryStatus(String machineryId, String op) {
         Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
             .findById(machineryId);
 
@@ -71,14 +87,66 @@ public class ProductMachineryService {
 
                 // if found, validate the transition using setStatus
                 if (definedOp.toString().equals(op.toUpperCase())) {
-                    if (optionalProductMachinery.get().setStatus(MachineryOp.getTransitionState(definedOp))) {
+                    if (optionalProductMachinery.get()
+                        .setStatus(MachineryOp.getTransitionState(definedOp))) {
                         productMachineryRepository.save(optionalProductMachinery.get());
-                        return true;
+                        return "Success";
                     }
-                    return false;
+                    return "State transition is invalid";
                 }
             }
+
+            return "Operation is not supported";
+        } else {
+            return "Machinery does not exist";
         }
-        return false;
+    }
+
+    /**
+     * Search for an UNASSIGNED machinery in the list of machineries.
+     *
+     * @return the ID of the available machinery if found, else empty String
+     */
+    public String findAvailableMachinery() {
+        Iterable<ProductMachinery> machineries = productMachineryRepository.findAll();
+        for (ProductMachinery machinery : machineries) {
+            if (machinery.getStatus().equals(MachineryState.UNASSIGNED)) {
+                return machinery.getId();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Set the product to produce for a given machinery.
+     *
+     * @param machineryId The Product Machinery ID to be updated
+     * @param productId The Product ID to be updated
+     * @return Result message of the operation
+     */
+    public String occupyMachinery(String machineryId, String productId) {
+        Optional<ProductMachinery> optionalProductMachinery = productMachineryRepository
+            .findById(machineryId);
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProductMachinery.isPresent() && optionalProduct.isPresent()) {
+
+            if (optionalProductMachinery.get().setProduct(optionalProduct.get())) {
+
+                optionalProductMachinery.get()
+                    .setTimer(50); // FIXME replace fixed time with specific time for each machine
+
+                optionalProductMachinery.get().setStatus(MachineryState.READY);
+
+                productMachineryRepository.save(optionalProductMachinery.get());
+                return "Success";
+
+            } else {
+                return "Machine is unavailable";
+            }
+        } else {
+            return "Either machinery or product does not exist";
+        }
     }
 }
