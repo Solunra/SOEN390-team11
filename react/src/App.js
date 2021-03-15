@@ -10,6 +10,7 @@ import {Inventory} from './components/Inventory';
 import {RawMaterial} from "./components/RawMaterial";
 import './App.css';
 import {Order} from "./components/Order";
+import {Machinery} from "./components/Machinery";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -59,6 +60,7 @@ function App() {
                   <Route path = "/admin/inventory" component={Inventory}/>
                   <Route path = "/admin/rawMaterial" component={RawMaterial}/>
                   <Route path = "/admin/order" component={Order}/>
+                  <Route path = "/admin/Machinery" component={Machinery}/>
 
               </div>
           </HashRouter>

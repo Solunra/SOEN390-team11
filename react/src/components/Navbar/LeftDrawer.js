@@ -62,17 +62,10 @@ const LeftDrawer = props => {
     else if (role === "admin"){
         itemsList = [
             {
-                text: "production",
+                text: "Production",
                 icon: <BuildOutlinedIcon />,
                 onClick: () => {
                     handleClick("production")
-                }
-            },
-            {
-                text: "inventory",
-                icon: <ListAltOutlinedIcon />,
-                onClick: () =>{
-                    handleClick("inventory")
                 }
             },
             {
@@ -80,6 +73,20 @@ const LeftDrawer = props => {
                 icon: <GrainIcon />,
                 onClick: () =>{
                     handleClick("rawMaterial");
+                }
+            },
+            {
+                text: "Inventory",
+                icon: <ListAltOutlinedIcon />,
+                onClick: () =>{
+                    handleClick("inventory")
+                }
+            },
+            {
+                text: "Machinery",
+                icon: <GrainIcon />,
+                onClick: () =>{
+                    handleClick("machinery");
                 }
             },
             {
