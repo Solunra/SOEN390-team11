@@ -3,14 +3,10 @@ package com.soen390.team11.entity;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-<<<<<<< HEAD
-@Entity(name = "product_parts")
-=======
 /**
  * Database Entity for Product's Parts
  */
 @Entity(name="product_parts")
->>>>>>> main
 public class ProductParts {
 
     @EmbeddedId
