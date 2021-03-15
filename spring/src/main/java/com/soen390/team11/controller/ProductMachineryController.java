@@ -1,8 +1,11 @@
 package com.soen390.team11.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.service.ProductMachineryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/machinery")
 public class ProductMachineryController {
 
+    ObjectMapper objectMapper= new ObjectMapper();
+
     @Autowired
     private ProductMachineryService productMachineryService;
 
@@ -29,7 +34,11 @@ public class ProductMachineryController {
      */
     @GetMapping
     public ResponseEntity<?> retrieveAllMachineries() {
-        return ResponseEntity.ok(productMachineryService.getAllMachineries());
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(productMachineryService.getAllMachineries()), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
     }
 
     /**
@@ -40,8 +49,12 @@ public class ProductMachineryController {
      */
     @PutMapping
     public ResponseEntity<?> createMachinery(@RequestBody ProductMachineryDto productMachineryDto) {
-        String machineryId = productMachineryService.createMachinery(productMachineryDto);
-        return ResponseEntity.ok(machineryId);
+        try {
+            String machineryId = productMachineryService.createMachinery(productMachineryDto);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(machineryId), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
     }
 
     /**
@@ -53,13 +66,42 @@ public class ProductMachineryController {
      */
     @PostMapping("/{machineryId}/{op}")
     public ResponseEntity<?> updateMachineryStatus(@PathVariable String machineryId, @PathVariable String op) {
+        try {
+            String result = productMachineryService.updateMachineryStatus(machineryId, op);
+            // try to find the machinery and update its machinery status
+            if (result != null && result.equals("Success"))
+                return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);
 
-        // try to find the machinery and update its machinery status
-        if (productMachineryService.updateMachineryStatus(machineryId, op)) {
-            return ResponseEntity.ok("Success");
+            return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.BAD_REQUEST);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * Attempt to associate a machinery with a product to produce.
+     *
+     * It first tries to find an UNASSIGNED machinery, then tries to set the product of the machinery.
+     *
+     * @param productId The product's ID
+     * @return A success message
+     */
+    @PostMapping("/product/{productId}")
+    public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
+
+        try {
+            // try to find an unassigned machinery and occupy it
+            String result = productMachineryService.occupyMachinery(
+                productMachineryService.findAvailableMachinery(), productId);
+
+            if (result != null && result.equals("Success"))
+                return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);
+
+            return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.BAD_REQUEST);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
 
-        return ResponseEntity.badRequest().body("Operation not supported");
     }
 
 }
