@@ -100,7 +100,6 @@ public class ProductMachineryControllerTest {
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$", hasSize(equalTo(2))))
             .andExpect(jsonPath("$[1].id", anyOf(equalTo(expectedId0), equalTo(expectedId1))));
     }
