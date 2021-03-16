@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,31 +29,49 @@ public class CustomerPurchaseService {
     InvoiceRepository invoiceRepository;
     @Autowired
     ProductRepository productRepository;
+
+    /**
+     * service to make the purchase
+     * @param customerPurchaseDto
+     * @return
+     */
     public String makePurchase(CustomerPurchaseDto customerPurchaseDto) {
-        Customer customer= customerRepository.save(customerPurchaseDto.getCustomer());// id of the customer
-        Invoice invoice=invoiceRepository.save(new Invoice(OffsetDateTime.now(),customerPurchaseDto.getTotalamount()));
+        final Customer customer= customerRepository.save(customerPurchaseDto.getCustomer());// id of the customer
+        final Invoice invoice=invoiceRepository.save(new Invoice(OffsetDateTime.now(),customerPurchaseDto.getTotalamount()));
         List<HashMap<String, Object>> carte= customerPurchaseDto.getCarte();
         CustomerPurchaseId customerPurchaseId=null;
         CustomerPurchase customerPurchase=null;
         for(HashMap hm: carte){
             customerPurchaseId = new CustomerPurchaseId(customer.getCustomerID(), (String) hm.get("productid"),invoice.getInvoiceID());
-            customerPurchase=new CustomerPurchase(customerPurchaseId, Status.PENDING, (Integer) hm.get("quantity"));
+            customerPurchase=new CustomerPurchase(customerPurchaseId, Status.PAID, (Integer) hm.get("quantity"));
             customerPurchaseRepository.save(customerPurchase);
         }
         return invoice.getInvoiceID();
     }
-    public List<CheckStatusResponseDto> checkStatus(String invoiceId){
+
+    /**
+     * check the status
+     * @param invoiceId
+     * @return
+     */
+    public List<ProductRequestDto> checkStatus(String invoiceId){
         List<CustomerPurchase> customerPurchases= customerPurchaseRepository.findAllByCustomerPurchaseIdInvoiceID(invoiceId);
-        List<CheckStatusResponseDto> responseDtoList= new ArrayList<>();
-        CheckStatusResponseDto checkStatusResponseDto=null;
+        List<ProductRequestDto> responseDtoList= new ArrayList<>();
+        ProductRequestDto productRequestDto=null;
         Product product=null;
         for(CustomerPurchase cp: customerPurchases){
             product=productRepository.findById(cp.getCustomerPurchaseId().getProductID()).get();
-            checkStatusResponseDto=new CheckStatusResponseDto(product.getName(),cp.getStatus());
-            responseDtoList.add(checkStatusResponseDto);
+            productRequestDto=new ProductRequestDto(product.getName(),product.getType(),product.getSize(),product.getColor(),
+                    product.getFinish(),product.getGrade(),product.getPrice(),cp.getStatus());
+            responseDtoList.add(productRequestDto);
         }
         return responseDtoList;
     }
+
+    /**
+     * get all product
+     * @return
+     */
     public List<Product> getAllProduct(){
         List<Product> finalproductList = new ArrayList<>();
         List<Product> productslist = productRepository.findFirst10BySize("Medium");
@@ -63,6 +82,12 @@ public class CustomerPurchaseService {
         finalproductList.addAll(productslist);
         return finalproductList;
     }
+
+    /**
+     * get customize product
+     * @param productRequestDto
+     * @return
+     */
     public List<Product> getCustomerizeProduct(ProductRequestDto productRequestDto){
         List<Product> customizeProduct=productRepository.findByNameAndColorAndSizeAndFinish(productRequestDto.getName(), productRequestDto.getColor(), productRequestDto.getSize(), productRequestDto.getFinish());
         for(Product p: customizeProduct){
@@ -70,7 +95,4 @@ public class CustomerPurchaseService {
         }
         return customizeProduct;
     }
-
-
-
 }

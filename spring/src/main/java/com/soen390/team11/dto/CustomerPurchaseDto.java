@@ -19,6 +19,18 @@ public class CustomerPurchaseDto {
     public CustomerPurchaseDto() {
     }
 
+    public CustomerPurchaseDto(String firstname, String lastname, String address, String city, String province, String zip, String country, Double totalamount, List<HashMap<String, Object>> carte) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+        this.totalamount = totalamount;
+        this.carte = carte;
+    }
+
     public Double getTotalamount() {
         return totalamount;
     }
@@ -77,15 +89,6 @@ public class CustomerPurchaseDto {
 
     public List<HashMap<String, Object>> getCarte() {
         return carte;
-//        ObjectMapper objectMapper= new ObjectMapper();
-//        try {
-//            carte = objectMapper.readValue(carteList,
-//                    new TypeReference<List<HashMap<String, Object>>>(){});
-//            System.out.println(carte.toString());
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
     }
     public String getProvince() {
         return province;

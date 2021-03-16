@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
@@ -31,10 +31,13 @@ const CheckOut = (props)=> {
     const [payment,setPayment] = useState(() => new Map());
     const [error,setError]=useState('');
     const [invoiceId, setInvoiceId] = useState('');
+    const [totalPrice, setTotalPrice] = useState(0);
     const closeAlert = ()=>{
         setError('');
-    }
-    console.log(payment);
+    };
+    useEffect(()=>{
+        console.log(totalPrice);
+    },[totalPrice]);
     const checkPage= ()=>{
         switch (page) {
             case 0:
@@ -51,15 +54,13 @@ const CheckOut = (props)=> {
                     shipping={shipping}
                     payment={payment}
                     cartList={cartList}
+                    totalPrice={totalPrice}
                 />;
-            // case 3:
-            //     return <Response />
             default:
                return ;
         }
     }
     const checkShipping=()=>{
-        console.log(page+"\t"+shipping.has("lastname"))
         if(shipping.has("firstname") && shipping.has("lastname")&& shipping.has("city") && shipping.has("province") && shipping.has("zip")&& shipping.has("address") && shipping.has("country"))
         {
             if(shipping.get("firstname").trim() !=="" && shipping.get("lastname").trim() !=="" && shipping.get("city").trim()!=="" &&
@@ -72,7 +73,7 @@ const CheckOut = (props)=> {
         return false;
     }
     const checkPayment=()=>{
-        if(payment.has("name") &&payment.has("cardnumber") &&payment.has("exp") &&payment.has("ccv")){
+        if(payment.has("name") && payment.has("cardnumber") && payment.has("exp") &&payment.has("cvv")){
             return true;
         }
         return false;
@@ -81,9 +82,9 @@ const CheckOut = (props)=> {
 
     const handleNext=()=>{
         // if(page === 0 && !checkShipping()){
-        //     setErrMessage("ALl field is required")
+        //     setError("ALl field is required")
         //     setTimeout(()=>{
-        //         setErrMessage("")
+        //         setError("")
         //     }, 3000);
         //     return;
         // }
@@ -98,18 +99,21 @@ const CheckOut = (props)=> {
         setPayment(new Map());
     }
     const handleSubmit=()=>{
-        if(!checkPayment()){
-            setError("All field is required")
-            setTimeout(()=>{
-                setError("")
-            }, 3000);
-            return;
-        }
+        console.log(checkPayment());
+        // if(!checkPayment()){
+        //     setError("All field is required")
+        //     setTimeout(()=>{
+        //         setError("")
+        //     }, 3000);
+        //     return;
+        // }
         let submitCart=[];
-        let totalprice=0;
+        let sumprice=0;
         for (let i=0;i<cartList.length;i++) {
             submitCart=[...submitCart,{"productid":cartList[i]['product']['productid'], "quantity": cartList[i]['count'] }];
+            sumprice += cartList[i]['count']*cartList[i]['product']['price'];
         }
+        setTotalPrice(sumprice);
         //set total payment so we can use in review too
         request
                 .post(BuildPath("/customer/purchase/create"))
@@ -131,7 +135,7 @@ const CheckOut = (props)=> {
                         // "province":shipping.get("province"),
                         // "zip":shipping.get("zip"),
                         // "country":shipping.get("country"),
-                        "totalamount":200,
+                        "totalamount":sumprice,
                         "carte":submitCart
                     }
                 )
@@ -156,6 +160,7 @@ const CheckOut = (props)=> {
             setCartList([]);
         }
         setInvoiceId('');
+        setTotalPrice(0);
     }
 
     return (

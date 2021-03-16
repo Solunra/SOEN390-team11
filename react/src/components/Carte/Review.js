@@ -6,20 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
-const products = [
-    { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-    { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-    { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-    { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-    { name: 'Shipping', desc: '', price: 'Free' },
-];
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
-const payments = [
-    { name: 'Card type', detail: 'Visa' },
-    { name: 'Card holder', detail: 'Mr John Smith' },
-    { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-    { name: 'Expiry date', detail: '04/2024' },
-];
 
 const useStyles = makeStyles((theme) => ({
     listItem: {
@@ -35,30 +21,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Review =(props)=> {
     const classes = useStyles();
-    const {cartList,shipping,payment,invoiceId} =props;
-
+    const {cartList,shipping,invoiceId,totalPrice} =props;
+    console.log(cartList);
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
                 Order summary
             </Typography>
             <List disablePadding>
-                {/*{products.map((product) => (*/}
-                {/*    <ListItem className={classes.listItem} key={product.name}>*/}
-                {/*        <ListItemText primary={product.name} secondary={product.desc} />*/}
-                {/*        <Typography variant="body2">{product.price}</Typography>*/}
-                {/*    </ListItem>*/}
-                {/*))}*/}
                 {cartList.map((row) => (
                     <ListItem className={classes.listItem}>
-                        <ListItemText primary={row['product']['name']} secondary={`${row['count']} X 100`} />
-                        <Typography variant="body2">${row['count']*100}</Typography>
+                        <ListItemText primary={row['product']['name']} secondary={`${row['count']} X ${row['product']['price']}`} />
+                        <Typography variant="body2">${row['count']*row['product']['price']}</Typography>
                     </ListItem>
                 ))}
                 <ListItem className={classes.listItem}>
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" className={classes.total}>
-                        $34.06
+                        {`\$ ${totalPrice}`}
                     </Typography>
                 </ListItem>
             </List>

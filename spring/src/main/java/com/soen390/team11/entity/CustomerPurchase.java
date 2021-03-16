@@ -4,6 +4,9 @@ import com.soen390.team11.constant.Status;
 
 import javax.persistence.*;
 
+/**
+ * data entity for customer purchase
+ */
 @Entity(name = "customer_purchase")
 public class CustomerPurchase {
     @EmbeddedId

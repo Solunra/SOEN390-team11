@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -45,7 +46,7 @@ public class ProductMachineryService {
         Iterable<ProductMachinery> productMachineries= productMachineryRepository.findAll();
         ProductMachineryDto productMachineryDto=null;
         for(ProductMachinery pm: productMachineries){
-            if(pm.getProduct() == null){
+            if(pm.getStatus().equals(MachineryState.UNASSIGNED)|| pm.getProduct() == null){
                 productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),pm.getTimer(),
                         "empty","empty");
             }

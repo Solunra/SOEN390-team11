@@ -34,7 +34,7 @@ const CheckStatus = (props) =>{
     const [invoiceId, setInvoiceId]= useState('');
     const [orderList, setOrderList]= useState([]);
     const classes = useStyles();
-
+    console.log(orderList);
     const handleCheckStatus =()=>{
         if(invoiceId ==='' || invoiceId.trim()===''){
             setErrMessage("Invoice ID is required");
@@ -93,7 +93,7 @@ const CheckStatus = (props) =>{
                 <List disablePadding>
                     {orderList.size===0?"": orderList.map((row) => (
                         <ListItem className={classes.listItem}>
-                            <ListItemText primary={row['name']}/>
+                            <ListItemText primary={`${row['name']}, ${row['color']}, ${row['size']}, ${row['finish']}, \$${row['price']}`}/>
                             <Typography variant="body2">{row['status']}</Typography>
                         </ListItem>
                     ))}

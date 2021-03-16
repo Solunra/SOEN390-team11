@@ -17,14 +17,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Product = props => {
-    const {product, handleAdd} = props;
+    const {product, handleAdd,role} = props;
     const classes = useStyles();
     return (
 
             <Card className={classes.container}>
                 <CardHeader
                     title={product['name']}
-                    subheader={product['price']}
+                    subheader={`\$ ${product['price']}`}
                 />
                 <CardMedia className={classes.cardMedia} image={bike} />
                 <CardContent>
@@ -42,7 +42,7 @@ const Product = props => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" className={classes.button} onClick={() => handleAdd(product) }>Add to carte</Button>
+                    {role !== "public" && <Button size="small" className={classes.button} onClick={() => handleAdd(product) }>Add to carte</Button>}
                 </CardActions>
             </Card>
 

@@ -43,7 +43,7 @@ const Customize = (props) =>{
     const [finish, setFinish]= useState('');
     const [customizeProduct, setCustomizeProduct]= useState([]);
     const classes = useStyles();
-    const availableName=["Aero bikes", "Ghost bikes","Raaw bikes"];
+    const availableName=["Aero bikes", "Ghost bikes","Raaw bikes","Rocky bikes"];
     const availableSize=["Small","Medium","Large"];
     const availableColor=["Black","White","blue","Yellow","Red"];
     const availableFinish=["Polish","Matte"];

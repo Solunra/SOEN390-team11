@@ -2,6 +2,7 @@ package com.soen390.team11.dto;
 
 import java.util.List;
 
+import com.soen390.team11.constant.Status;
 import com.soen390.team11.entity.Product;
 
 /**
@@ -17,6 +18,7 @@ public class ProductRequestDto {
     private String grade;
     private float cost;
     private float price;
+    private Status status;
 
     // attributes for product_parts
     private String saddleId;
@@ -55,6 +57,18 @@ public class ProductRequestDto {
         this.grade = grade;
         this.cost = cost;
         this.price = price;
+    }
+
+    public ProductRequestDto(String name, String type, String size, String color, String finish, String grade, float price, Status status) {
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.color = color;
+        this.finish = finish;
+        this.grade = grade;
+        this.cost = cost;
+        this.price = price;
+        this.status = status;
     }
 
     public String getName() {
@@ -125,44 +139,28 @@ public class ProductRequestDto {
         return saddleId;
     }
 
-    public void setSaddleId(String saddleId) {
-        this.saddleId = saddleId;
-    }
-
     public String getFrameId() {
         return frameId;
-    }
-
-    public void setFrameId(String frameId) {
-        this.frameId = frameId;
     }
 
     public String getWheelId() {
         return wheelId;
     }
 
-    public void setWheelId(String wheelId) {
-        this.wheelId = wheelId;
-    }
-
     public String getFrontSetId() {
         return frontSetId;
-    }
-
-    public void setFrontSetId(String frontSetId) {
-        this.frontSetId = frontSetId;
     }
 
     public String getPedalUnitId() {
         return pedalUnitId;
     }
 
-    public void setPedalUnitId(String pedalUnitId) {
-        this.pedalUnitId = pedalUnitId;
-    }
-
     public Product getProduct() {
         return new Product(name, type, size, color, finish, grade, cost, price);
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override

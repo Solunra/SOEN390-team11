@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
+/**
+ * invoice of the customer purchase
+ */
 @Entity(name = "invoice")
 public class Invoice {
     @Id

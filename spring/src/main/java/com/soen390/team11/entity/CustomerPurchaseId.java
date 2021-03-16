@@ -6,11 +6,13 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * embeddable id of customer purchase
+ */
 @Embeddable
 public class CustomerPurchaseId implements Serializable {
     @NotNull
     private String customerID;
-//would change to final product after
     @NotNull
     private String productID;
     @NotNull

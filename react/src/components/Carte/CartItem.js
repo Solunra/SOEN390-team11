@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const CartItem = (props)=> {
     const classes = useStyles();
     const {item, handleIncrement,handleRemove} = props;
+    console.log(item);
 
     return (
         <div className={classes.root}>
@@ -72,7 +73,8 @@ const CartItem = (props)=> {
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <Typography variant="subtitle1">$19.00</Typography>
+                            <Typography variant="subtitle1">{`\$ ${item['product']['price']} X ${item['count']} `}</Typography>
+                            <Typography variant="subtitle1">{item['product']['price']*item['count']}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

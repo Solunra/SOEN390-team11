@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const Shop = ()=>{
+const PublicShop = ()=>{
     // retrieve all from database
     const [cart, setCart] = useState([]);
     const [productList, setProductList] = useState([]);
@@ -85,7 +85,7 @@ const Shop = ()=>{
     }
     const getProducts = () =>{
         request
-            .get(BuildPath("/customer/allProduct"))
+            .get(BuildPath("/customer/public/allProduct"))
             .set('Authorization', localStorage.getItem("Authorization"))
             .set('Accept', 'application/json')
             .then(res => {
@@ -110,49 +110,12 @@ const Shop = ()=>{
     const classes = useStyles();
     return(
         <>
-            <Grid container className={classes.container}>
-                <Grid item md={3}>
-                    <Button onClick={()=>setOpenCustomize(true)} className={classes.button}>Customize Order</Button>
-                </Grid>
-                <Grid item md={3}>
-                    <Button onClick={()=>setOpen(true)} className={classes.button}>Carte</Button>
-                </Grid>
-                <Grid item md={3}>
-                    <Button onClick={()=>setOpenCheckStatus(true)} className={classes.button}>Tracking Order</Button>
-                </Grid>
-            </Grid>
-
             <Grid container className={classes.wrapper} spacing={2}>
                 {productList.map((row)=>{
-                    return (<Product product={row} handleAdd={handleAdd} role={"customer"}></Product>);
-                    })}
+                    return (<Product product={row} role={"customer"}></Product>);
+                })}
             </Grid>
-            <Cart
-                open={open}
-                handleClose={handleClose}
-                cartList = {cart}
-                handleIncrement={handleIncrement}
-                handleCheckOut={handleCheckOut}
-                handleRemove={handleRemove}
-            />
-            <CheckOut
-                openCheckOut={openCheckout}
-                handleCloseCheckOut={handleCloseCheckOut}
-                cartList = {cart}
-                setCartList={setCart}
-            />
-            <CheckStatus
-                openCheckStatus={openCheckStatus}
-                setOpenCheckStatus={setOpenCheckStatus}
-                productList={productList}
-            />
-            <Customize
-                openCustomize={openCustomize}
-                setOpenCustomize={setOpenCustomize}
-                handleAdd={handleAdd}
-            />
-
         </>
     );
 };
-export {Shop};
+export {PublicShop};
