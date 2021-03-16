@@ -46,8 +46,8 @@ const OrderTable = (props) => {
         <>
             <CustomTable
                 data={rows}
-                columns = {columns}
-                title = {`Order Table`}
+                columns={columns}
+                title={`Order Table`}
             >
             </CustomTable>
         </>

@@ -42,14 +42,7 @@ const LeftDrawer = props => {
                 text: "shop",
                 icon: <StorefrontRoundedIcon />,
                 onClick: () => {
-                    handleClick("shop")
-                }
-            },
-            {
-                text: "carte",
-                icon: <AddShoppingCartRoundedIcon />,
-                onClick: () =>{
-                    handleClick("carte")
+                    handleClick("shop");
                 }
             },
             {

@@ -21,6 +21,7 @@ const Inventory = ()=>
     const [prodInv, setProdInv]= useState([]);
     const [partInv, setPartInv]= useState([]);
     const [matInv, setMatInv]= useState([]);
+    const [loading, setLoading] = useState(true);
     const getProdInv = () =>{
         request
             .get(BuildPath("/inventory/products/"))
@@ -73,14 +74,10 @@ const Inventory = ()=>
             });
     }
     useEffect(()=>{
-        getProdInv();
-    },[prodInv]);
-    useEffect(()=>{
         getPartInv();
-    },[partInv]);
-    useEffect(()=>{
+        getProdInv();
         getMatInv();
-    },[matInv]);
+    },[loading]);
     return(
         <>
             <div className={classes.rootGrid}>

@@ -26,8 +26,6 @@ const LoginComponent = () => {
             )
             .set('Accept', 'application/json')
             .then(res => {
-                console.log(res.headers["authorization"]);
-                console.log(res.headers["role"]);
                 if (res.status === 200)
                 {
                     localStorage.setItem("Authorization", res.headers["authorization"]);

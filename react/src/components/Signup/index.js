@@ -41,7 +41,7 @@ const SignupComponent = () => {
                 setErrMessage("Cannot Create account");
                 setTimeout(()=>{
                     setErrMessage("")
-                }, 45000);
+                }, 5000);
             });
 
 
@@ -120,15 +120,21 @@ const SignupComponent = () => {
                         />
                     </th>
                 </tr>
+                <tr>
+                    <th>
+                        <Grid>
+                            <Grid item xs={12}>
+                                <div style={ {color: 'red' }}>{errMessage}</div>
+                            </Grid>
+                        </Grid>
+                    </th>
+                </tr>
                 </tbody>
             </table>
             <button type="submit" disabled={isDisabled()}>Submit</button>
+
         </form>
-        <Grid>
-            <Grid item xs={12}>
-                {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}
-            </Grid>
-        </Grid>
+
     </div>
     );
 }

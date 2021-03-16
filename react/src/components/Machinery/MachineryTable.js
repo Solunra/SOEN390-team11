@@ -44,7 +44,6 @@ const MachineryTable = (props) => {
             icon: () => {return <PlayCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
-                console.log(rowData);
                 handleStart(rowData);
             }
         },
@@ -52,7 +51,6 @@ const MachineryTable = (props) => {
             icon: () => {return <PauseCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
-                handlePause(rowData);
                 console.log(rowData);
             }
         }
@@ -64,7 +62,6 @@ const MachineryTable = (props) => {
             export: false,
             onClick: (event, rowData) => {
                 handleCancel(rowData);
-                console.log(rowData);
             }
         }
     ];
