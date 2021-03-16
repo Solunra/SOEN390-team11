@@ -71,13 +71,13 @@ public class ScheduleConfig {
 
 
     /**
-     * Update status every minute
+     * Update status every minute.
      */
     @Scheduled(fixedRate = ONE_SECOND)
     public void updateStatus()
     {
         productMachineryRepository.decrementAllTimers();
-        productMachineryRepository.updateStatus();
+        productMachineryRepository.checkTimerRunningOut();
     }
 
     /**
