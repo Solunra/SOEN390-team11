@@ -1,23 +1,19 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.constant.Status;
-import com.soen390.team11.dto.CheckStatusResponseDto;
 import com.soen390.team11.dto.CustomerPurchaseDto;
+import com.soen390.team11.dto.ProductCustomerOrderDto;
 import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.entity.*;
-import com.soen390.team11.repository.CustomerPurchaseRepository;
-import com.soen390.team11.repository.CustomerRepository;
-import com.soen390.team11.repository.InvoiceRepository;
-import com.soen390.team11.repository.ProductRepository;
+import com.soen390.team11.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerPurchaseService {
@@ -29,6 +25,10 @@ public class CustomerPurchaseService {
     InvoiceRepository invoiceRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ProductInventoryRepository productInventoryRepository;
+    @Autowired
+    ProductMachineryService productMachineryService;
 
     /**
      * service to make the purchase
@@ -80,6 +80,7 @@ public class CustomerPurchaseService {
         finalproductList.addAll(productslist);
         productslist = productRepository.findFirst10BySize("Small");
         finalproductList.addAll(productslist);
+
         return finalproductList;
     }
 
@@ -94,5 +95,39 @@ public class CustomerPurchaseService {
             System.out.println(p);
         }
         return customizeProduct;
+    }
+
+    public List<ProductCustomerOrderDto> getAllOrder() {
+        List<CustomerPurchase> customerPurchases= (List<CustomerPurchase>) customerPurchaseRepository.findAll();
+        List<ProductCustomerOrderDto> productCustomerOrderDtoList= new ArrayList<>();
+        ProductCustomerOrderDto productCustomerOrderDto=null;
+        Product product=null;
+        for(CustomerPurchase cp: customerPurchases){
+            product=productRepository.findById(cp.getCustomerPurchaseId().getProductID()).get();
+            productCustomerOrderDto=new ProductCustomerOrderDto(product.getProductid(),product.getName(),product.getSize(),product.getColor(),
+                    product.getFinish(),product.getGrade(),product.getPrice(),cp.getStatus(),cp.getCustomerPurchaseId().getInvoiceID());
+            productCustomerOrderDtoList.add(productCustomerOrderDto);
+        }
+        return productCustomerOrderDtoList;
+    }
+
+    public String orderActions(String productid, String invoiceid) {
+        ProductInventory productInventory = productInventoryRepository.findByProductid(productid);
+        CustomerPurchase customerPurchase= customerPurchaseRepository.findByCustomerPurchaseIdInvoiceIDAndCustomerPurchaseIdProductID(invoiceid,productid).get();
+        Invoice invoice =invoiceRepository.findByInvoiceID(invoiceid).get();
+        if(productInventory!=null && productInventory.getQuantity()>customerPurchase.getAmount()){
+            customerPurchase.setStatus(Status.SHIPPING);
+            return "Shipping Arrangement";
+        }
+        else{
+            System.out.println("not enought invenotry");
+            String result = productMachineryService.occupyMachinery(
+                productMachineryService.findAvailableMachinery(), productid);
+            if (result != null && result.equals("Success")){
+                customerPurchase.setStatus(Status.IN_MACHINERY);
+                return "Product add to machinery";
+            }
+            return "Not enough inventory to ship, Cannot add to machinery";
+        }
     }
 }

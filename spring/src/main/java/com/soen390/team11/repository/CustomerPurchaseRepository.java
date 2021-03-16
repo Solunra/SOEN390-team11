@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurchase, CustomerPurchaseId> {
     Optional<CustomerPurchase> findByCustomerPurchaseIdCustomerID(String customerId);
-    Optional<CustomerPurchase> findByCustomerPurchaseIdProductID(String productID);
-    Optional<CustomerPurchase> findByCustomerPurchaseIdInvoiceID(String invoiceID);
+    Optional<CustomerPurchase> findByCustomerPurchaseIdInvoiceID(String productID);
+    Optional<CustomerPurchase> findByCustomerPurchaseIdInvoiceIDAndCustomerPurchaseIdProductID(String invoiceID, String productid);
     List<CustomerPurchase> findAllByCustomerPurchaseIdInvoiceID(String invoiceID);
     @Transactional
     void deleteByCustomerPurchaseIdInvoiceID(String invoiceid);

@@ -89,4 +89,28 @@ public class CustomerPurchaseController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
     }
+    /**
+     * get customize product
+     * @return
+     */
+    @GetMapping("/allOrder")
+    public ResponseEntity<?> getAllOrder(){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.getAllOrder()), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
+    /**
+     * get customize product
+     * @return
+     */
+    @GetMapping("/orderAction/{productId}/{invoiceid}")
+    public ResponseEntity<?> orderActions(@PathVariable String productId, @PathVariable String invoiceid){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.orderActions(productId,invoiceid)), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
 }

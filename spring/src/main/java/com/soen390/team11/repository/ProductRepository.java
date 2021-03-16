@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface ProductRepository extends CrudRepository<Product, String> {
-//    List<User> findFirst10ByLastname(String lastname, Sort sort);
     List<Product> findFirst10BySize(String size);
     List<Product> findByNameAndColorAndSizeAndFinish(String name, String color, String size, String finish);
+    Product findByProductid(String productid);
 }

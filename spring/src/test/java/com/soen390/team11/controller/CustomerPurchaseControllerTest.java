@@ -82,6 +82,18 @@ class CustomerPurchaseControllerTest {
         ResponseEntity<?> responseEntity = customerPurchaseController.getCustomizeProduct(productRequestDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
+    @Test
+    @Order(5)
+    void getAllOrder() {
+        ResponseEntity<?> responseEntity = customerPurchaseController.getAllOrder();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+    @Test
+    @Order(6)
+    void orderActions() {
+        ResponseEntity<?> responseEntity = customerPurchaseController.orderActions("Aero-lbm",invoiceid);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
     @AfterAll
     public void delete()
     {
@@ -89,4 +101,7 @@ class CustomerPurchaseControllerTest {
         invoiceRepository.deleteByInvoiceID(invoiceid);
         customerRepository.deleteByCustomerID(customerPurchase.getCustomerPurchaseId().getCustomerID());
     }
+
+
+
 }

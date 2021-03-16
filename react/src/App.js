@@ -12,6 +12,7 @@ import './App.css';
 import {Order} from "./components/Order";
 import {Machinery} from "./components/Machinery";
 import {Shop} from "./components/Shop";
+import {PublicShop} from "./components/Shop/PublicShop";
 
 function App() {
     const [idleTimer, setIdleTimer] = useState();
@@ -51,6 +52,7 @@ function App() {
                 </Tabs>
                 <div className="appContent">
                     <Route exact path = "/" />
+                    <Route path = "/shop" component={PublicShop}/>
                     <Route path = "/customer" component={NavCustomer}/>
                     <Route path = "/admin" component={NavAdmin}/>
                     <Route path = "/account" component = {SignupLoginParentComponent} />
@@ -60,7 +62,6 @@ function App() {
                     <Route path = "/admin/rawMaterial" component={RawMaterial}/>
                     <Route path = "/admin/order" component={Order}/>
                     <Route path = "/admin/Machinery" component={Machinery}/>
-
                 </div>
             </HashRouter>
         </div>

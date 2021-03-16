@@ -112,7 +112,7 @@ const PublicShop = ()=>{
         <>
             <Grid container className={classes.wrapper} spacing={2}>
                 {productList.map((row)=>{
-                    return (<Product product={row} role={"customer"}></Product>);
+                    return (<Product product={row} role={"public"}></Product>);
                 })}
             </Grid>
         </>

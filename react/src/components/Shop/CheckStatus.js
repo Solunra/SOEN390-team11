@@ -3,8 +3,8 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    makeStyles,
     DialogActions,
+    Grid,  makeStyles,
     AppBar, Toolbar, IconButton, ListItem, ListItemText
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -84,9 +84,9 @@ const CheckStatus = (props) =>{
                     fullWidth
                     variant="outlined"
                 />
-                <div>
-                    {errMessage ===""?"":errMessage}
-                </div>
+                <Grid item xs={12}>
+                    <div style={ {color: 'red' }}>{errMessage}</div>
+                </Grid>
                 <Typography variant="h6" gutterBottom>
                     Order summary
                 </Typography>
