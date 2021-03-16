@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for part's materials
+ * Controller for the part's materials
  */
 @RestController
 @RequestMapping("/parts")
