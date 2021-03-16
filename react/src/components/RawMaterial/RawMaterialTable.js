@@ -61,7 +61,6 @@ const RawMaterialTable = (props) => {
     };
     const handleEdit = (row) =>{
         setData(row);
-        console.log(row);
         setOpen(true);
     }
     const handleAdd = () =>{

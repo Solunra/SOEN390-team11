@@ -107,6 +107,9 @@ const Production = ()=>
         <>
             <div className={classes.rootGrid}>
                 <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}
+                    </Grid>
                     <Grid item xs={12} className={classes.container}>
                         <ProductTable
                             rows={productList}
@@ -135,9 +138,6 @@ const Production = ()=>
                             setMaterialTable={setMaterialTable}
                             partMaterialTitle={partMaterialTitle}
                         />}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {errMessage !=='' && <AlertErr message={errMessage} closeAlert={closeAlert}/>}
                     </Grid>
                     <Grid item xs={12}>
                         <ProductForm

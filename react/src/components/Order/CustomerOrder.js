@@ -28,7 +28,6 @@ const CustomerOrder = (props) => {
             export: false,
             onClick: (event, rowData) => {
                 console.log(rowData);
-                alert("check and ship");
                 ShipOrProduce(rowData);
             }
         },
@@ -46,7 +45,10 @@ const CustomerOrder = (props) => {
                 }
             })
             .catch(err => {
-                console.log(err);
+                setErrMessage("action not sucess");
+                setTimeout(()=>{
+                    setErrMessage("")
+                }, 3000);
             });
     }
 

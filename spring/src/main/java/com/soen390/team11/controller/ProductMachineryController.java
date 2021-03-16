@@ -91,7 +91,7 @@ public class ProductMachineryController {
             if (result != null && result.equals("Success"))
                 return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);
 
-            return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(objectMapper.writeValueAsString("Not Success"), HttpStatus.BAD_REQUEST);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }

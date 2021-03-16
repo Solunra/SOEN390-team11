@@ -81,13 +81,13 @@ const CheckOut = (props)=> {
 
 
     const handleNext=()=>{
-        // if(page === 0 && !checkShipping()){
-        //     setError("ALl field is required")
-        //     setTimeout(()=>{
-        //         setError("")
-        //     }, 3000);
-        //     return;
-        // }
+        if(page === 0 && !checkShipping()){
+            setError("ALl field is required")
+            setTimeout(()=>{
+                setError("")
+            }, 3000);
+            return;
+        }
         setPage(page+1);
     }
     const handleBack=()=>{
@@ -99,14 +99,13 @@ const CheckOut = (props)=> {
         setPayment(new Map());
     }
     const handleSubmit=()=>{
-        console.log(checkPayment());
-        // if(!checkPayment()){
-        //     setError("All field is required")
-        //     setTimeout(()=>{
-        //         setError("")
-        //     }, 3000);
-        //     return;
-        // }
+        if(!checkPayment()){
+            setError("All field is required")
+            setTimeout(()=>{
+                setError("")
+            }, 3000);
+            return;
+        }
         let submitCart=[];
         let sumprice=0;
         for (let i=0;i<cartList.length;i++) {
@@ -121,20 +120,13 @@ const CheckOut = (props)=> {
                 .set('Accept', 'application/json')
                 .send(
                     {
-                        "firstname":"firstname",
-                        "lastname":"lastname",
-                        "address":"address",
-                        "city":"city",
-                        "province":"province",
-                        "zip":"zip",
-                        "country":"country",
-                        // "firstname":shipping.get("firstname"),
-                        // "lastname":shipping.get("lastname"),
-                        // "address":shipping.get("address"),
-                        // "city":shipping.get("city"),
-                        // "province":shipping.get("province"),
-                        // "zip":shipping.get("zip"),
-                        // "country":shipping.get("country"),
+                        "firstname":shipping.get("firstname"),
+                        "lastname":shipping.get("lastname"),
+                        "address":shipping.get("address"),
+                        "city":shipping.get("city"),
+                        "province":shipping.get("province"),
+                        "zip":shipping.get("zip"),
+                        "country":shipping.get("country"),
                         "totalamount":sumprice,
                         "carte":submitCart
                     }

@@ -7,9 +7,12 @@ import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import BuildIcon from "@material-ui/icons/Build";
+import {Grid, makeStyles} from "@material-ui/core";
+import {useState, useEffect} from 'react';
 
 const ProductTable = (props) => {
     const {rows,re_render, setRe_render , setOpen,setData ,setPartTable,setErrMessage, setProductPartTitle} = props;
+    const [message, setMessage] = useState('');
     const columns = [
         // { title: 'Id', field: 'productid' },
         { title: 'Bike Name', field: 'name' },
@@ -56,7 +59,6 @@ const ProductTable = (props) => {
             icon: () => {return <BuildIcon />;},
             export: false,
             onClick: (event, rowData) => {
-                alert("Start product");
                 handleStart(rowData);
             }
         }
@@ -82,8 +84,8 @@ const ProductTable = (props) => {
             .catch(err => {
                 setErrMessage(err.response.body['message']);
                 setTimeout(()=>{
-                    setErrMessage("")
-                }, 45000);
+                    setMessage("")
+                }, 5000);
             });
     }
     const handleStart=(row)=>{
@@ -92,22 +94,31 @@ const ProductTable = (props) => {
             .set('Authorization', localStorage.getItem("Authorization"))
             .set('Accept', 'application/json')
             .then(res => {
-                console.log("start production machine");
-                if (res.status === 200) {
-                    setRe_render(!re_render);
+                console.log(res.body);
+                if (res.body === "Success") {
+                    setMessage("sucess add product to machine");
+                    setTimeout(()=>{
+                        setMessage("")
+                    }, 5000);
                 }
             })
             .catch(err => {
-                setErrMessage(err.response.body['message']);
+                setErrMessage("Cannot add product to machine");
                 setTimeout(()=>{
                     setErrMessage("")
-                }, 45000);
+                }, 5000);
             });
     }
 
 
+
     return (
             <>
+                <Grid>
+                    <Grid item xs={12}>
+                        <div style={ {color: 'blue' }}>{message}</div>
+                    </Grid>
+                </Grid>
                 <CustomTable
                     data={rows}
                     columns = {columns}

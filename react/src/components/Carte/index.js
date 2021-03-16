@@ -28,9 +28,6 @@ const Cart = (props) =>{
 
     const {cartList,open, handleClose,handleIncrement,handleCheckOut,handleRemove} = props;
     const classes = useStyles();
-    const calculateTotal = () =>{
-
-        };
     return (
         <Dialog open={open} onClose={handleClose}  classes={ classes.dialogWrapper } fullScreen>
             <AppBar >
@@ -51,7 +48,6 @@ const Cart = (props) =>{
                         handleRemove={handleRemove}
                     />
                 ))}
-                {/*<h2>Total: ${calculateTotal(cartItems).toFixed(2)}</h2>*/}
             </DialogContent>
             <DialogActions classes={{ root: classes.leftDialogActions }}>
                 <Button onClick={handleClose} color="primary">Close</Button>
