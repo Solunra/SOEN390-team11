@@ -10,13 +10,14 @@ import com.soen390.team11.repository.MaterialInventoryRepository;
 import com.soen390.team11.repository.OrdersRepository;
 import com.soen390.team11.repository.PartInventoryRepository;
 import com.soen390.team11.repository.ProductInventoryRepository;
+import com.soen390.team11.repository.ProductMachineryRepository;
 import com.soen390.team11.repository.VendorSaleRepository;
+import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 
 /**
  * Scheduled Jobs for the ERP Solution
@@ -40,7 +41,11 @@ public class ScheduleConfig {
     @Autowired
     private MaterialInventoryRepository materialInventoryRepository;
 
-    public static final int ONE_MINUTE = 1000 * 60;
+    @Autowired
+    private ProductMachineryRepository productMachineryRepository;
+
+    public static final int ONE_SECOND = 1000;
+    public static final int ONE_MINUTE = ONE_SECOND * 60;
 
     /**
      * Processes the order every 30 minutes
@@ -62,6 +67,17 @@ public class ScheduleConfig {
                 }
             }
         }
+    }
+
+
+    /**
+     * Update status every minute
+     */
+    @Scheduled(fixedRate = ONE_SECOND)
+    public void updateStatus()
+    {
+        productMachineryRepository.decrementAllTimers();
+        productMachineryRepository.updateStatus();
     }
 
     /**
