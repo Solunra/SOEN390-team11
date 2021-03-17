@@ -29,6 +29,8 @@ public class CustomerPurchaseService {
     ProductInventoryRepository productInventoryRepository;
     @Autowired
     ProductMachineryService productMachineryService;
+    @Autowired
+    ProductMachineryRepository productMachineryRepository;
 
     /**
      * service to make the purchase
@@ -117,14 +119,18 @@ public class CustomerPurchaseService {
         Invoice invoice =invoiceRepository.findByInvoiceID(invoiceid).get();
         if(productInventory!=null && productInventory.getQuantity()>customerPurchase.getAmount()){
             customerPurchase.setStatus(Status.SHIPPING);
+            customerPurchaseRepository.save(customerPurchase);
             return "Shipping Arrangement";
         }
         else{
             System.out.println("not enought invenotry");
             String result = productMachineryService.occupyMachinery(
                 productMachineryService.findAvailableMachinery(), productid);
+            System.out.println(result != null && result.equals("Success"));
+            System.out.println(result);
             if (result != null && result.equals("Success")){
                 customerPurchase.setStatus(Status.IN_MACHINERY);
+                customerPurchaseRepository.save(customerPurchase);
                 return "Product add to machinery";
             }
             return "Not enough inventory to ship, Cannot add to machinery";

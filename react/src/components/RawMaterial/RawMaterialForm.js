@@ -160,7 +160,7 @@ const RawMaterialForm = (props) =>{
                     autoFocus
                     margin="dense"
                     defaultValue={rowData['name']}
-                    onChange = {e => setName(e.target.value)}
+                    onChange = {e => {setName(e.target.value)}}
                     label="type"
                     fullWidth
                     variant="outlined"
@@ -179,7 +179,7 @@ const RawMaterialForm = (props) =>{
                 <FormControl variant="outlined" fullWidth >
                     <InputLabel>Vendor</InputLabel>
                     <Select
-                        value={rowData['vendorID']}
+                        value={`${vendorID===''?rowData['vendorID']:vendorID}`}
                         onChange={e => setVendorID(e.target.value)}
                         label="Vendor"
                     >
@@ -194,7 +194,7 @@ const RawMaterialForm = (props) =>{
                     type="number"
                     autoFocus
                     margin="dense"
-                    defaultValue={rowData['cost']}
+                    defaultValue={`${price===0?rowData['cost']:price}`}
                     onChange = {e => setPrice(e.target.value)}
                     label="price"
                     variant="outlined"
@@ -203,7 +203,7 @@ const RawMaterialForm = (props) =>{
                 <FormControl variant="outlined" fullWidth >
                     <InputLabel>Unit</InputLabel>
                     <Select
-                        value={rowData['unit']}
+                        value={`${unit===''?rowData['unit']:unit}`}
                         onChange={e => setUnit(e.target.value)}
                         label="Unit"
                     >

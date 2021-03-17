@@ -140,7 +140,6 @@ const CheckOut = (props)=> {
                     console.log(err);
                 });
         handleNext();
-        clearValue();
         // remove the cart list
         // store address ,store the order and payment
     }
