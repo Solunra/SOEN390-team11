@@ -111,6 +111,18 @@ public class ProductMachineryService {
                 if (definedOp.toString().equals(op.toUpperCase())) {
                     if (optionalProductMachinery.get()
                         .setStatus(MachineryOp.getTransitionState(definedOp))) {
+
+                        // if status is unassigned, set the timer to 0
+                        if (optionalProductMachinery.get()
+                            .getStatus() == MachineryState.UNASSIGNED) {
+                            optionalProductMachinery.get().setTimer(0);
+                        }
+
+                        //if status is running and timer is 0, set status to ready
+                        if (optionalProductMachinery.get().getStatus().equals(MachineryState.RUNNING)
+                            && optionalProductMachinery.get().getTimer() == 0) {
+                            optionalProductMachinery.get().setStatus(MachineryState.READY);
+                        }
                         productMachineryRepository.save(optionalProductMachinery.get());
                         return "Success";
                     }
