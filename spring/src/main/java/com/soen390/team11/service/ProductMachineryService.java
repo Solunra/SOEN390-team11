@@ -47,7 +47,7 @@ public class ProductMachineryService {
         ProductMachineryDto productMachineryDto=null;
         for(ProductMachinery pm: productMachineries){
             if(pm.getStatus().equals(MachineryState.UNASSIGNED)|| pm.getProduct() == null){
-                productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),pm.getTimer(),
+                productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),0,
                         "empty","empty");
             }
             else{

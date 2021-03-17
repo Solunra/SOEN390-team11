@@ -36,22 +36,26 @@ const MachineryTable = (props) => {
     const columns = [
         {title: 'Machine Name', field: "name"},
         {title: 'Status', field: "status"},
-        {title: 'Product name', field: "productname"}
+        {title: 'Product name', field: "productname"},
+        {title: 'Timer', field: "timer"}
     ];
-
+    setInterval(()=>{
+        setRe_render(!re_render);
+    },  25000);
     const actions = [
         {
             icon: () => {return <PlayCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
                 handleStart(rowData);
+
             }
         },
         {
             icon: () => {return <PauseCircleFilled />},
             export: false,
             onClick: (event, rowData) => {
-                console.log(rowData);
+                handlePause(rowData);
             }
         }
         ,

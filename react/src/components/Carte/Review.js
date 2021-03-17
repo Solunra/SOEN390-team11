@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const Review =(props)=> {
     const classes = useStyles();
     const {cartList,shipping,invoiceId,totalPrice} =props;
-    console.log(cartList);
+    console.log(shipping);
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -50,24 +50,6 @@ const Review =(props)=> {
                     <Typography gutterBottom>Name:{shipping.get("firstname")} {shipping.get("firstname")}</Typography>
                     <Typography gutterBottom>Address: {shipping.get("address")}</Typography>
                 </Grid>
-                {/*<Grid item container direction="column" xs={12} sm={6}>*/}
-                {/*    <Typography variant="h6" gutterBottom className={classes.title}>*/}
-                {/*        Payment details*/}
-                {/*    </Typography>*/}
-                {/*    <Grid container>*/}
-                {/*        {payments.map((payment) => (*/}
-                {/*            <React.Fragment key={payment.name}>*/}
-                {/*                <Grid item xs={6}>*/}
-                {/*                    <Typography gutterBottom>{payment.name}</Typography>*/}
-                {/*                </Grid>*/}
-                {/*                <Grid item xs={6}>*/}
-                {/*                    <Typography gutterBottom>{payment.detail}</Typography>*/}
-                {/*                </Grid>*/}
-                {/*            </React.Fragment>*/}
-                {/*        ))}*/}
-                {/*        */}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>

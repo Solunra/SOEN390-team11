@@ -108,7 +108,7 @@ public class ScheduleConfig {
         if (productInventory.isPresent())
         {
             int currentQuantity = productInventory.get().getQuantity();
-            partInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
+            productInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
         }
     }
 
@@ -124,7 +124,7 @@ public class ScheduleConfig {
         if (materialInventory.isPresent())
         {
             int currentQuantity = materialInventory.get().getQuantity();
-            partInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
+            materialInventoryRepository.updateInventory(String.valueOf(id), (currentQuantity + quantity));
         }
     }
 
