@@ -1,4 +1,3 @@
-if: branch = main
 language: java
 jdk:
   - openjdk15
