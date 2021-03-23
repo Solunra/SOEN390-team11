@@ -1,4 +1,7 @@
 language: java
+branches:
+  only:
+    - main
 jdk:
   - openjdk15
 env:
@@ -8,14 +11,11 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - cd react
-  - npm install
-  - cd ..
   - cd spring
   - chmod +x gradlew
-  - ./gradlew assemble
 script:
-  - docker-compose up db
+  - docker-compose up -d db
+  - sleep 20
   - ./gradlew test
 after_success:
   - docker-compose down db
