@@ -62,6 +62,37 @@ const SignupComponent = () => {
             return true;
         } 
     }
+    const validation =(e , type)=>{
+        let value =e.target.value;
+        if(value.trim() ===""){
+            return;
+        }
+        switch (type) {
+            case 0:
+                if(value.endsWith("@gmail.com") || value.endsWith("@gmail.ca")){
+                    setEmail(value);
+                }
+                return;
+            case 1:
+                setUsername(value);
+                return;
+            case 2:
+                if(value.length >8){
+                    let capital = /[A-Z]/;
+                    let specialChar = /[*$%#]/;
+                    let digit = /[0-9]/;
+                    if(capital.test(value)&&specialChar.test(value)&&digit.test(value)){
+                        setPassword(value);
+                    }
+                }
+                return;
+            case 3:
+                if(password === value){
+                    setPasswordVerification(value);
+                }
+                return;
+        }
+    };
 
     return ( 
     <div>
@@ -77,7 +108,7 @@ const SignupComponent = () => {
                     <th>
                         <input 
                             type = "text"
-                            onChange = {e => setEmail(e.target.value)} 
+                            onChange={e =>{validation(e,0)}}
                         />
                     </th>
                 </tr>
@@ -90,7 +121,7 @@ const SignupComponent = () => {
                     <th>
                         <input 
                             type = "text"
-                            onChange = {e => setUsername(e.target.value)} 
+                            onChange={e =>{validation(e,1)}}
                         />
                     </th>
                 </tr>
@@ -103,7 +134,7 @@ const SignupComponent = () => {
                     <th>
                         <input 
                         type = "password"
-                        onChange = {e => setPassword(e.target.value)} 
+                        onChange={e =>{validation(e,2)}}
                         />
                     </th>
                 </tr>
@@ -116,7 +147,7 @@ const SignupComponent = () => {
                     <th>
                         <input 
                         type = "password"
-                        onChange = {e => setPasswordVerification(e.target.value)} 
+                        onChange={e =>{validation(e,3)}}
                         />
                     </th>
                 </tr>

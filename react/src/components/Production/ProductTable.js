@@ -82,10 +82,10 @@ const ProductTable = (props) => {
                 }
             })
             .catch(err => {
-                setErrMessage(err.response.body['message']);
+                setErrMessage("Cannot delete product");
                 setTimeout(()=>{
-                    setMessage("")
-                }, 5000);
+                    setErrMessage("")
+                }, 3000);
             });
     }
     const handleStart=(row)=>{

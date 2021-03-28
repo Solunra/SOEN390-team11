@@ -93,6 +93,10 @@ const ProductForm = (props) =>{
                 })
                 .catch(err => {
                     console.log(err);
+                    setErrMessage("Cannot add product");
+                    setTimeout(()=>{
+                        setErrMessage("")
+                    }, 3000);
                 });
         }
     }
@@ -126,7 +130,10 @@ const ProductForm = (props) =>{
                     clearValue();
                     setData({});
                     handleClose();
-                    setErrMessage(err.response.body['message']);
+                    setErrMessage("Cannot edit product");
+                    setTimeout(()=>{
+                        setErrMessage("")
+                    }, 3000);
                 });
 
 
