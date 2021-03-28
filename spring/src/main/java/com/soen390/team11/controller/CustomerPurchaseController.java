@@ -3,6 +3,7 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.CustomerPurchaseDto;
+import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.service.CustomerPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,4 +128,17 @@ public class CustomerPurchaseController {
         }
     }
 
+    /**
+     * get report between start and end date
+     * @param customizeReportDto
+     * @return
+     */
+    @PostMapping("/report")
+    public ResponseEntity<?> getReport(@RequestBody CustomizeReportDto customizeReportDto){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.getCustomizeReport(customizeReportDto)), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
 }

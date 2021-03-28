@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository for Product
@@ -44,5 +45,17 @@ public interface ProductRepository extends CrudRepository<Product, String> {
      */
     @Transactional
     void deleteByProductid(String productid);
+
+    /**
+     * find product by name type size color finish grade
+     * @param name
+     * @param type
+     * @param size
+     * @param color
+     * @param finish
+     * @param grade
+     * @return
+     */
+    Optional<Product> findByNameAndTypeAndSizeAndColorAndFinishAndGrade(String name, String type, String size, String color, String finish, String grade);
 
 }

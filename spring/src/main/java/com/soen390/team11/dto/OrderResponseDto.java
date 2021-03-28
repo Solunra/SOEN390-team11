@@ -1,5 +1,6 @@
 package com.soen390.team11.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 /**
@@ -22,7 +23,7 @@ public class OrderResponseDto {
     public OrderResponseDto() {
     }
 
-    public OrderResponseDto(String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID, String orderDateTime, String username, String userid, String amount, String deliveryDateTime) {
+    public OrderResponseDto(String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID, LocalDate orderDateTime, String username, String userid, Double amount, OffsetDateTime deliveryDateTime) {
         this.vendorname = vendorname;
         this.type = type;
         this.rawname = rawname;
@@ -30,11 +31,11 @@ public class OrderResponseDto {
         this.status = status;
         this.vendorID = vendorID;
         this.rawID = rawID;
-        this.orderDateTime = orderDateTime;
+        this.orderDateTime = orderDateTime.toString();
         this.username = username;
         this.userid = userid;
-        this.amount = amount;
-        this.deliveryDateTime = deliveryDateTime;
+        this.amount= "$ "+ amount;
+        this.deliveryDateTime = deliveryDateTime.toLocalDate().toString()+ " at "+deliveryDateTime.toLocalTime().toString();
     }
 
     public String getVendorname() {

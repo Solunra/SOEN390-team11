@@ -1,10 +1,12 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.constant.Type;
+import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.OrderDto;
 import com.soen390.team11.dto.OrderResponseDto;
 import com.soen390.team11.entity.Orders;
 import com.soen390.team11.entity.RawMaterial;
+import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.OrdersRepository;
 import com.soen390.team11.repository.RawMaterialRepository;
@@ -40,7 +42,7 @@ public class OrdersService {
      */
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(),userService.getLoggedUser().getUserID());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(), userService.getLoggedUser().getUsername());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }
@@ -71,10 +73,30 @@ public class OrdersService {
      */
     public List<OrderResponseDto> getAllOrders()
     {
-        Iterable<Orders> orders = ordersRepository.findAll();
+        List<Orders> orders = (List<Orders>) ordersRepository.findAll();
+        return extractOrders(orders);
+    }
+
+    /**
+     * get customize report within start and end date
+     * @param customizeReportDto
+     * @return
+     */
+    public List<OrderResponseDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
+        List<Orders> orders = ordersRepository.findAllByOrdertimeBetween(customizeReportDto.getStartDate(),customizeReportDto.getEndDate());
+        return extractOrders(orders);
+    }
+
+    /**
+     * extract the order
+     * @param orders
+     * @return
+     */
+    public List<OrderResponseDto> extractOrders(List<Orders> orders){
         List<OrderResponseDto> orderDtos = new ArrayList<>();
         Vendors vendor=null;
         RawMaterial rawMaterial=null;
+        UserAccount userAccount=null;
         for (Orders order: orders) {
             rawMaterial=null;
             vendor=vendorsRepository.findByVendorID(order.getVendorID()).get();
@@ -82,9 +104,13 @@ public class OrdersService {
                 rawMaterial=rawMaterialRepository.findByRawmaterialid(order.getSaleID()).get();
             }
             OffsetDateTime dateTime = OffsetDateTime.now();
+            userService.getUserAccountByUserid(order.getUserid());
+//            String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID,
+//            String orderDateTime, String username, String userid, String amount, String deliveryDateTime
             orderDtos.add(new OrderResponseDto(
-                    vendor.getCompanyname(), vendor.getVendorID(),Type.RAW_MATERIAL.toString(),rawMaterial==null?order.getSaleID():rawMaterial.getName(), order.getSaleID(),
-                    order.getQuantity(), order.getTime().isAfter(dateTime)?"Not Receive":"Receive")
+                    vendor.getCompanyname(), Type.RAW_MATERIAL.toString(),rawMaterial==null?order.getSaleID():rawMaterial.getName(),
+                    order.getQuantity(),order.getTime().isAfter(dateTime)?"Not Receive":"Receive",vendor.getVendorID(),
+                    order.getSaleID(),order.getOrdertime(),userAccount.getUsername(),order.getUserid(),order.getQuantity()*rawMaterial.getCost(),order.getTime())
             );
         }
         return orderDtos;

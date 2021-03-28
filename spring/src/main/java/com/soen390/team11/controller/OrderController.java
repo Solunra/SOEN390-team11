@@ -2,6 +2,7 @@ package com.soen390.team11.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.OrderDto;
 import com.soen390.team11.dto.OrderResponseDto;
 import com.soen390.team11.service.OrdersService;
@@ -80,6 +81,20 @@ public class OrderController {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(foundOrder), HttpStatus.OK);
             }
 
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * get report between start and end date
+     * @param customizeReportDto
+     * @return
+     */
+    @PostMapping("/report")
+    public ResponseEntity<?> getReport(@RequestBody CustomizeReportDto customizeReportDto){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(ordersService.getCustomizeReport(customizeReportDto)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
