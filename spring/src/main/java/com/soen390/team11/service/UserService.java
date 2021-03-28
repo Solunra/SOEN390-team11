@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service Layer for Users
@@ -82,4 +83,26 @@ public class UserService implements UserDetailsService {
         return userAccountRepository.findByUserID(userid);
     }
 
+    /**
+     * get all user except the loggin in user
+     * @return
+     */
+    public List<UserAccount> getAllUser() {
+        List<UserAccount> userAccountList= userAccountRepository.findAllByUsernameNot(getLoggedUser().getUsername());
+        return userAccountList;
+    }
+
+    /**
+     * edit user
+     * @param userSignUpRequestDto
+     * @return
+     */
+    public UserAccount editUser(UserSignUpRequestDto userSignUpRequestDto) {
+        String role = (userSignUpRequestDto.getRole() !=null &&userSignUpRequestDto.getRole().equalsIgnoreCase("admin"))?Role.ADMIN.toString(): Role.CUSTOMER.toString();
+        String password = userSignUpRequestDto.getPassword().startsWith("$2a$10$")? userSignUpRequestDto.getPassword() : bCryptPasswordEncoder.encode(userSignUpRequestDto.getPassword());
+        UserAccount userAccount=  new UserAccount(userSignUpRequestDto.getUsername(),
+                password,
+                userSignUpRequestDto.getEmail(),role,userSignUpRequestDto.getUserID());
+        return userAccountRepository.save(userAccount);
+    }
 }
