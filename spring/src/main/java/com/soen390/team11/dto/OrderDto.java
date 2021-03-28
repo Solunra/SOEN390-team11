@@ -11,12 +11,18 @@ public class OrderDto {
     private String saleID;
     private int quantity;
     private OffsetDateTime dateTime;
+    private String userid;
+    private String username;
+    private String orderDate;
 
-    public OrderDto(String vendorID, String saleID,int quantity, OffsetDateTime dateTime) {
+    public OrderDto(String vendorID, String saleID, int quantity, OffsetDateTime dateTime, String userid, String username, String orderDate) {
         this.vendorID = vendorID;
         this.saleID = saleID;
         this.quantity = quantity;
         this.dateTime = dateTime;
+        this.userid = userid;
+        this.username = username;
+        this.orderDate = orderDate;
     }
 
     public String getVendorID() {
@@ -45,5 +51,17 @@ public class OrderDto {
 
     public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
     }
 }

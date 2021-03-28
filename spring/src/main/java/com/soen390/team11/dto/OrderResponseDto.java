@@ -13,12 +13,16 @@ public class OrderResponseDto {
     private String status;
     private String vendorID;
     private String rawID;
-    private OffsetDateTime dateTime;
+    private String orderDateTime;
+    private String username;
+    private String userid;
+    private String amount;
+    private String deliveryDateTime;
 
     public OrderResponseDto() {
     }
 
-    public OrderResponseDto(String vendorname, String vendorID,String type, String rawname,  String rawID, int quantity, String status) {
+    public OrderResponseDto(String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID, String orderDateTime, String username, String userid, String amount, String deliveryDateTime) {
         this.vendorname = vendorname;
         this.type = type;
         this.rawname = rawname;
@@ -26,6 +30,11 @@ public class OrderResponseDto {
         this.status = status;
         this.vendorID = vendorID;
         this.rawID = rawID;
+        this.orderDateTime = orderDateTime;
+        this.username = username;
+        this.userid = userid;
+        this.amount = amount;
+        this.deliveryDateTime = deliveryDateTime;
     }
 
     public String getVendorname() {
@@ -46,5 +55,33 @@ public class OrderResponseDto {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getVendorID() {
+        return vendorID;
+    }
+
+    public String getRawID() {
+        return rawID;
+    }
+
+    public String getOrderDateTime() {
+        return orderDateTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public String getDeliveryDateTime() {
+        return deliveryDateTime;
     }
 }

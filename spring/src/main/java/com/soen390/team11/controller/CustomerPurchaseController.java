@@ -113,4 +113,18 @@ public class CustomerPurchaseController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
     }
+
+    /**
+     * get all order for account tab
+     * @return
+     */
+    @GetMapping("/account/allOrder")
+    public ResponseEntity<?> getAllAccountOrder(){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.getAllAccountOrder()), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
+
 }

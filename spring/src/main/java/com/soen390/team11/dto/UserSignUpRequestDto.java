@@ -8,6 +8,8 @@ public class UserSignUpRequestDto {
     private String username;
     private String password;
     private String email;
+    private String role;
+    private String userID;
 
     public UserSignUpRequestDto(){
 
@@ -17,6 +19,13 @@ public class UserSignUpRequestDto {
         this.username = username;
         this.password = password;
         this.email=email;
+    }
+    public UserSignUpRequestDto(String username, String password, String email, String role, String userID) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -41,6 +50,14 @@ public class UserSignUpRequestDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     @Override

@@ -1,19 +1,18 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.constant.Status;
-import com.soen390.team11.dto.CustomerPurchaseDto;
-import com.soen390.team11.dto.ProductCustomerOrderDto;
-import com.soen390.team11.dto.ProductRequestDto;
+import com.soen390.team11.dto.*;
 import com.soen390.team11.entity.*;
 import com.soen390.team11.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerPurchaseService {
@@ -33,6 +32,7 @@ public class CustomerPurchaseService {
     ProductMachineryRepository productMachineryRepository;
     @Autowired
     UserService userService;
+
     /**
      * service to make the purchase
      * @param customerPurchaseDto
@@ -124,17 +124,52 @@ public class CustomerPurchaseService {
             return "Shipping Arrangement";
         }
         else{
-            System.out.println("not enought invenotry");
             String result = productMachineryService.occupyMachinery(
                 productMachineryService.findAvailableMachinery(), productid);
-            System.out.println(result != null && result.equals("Success"));
-            System.out.println(result);
             if (result != null && result.equals("Success")){
-                customerPurchase.setStatus(Status.IN_MACHINERY);
-                customerPurchaseRepository.save(customerPurchase);
                 return "Product add to machinery";
             }
             return "Not enough inventory to ship, Cannot add to machinery";
         }
+    }
+
+    /**
+     * get all customer order to display in account tab
+     * @return
+     */
+    public List<AccountReceivableDto> getAllAccountOrder() {
+        List<Invoice> invoiceList= (List<Invoice>) invoiceRepository.findAll();
+        return extractAccountReceivable(invoiceList);
+    }
+
+    /**
+     * get customer report within the start and end date, boundary not include
+     * @param customizeReportDto
+     * @return
+     */
+    public List<AccountReceivableDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
+        List<Invoice> invoiceList = invoiceRepository.findAllByPurchasedateBetween(OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.NOON, ZoneOffset.UTC) ,
+                OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.NOON, ZoneOffset.UTC));
+        return extractAccountReceivable(invoiceList);
+    }
+
+    /**
+     * extract the account receiveable DTO
+     * @param invoiceList
+     * @return
+     */
+    public List<AccountReceivableDto> extractAccountReceivable(List<Invoice> invoiceList){
+        List<AccountReceivableDto> accountReceivableDtoList = new ArrayList<>();
+        List<CustomerPurchase> customerPurchaseList =null;
+        AccountReceivableDto accountReceivableDto = null;
+        CustomerPurchase customerPurchase=null;
+        UserAccount userAccount=null;
+        for(Invoice invoice1: invoiceList){
+            customerPurchaseList = customerPurchaseRepository.findAllByCustomerPurchaseIdInvoiceID(invoice1.getInvoiceID());
+            userAccount = userService.userAccountRepository.findByUserID(customerPurchaseList.get(0).getUserid());
+            accountReceivableDto = new AccountReceivableDto(invoice1.getPurchasedate(),invoice1.getInvoiceID(),userAccount.getUsername(),customerPurchaseList.get(0).getUserid(), invoice1.getPaymentamount());
+            accountReceivableDtoList.add(accountReceivableDto);
+        }
+        return accountReceivableDtoList;
     }
 }

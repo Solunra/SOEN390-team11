@@ -72,4 +72,14 @@ public class UserService implements UserDetailsService {
         UserAccount userAccount= userAccountRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return userAccount;
     }
+
+    /**
+     * get UserAccount by id
+     * @param userid
+     * @return
+     */
+    public UserAccount getUserAccountByUserid(String userid){
+        return userAccountRepository.findByUserID(userid);
+    }
+
 }

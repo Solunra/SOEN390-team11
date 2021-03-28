@@ -26,4 +26,10 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Strin
      */
     List<UserAccount> findAllByUsernameNot(String username);
 
+    /**
+     * get user by id
+     * @param userid
+     * @return
+     */
+    UserAccount findByUserID(String userid);
 }
