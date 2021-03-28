@@ -35,6 +35,13 @@ public class UserAccount {
     protected UserAccount() {
         // Do Nothing
     }
+    public UserAccount(String username, String password, String email, String role, String userID) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.userID=userID;
+    }
 
     public String getUserID() {
         return userID;

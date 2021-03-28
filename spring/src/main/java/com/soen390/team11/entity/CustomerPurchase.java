@@ -15,14 +15,17 @@ public class CustomerPurchase {
     private Status status;
     @Column
     private Integer amount;
+    @Column
+    private String userid;
 
     public CustomerPurchase() {
     }
 
-    public CustomerPurchase(CustomerPurchaseId customerPurchaseId, Status status, Integer amount) {
+    public CustomerPurchase(CustomerPurchaseId customerPurchaseId, Status status, Integer amount,String userid) {
         this.customerPurchaseId = customerPurchaseId;
         this.status = status;
         this.amount = amount;
+        this.userid =userid;
     }
 
     public CustomerPurchaseId getCustomerPurchaseId() {
@@ -47,5 +50,9 @@ public class CustomerPurchase {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getUserid() {
+        return userid;
     }
 }

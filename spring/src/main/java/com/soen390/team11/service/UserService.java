@@ -6,6 +6,7 @@ import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -61,5 +62,14 @@ public class UserService implements UserDetailsService {
             new UsernameNotFoundException("user not found");
         }
         return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
+    }
+
+    /**
+     * get logged user
+     * @return
+     */
+    public UserAccount getLoggedUser(){
+        UserAccount userAccount= userAccountRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        return userAccount;
     }
 }

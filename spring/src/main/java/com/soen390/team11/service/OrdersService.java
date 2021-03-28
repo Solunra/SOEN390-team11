@@ -11,6 +11,8 @@ import com.soen390.team11.repository.RawMaterialRepository;
 import com.soen390.team11.repository.VendorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,8 @@ public class OrdersService {
     VendorsRepository vendorsRepository;
     @Autowired
     RawMaterialRepository rawMaterialRepository;
-
+    @Autowired
+    UserService userService;
     /**
      * Creates a new Order
      *
@@ -37,7 +40,7 @@ public class OrdersService {
      */
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(),userService.getLoggedUser().getUserID());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }

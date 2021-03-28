@@ -4,6 +4,8 @@ import com.soen390.team11.entity.UserAccount;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repository for User Account
  */
@@ -16,5 +18,12 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Strin
      * @return The user account details
      */
     UserAccount findByEmail(String email);
+
+    /**
+     * find all user that unername not the input parameter
+     * @param username
+     * @return
+     */
+    List<UserAccount> findAllByUsernameNot(String username);
 
 }

@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 /**
@@ -24,6 +25,8 @@ public class Orders {
     private int quantity;
 
     private OffsetDateTime time;
+    private String userid;
+    private LocalDate ordertime;
 
     public Orders() {
     }
@@ -33,6 +36,14 @@ public class Orders {
         this.saleID = saleID;
         this.quantity = quantity;
         this.time = time;
+    }
+    public Orders(String vendorID, String saleID, int quantity, OffsetDateTime time,LocalDate ordertime, String userid) {
+        this.vendorID = vendorID;
+        this.saleID = saleID;
+        this.quantity = quantity;
+        this.time = time;
+        this.ordertime = ordertime;
+        this.userid = userid;
     }
 
     public String getVendorID() {
@@ -73,5 +84,13 @@ public class Orders {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public LocalDate getOrdertime() {
+        return ordertime;
     }
 }

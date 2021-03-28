@@ -31,7 +31,8 @@ public class CustomerPurchaseService {
     ProductMachineryService productMachineryService;
     @Autowired
     ProductMachineryRepository productMachineryRepository;
-
+    @Autowired
+    UserService userService;
     /**
      * service to make the purchase
      * @param customerPurchaseDto
@@ -45,7 +46,7 @@ public class CustomerPurchaseService {
         CustomerPurchase customerPurchase=null;
         for(HashMap hm: carte){
             customerPurchaseId = new CustomerPurchaseId(customer.getCustomerID(), (String) hm.get("productid"),invoice.getInvoiceID());
-            customerPurchase=new CustomerPurchase(customerPurchaseId, Status.PAID, (Integer) hm.get("quantity"));
+            customerPurchase=new CustomerPurchase(customerPurchaseId, Status.PAID, (Integer) hm.get("quantity"), userService.getLoggedUser().getUserID());
             customerPurchaseRepository.save(customerPurchase);
         }
         return invoice.getInvoiceID();
