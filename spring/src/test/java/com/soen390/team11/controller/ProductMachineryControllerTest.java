@@ -6,7 +6,9 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -30,60 +32,38 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = Team11Application.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
 public class ProductMachineryControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private ProductMachineryRepository productMachineryRepository;
-
-    @MockBean
-    private ProductRepository productRepository;
-
-    private ProductMachineryService productMachineryService;
+    ProductMachineryController productMachineryController;
+    @Mock
+    ProductMachineryService productMachineryService;
 
     private final Map<String, ProductMachinery> machineryMap = new HashMap<>();
 
     @BeforeEach
     public void setUp() {
-        Product dummyProduct = new Product();
-        when(productRepository.findById(Mockito.anyString())).thenReturn(
-            java.util.Optional.of(dummyProduct));
-
-        ProductMachinery dummyMachinery = new ProductMachinery("xyz machine", MachineryState.READY, 450,
-            null);
-        when(productMachineryRepository.save(Mockito.any())).thenReturn(dummyMachinery);
-
-        productMachineryService = new ProductMachineryService(productMachineryRepository, productRepository);
+        openMocks(this);
+        productMachineryController = new ProductMachineryController(productMachineryService);
     }
-
-    @AfterEach
-    public void resetMachineryDb() {
-        machineryMap.forEach((k, v) -> productMachineryRepository.delete(v));
-        machineryMap.clear();
-    }
-
 
     @Test
-    public void getProductMachineries_Success() throws Exception {
+    public void getProductMachineries_Success() {
 
         machineryMap
             .put("machine0", new ProductMachinery("abc machine", MachineryState.READY, 100, null));
@@ -95,11 +75,8 @@ public class ProductMachineryControllerTest {
 
         when(productMachineryService.getAllMachineries())
             .thenReturn(new ArrayList<>(machineryMap.values()));
-
-        mockMvc.perform(get("/machinery/")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+        ResponseEntity responseEntity = productMachineryController.retrieveAllMachineries();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
@@ -108,82 +85,39 @@ public class ProductMachineryControllerTest {
         ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine",
             "running", 50, "prod-randomid");
 
-        MvcResult mvcResult = mockMvc.perform(put("/machinery")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
-            .content(new ObjectMapper().writeValueAsString(productMachineryDto))
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk()).andReturn();
-
+        when(productMachineryService.createMachinery(productMachineryDto)).thenReturn("");
+        ResponseEntity responseEntity = productMachineryController.createMachinery(productMachineryDto);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void ChangeMachineryStatusFromReadyToRunning_Success() throws Exception {
         String machineryId = "prodmac-randomid";
 
-        when(productMachineryRepository.findById(machineryId)).thenReturn(java.util.Optional
-            .of(new ProductMachinery("abc machine", MachineryState.READY, 100, null)));
-
-        mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
+        when(productMachineryService.updateMachineryStatus(machineryId, "start")).thenReturn("Success");
+        ResponseEntity responseEntity = productMachineryController.updateMachineryStatus(machineryId, "start");
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     public void ChangeMachineryStatusFromUnassignedToRunning_Fail() throws Exception {
         String machineryId = "prodmac-randomid";
 
-        when(productMachineryRepository.findById(machineryId)).thenReturn(java.util.Optional
-            .of(new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null)));
-
-        mockMvc.perform(post(String.format("/machinery/%s/%s", machineryId, "start"))
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest());
-
-        assertEquals(MachineryState.UNASSIGNED,
-            productMachineryRepository.findById(machineryId).get().getStatus());
+        when(productMachineryService.updateMachineryStatus(machineryId, "start")).thenReturn("Operation is not supported");
+        ResponseEntity responseEntity = productMachineryController.updateMachineryStatus(machineryId, "start");
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
 
     @Test
-    public void associateProductToMachineryWhenThereIsAnUnassignedMachine_Success() throws Exception {
+    public void associateProductToMachineryWhenThereIsAnUnassignedMachine_Success() {
         String machineryId = "prodmac-randomid";
         String productId = "prod-randomid";
 
-        when(productMachineryRepository.findById(anyString())).thenReturn(java.util.Optional
-            .of(new ProductMachinery("abc machine", MachineryState.UNASSIGNED, 100, null)));
-        when(productRepository.findById(anyString())).thenReturn(java.util.Optional
-            .of(new Product("random_product_name", "", "", "", "", "",0,0)));
-
-        mockMvc.perform(post(String.format("/machinery/product/%s", productId))
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + obtainAccessToken())
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-
-        assertEquals("random_product_name",
-            productMachineryRepository.findById(machineryId).get().getProduct().getName());
-    }
-
-    private String obtainAccessToken() throws Exception {
-
-        String content = "{\"username\": \"admin@erp.com\", \"password\": \"admin\"}";
-
-        MockHttpServletRequestBuilder requestBuilder = post("/account/signin")
-            .content(content)
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder)
-            .andExpect(status().isOk()).andReturn();
-
-        String response = result.getResponse().getHeader("Authorization");
-
-        return Objects.requireNonNull(response).substring("Bearer ".length());
+        when(productMachineryService.findAvailableMachinery()).thenReturn(machineryId);
+        when(productMachineryService.occupyMachinery(machineryId, productId)).thenReturn("Success");
+        ResponseEntity responseEntity = productMachineryController.attemptProduceProduct(productId);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
 }

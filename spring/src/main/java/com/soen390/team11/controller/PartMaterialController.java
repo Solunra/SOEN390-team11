@@ -21,11 +21,13 @@ public class PartMaterialController {
 
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
     PartMaterialService partMaterialService;
-
-    @Autowired
     PartService partService;
+
+    public PartMaterialController(PartMaterialService partMaterialService, PartService partService) {
+        this.partMaterialService = partMaterialService;
+        this.partService = partService;
+    }
 
     /**
      * Gets the amount of material that consists a specific part

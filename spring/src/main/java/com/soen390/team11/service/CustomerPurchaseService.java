@@ -17,20 +17,26 @@ import java.util.Optional;
 
 @Service
 public class CustomerPurchaseService {
-    @Autowired
+
     CustomerRepository customerRepository;
-    @Autowired
     CustomerPurchaseRepository customerPurchaseRepository;
-    @Autowired
     InvoiceRepository invoiceRepository;
-    @Autowired
     ProductRepository productRepository;
-    @Autowired
     ProductInventoryRepository productInventoryRepository;
-    @Autowired
     ProductMachineryService productMachineryService;
-    @Autowired
     ProductMachineryRepository productMachineryRepository;
+
+    public CustomerPurchaseService(CustomerRepository customerRepository, CustomerPurchaseRepository customerPurchaseRepository,
+                                   InvoiceRepository invoiceRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository,
+                                   ProductMachineryService productMachineryService, ProductMachineryRepository productMachineryRepository) {
+        this.customerRepository = customerRepository;
+        this.customerPurchaseRepository = customerPurchaseRepository;
+        this.invoiceRepository = invoiceRepository;
+        this.productRepository = productRepository;
+        this.productInventoryRepository = productInventoryRepository;
+        this.productMachineryService = productMachineryService;
+        this.productMachineryRepository = productMachineryRepository;
+    }
 
     /**
      * service to make the purchase

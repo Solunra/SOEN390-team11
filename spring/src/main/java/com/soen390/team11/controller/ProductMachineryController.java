@@ -18,8 +18,11 @@ public class ProductMachineryController {
 
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
-    private ProductMachineryService productMachineryService;
+    private final ProductMachineryService productMachineryService;
+
+    public ProductMachineryController(ProductMachineryService productMachineryService) {
+        this.productMachineryService = productMachineryService;
+    }
 
     /**
      * Retrieves all product machinery
@@ -82,11 +85,10 @@ public class ProductMachineryController {
      */
     @PostMapping("/product/{productId}")
     public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
-        System.out.println("attemp product");
+        System.out.println("attempt product");
         try {
             // try to find an unassigned machinery and occupy it
-            String result = productMachineryService.occupyMachinery(
-                productMachineryService.findAvailableMachinery(), productId);
+            String result = productMachineryService.occupyMachinery(productMachineryService.findAvailableMachinery(), productId);
 
             if (result != null && result.equals("Success"))
                 return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);

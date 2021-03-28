@@ -26,8 +26,11 @@ public class ProductController {
 
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
     ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     /**
      * Creates a new product
@@ -117,7 +120,6 @@ public class ProductController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
         catch (Exception e){
-
             return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }

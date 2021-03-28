@@ -3,70 +3,79 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.MaterialRequestDto;
 import com.soen390.team11.entity.Material;
+import com.soen390.team11.service.MaterialService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MaterialControllerTest {
-    @Autowired
+
     MaterialController materialController;
+    @Mock
+    MaterialService materialService;
     MaterialRequestDto materialRequestDto;
     Material createdMaterial;
     ObjectMapper objectMapper= new ObjectMapper();
-    @BeforeAll
+
+    @BeforeEach
     public void setup()
     {
+        openMocks(this);
+        materialController = new MaterialController(materialService);
         materialRequestDto = new MaterialRequestDto();
         materialRequestDto.setname("Head Tube");
-    }
-    @Test
-    @Order(1)
-    void createMaterial() throws Exception{
-        ResponseEntity<?> responseEntity = materialController.createMaterial(materialRequestDto);
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        createdMaterial = new Material(responseBody.get("materialid").toString(),responseBody.get("name").toString());
+        createdMaterial = new Material("material", "Head Tube");
     }
 
     @Test
-    @Order(2)
+    void createMaterial()
+    {
+        when(materialService.createMaterial(materialRequestDto)).thenReturn(createdMaterial);
+        ResponseEntity<?> responseEntity = materialController.createMaterial(materialRequestDto);
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    }
+
+    @Test
     void retrieveAllMaterial() {
+        when(materialService.getAllMaterial()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = materialController.retrieveAllMaterial();
         assertNotNull(responseEntity.getBody());
     }
 
     @Test
-    @Order(3)
     void retrieveMaterial() {
+        when(materialService.getMaterialById(createdMaterial.getMaterialid())).thenReturn(createdMaterial);
         ResponseEntity<?> responseEntity = materialController.retrieveMaterial(createdMaterial.getMaterialid());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(4)
-    void updateMaterial() {
+    void updateMaterial() throws Exception {
         MaterialRequestDto newMaterial = new MaterialRequestDto("Shock absorber");
+        when(materialService.updateMaterial(createdMaterial.getMaterialid(), newMaterial)).thenReturn(new Material(createdMaterial.getMaterialid(), newMaterial.getname()));
         ResponseEntity<?> responseEntity = materialController.updateMaterial(createdMaterial.getMaterialid(), newMaterial);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(5)
-    void deleteMaterial() {
+    void deleteMaterial() throws Exception {
+        when(materialService.deleteMaterial(createdMaterial.getMaterialid())).thenReturn("");
         ResponseEntity<?> responseEntity = materialController.deleteMaterial(createdMaterial.getMaterialid());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        when(materialService.deleteMaterial("1000")).thenThrow(new Exception());
         responseEntity = materialController.deleteMaterial("1000");
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }

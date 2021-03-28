@@ -20,14 +20,17 @@ import java.util.List;
 @Service
 public class ProductInventoryService {
 
-    @Autowired
     ProductInventoryRepository productInventoryRepository;
-    @Autowired
     ProductPartsRepository productPartsRepository;
-    @Autowired
     PartService partService;
-    @Autowired
     ProductRepository productRepository;
+
+    public ProductInventoryService(ProductInventoryRepository productInventoryRepository, ProductPartsRepository productPartsRepository, PartService partService, ProductRepository productRepository) {
+        this.productInventoryRepository = productInventoryRepository;
+        this.productPartsRepository = productPartsRepository;
+        this.partService = partService;
+        this.productRepository = productRepository;
+    }
 
     /**
      * Create a new Product's Inventory
@@ -108,7 +111,7 @@ public class ProductInventoryService {
      *
      * @return List of Product's Inventories
      */
-    public ArrayList<ProductInventoryResponse> getAllProInv(){
+    public List<ProductInventoryResponse> getAllProInv(){
         List<ProductInventory> productInventories= (List<ProductInventory>) productInventoryRepository.findAll();
         List<Product> products = (List<Product>) productRepository.findAll();
         ArrayList<ProductInventoryResponse> productInventoryList = new ArrayList<>();

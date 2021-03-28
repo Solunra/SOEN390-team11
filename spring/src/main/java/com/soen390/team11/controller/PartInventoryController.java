@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/inventory/part")
 public class PartInventoryController {
 
-    @Autowired
     PartInventoryService partInventoryService;
+
+    public PartInventoryController(PartInventoryService partInventoryService) {
+        this.partInventoryService = partInventoryService;
+    }
 
     /**
      * Gets all parts in the inventory

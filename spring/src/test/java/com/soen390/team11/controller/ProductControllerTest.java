@@ -3,72 +3,84 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.entity.Product;
+import com.soen390.team11.service.ProductService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 class ProductControllerTest {
-    @Autowired
+
     ProductController productController;
+    @Mock
+    ProductService productService;
     ProductRequestDto productRequestDto;
     Product createdProduct;
+    String productId;
     ObjectMapper objectMapper= new ObjectMapper();
-    @BeforeAll
+
+    @BeforeEach
     public void setup()
     {
+        openMocks(this);
+        productController = new ProductController(productService);
         productRequestDto = new ProductRequestDto("bike","mountain","medium","black","matte","A",0,0);
-    }
-    @Test
-    @Order(1)
-    void createProduct() throws Exception{
-        ResponseEntity<?> responseEntity = productController.createProduct(productRequestDto);
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        createdProduct = new Product(responseBody.get("name").toString(),responseBody.get("type").toString(),responseBody.get("size").toString(), responseBody.get("color").toString()
-                ,responseBody.get("finish").toString(),responseBody.get("grade").toString(),0,0);
-        createdProduct.setProductid(responseBody.get("productid").toString());
+        productId = "productID";
+        createdProduct = new Product(productRequestDto.getName(),productRequestDto.getType(), productRequestDto.getSize(), productRequestDto.getColor(),
+                productRequestDto.getFinish(), productRequestDto.getGrade(), productRequestDto.getCost(), productRequestDto.getPrice());
+        createdProduct.setProductid(productId);
     }
 
     @Test
-    @Order(2)
+    void createProduct() {
+        when(productService.createProduct(productRequestDto)).thenReturn(createdProduct);
+        ResponseEntity<?> responseEntity = productController.createProduct(productRequestDto);
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    }
+
+    @Test
     void retrieveAllProduct() {
+        when(productService.getAllProduct()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = productController.retrieveAllProduct();
         assertNotNull(responseEntity.getBody());
     }
 
     @Test
-    @Order(3)
     void retrieveProduct() {
-        ResponseEntity<?> responseEntity = productController.retrieveProduct(createdProduct.getProductid().toString());
+        when(productService.getProductById(productId)).thenReturn(createdProduct);
+        ResponseEntity<?> responseEntity = productController.retrieveProduct(createdProduct.getProductid());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(4)
-    void updateProduct() {
+    void updateProduct() throws Exception {
         ProductRequestDto newProduct = new ProductRequestDto("bike1","mountain1","medium","black","matte","A",0,0);
-        ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid().toString(), newProduct);
+
+        when(productService.updateProduct(productId, newProduct)).thenReturn(new Product("bike1","mountain1","medium","black","matte","A",0,0));
+        ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid(), newProduct);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(5)
-    void deleteProduct() {
-        ResponseEntity<?> responseEntity = productController.deleteProduct(createdProduct.getProductid().toString());
+    void deleteProduct() throws Exception {
+        when(productService.deleteProduct(productId)).thenReturn("success");
+        ResponseEntity<?> responseEntity = productController.deleteProduct(createdProduct.getProductid());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        responseEntity = productController.deleteProduct(String.valueOf("1000").toString());
+
+        when(productService.deleteProduct("1000")).thenThrow(new Exception());
+        responseEntity = productController.deleteProduct("1000");
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 }

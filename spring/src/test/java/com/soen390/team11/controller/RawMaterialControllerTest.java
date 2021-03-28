@@ -5,7 +5,10 @@ import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.dto.VendorDto;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.VendorsRepository;
+import com.soen390.team11.service.RawMaterialService;
+import com.soen390.team11.service.VendorsService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -14,110 +17,83 @@ import org.springframework.test.context.ActiveProfiles;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RawMaterialControllerTest {
 
-    @Autowired
-    VendorController vendorController;
-
-    @Autowired
     RawMaterialController rawMaterialController;
 
-    @Autowired
-    VendorsRepository vendorsRepository;
+    @Mock
+    RawMaterialService rawMaterialService;
 
-    String vendorId;
-    String rawMaterialID;
-    int sizeOfRawMaterial;
     RawMaterialRequestDto rawMaterialRequestDto;
-    ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeAll
+    @BeforeEach
     public void setup()
     {
-        ResponseEntity responseEntity = vendorController.createVendor(new VendorDto("Bike Company","Address","514-515-1323","bikecompany@email.com"));
-        vendorId = (String) responseEntity.getBody();
-        rawMaterialRequestDto = new RawMaterialRequestDto("Steel", "description", 100.23,"ton",vendorId);
-        ArrayList<?> rawMaterialList = null;
-        try {
-            rawMaterialList = objectMapper.readValue(rawMaterialController.retrieveAllRawMaterials().getBody().toString(), ArrayList.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        sizeOfRawMaterial=rawMaterialList.size();
+        openMocks(this);
+        rawMaterialController = new RawMaterialController(rawMaterialService);
+        rawMaterialRequestDto = new RawMaterialRequestDto("Steel", "description", 100.23,"ton", "vendorId");
     }
 
     @Test
-    @Order(1)
-    public void testDefineRawMaterial()
+    public void testDefineRawMaterial() throws Exception
     {
+        when(rawMaterialService.createNewRawMaterial(rawMaterialRequestDto)).thenReturn("");
         ResponseEntity responseEntity = rawMaterialController.defineRawMaterial(rawMaterialRequestDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        rawMaterialID = (String) responseEntity.getBody();
     }
 
     @Test
-    @Order(2)
     public void testGetAllRawMaterials()
     {
+        when(rawMaterialService.getAllRawMaterial()).thenReturn(List.of());
         ResponseEntity responseEntity = rawMaterialController.retrieveAllRawMaterials();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        try {
-            assertEquals(sizeOfRawMaterial+1,
-                    objectMapper.readValue(responseEntity.getBody().toString(), ArrayList.class).size());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
-    @Order(3)
     public void testGetRawMaterialUsingID()
     {
-        rawMaterialID= rawMaterialID.replace("\"","");
-        System.out.println(rawMaterialID);
-        ResponseEntity responseEntity =rawMaterialController.retrieveRawMaterial(rawMaterialID);
+        String id = "rawMaterialID";
+
+        when(rawMaterialService.getRawMaterialById(id)).thenReturn(new RawMaterialRequestDto());
+        ResponseEntity responseEntity = rawMaterialController.retrieveRawMaterial(id);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(4)
-    public void testEditRawMaterial()
+    public void testEditRawMaterial() throws Exception
     {
         rawMaterialRequestDto.setname("New Raw Material");
         rawMaterialRequestDto.setCost(132.22);
-        ResponseEntity responseEntity =rawMaterialController.editRawMaterial(rawMaterialID,rawMaterialRequestDto);
+
+        when(rawMaterialService.updateRawMaterial("rawMaterialID", rawMaterialRequestDto)).thenReturn("");
+        ResponseEntity responseEntity =rawMaterialController.editRawMaterial("rawMaterialID", rawMaterialRequestDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(5)
-    public void testDeleteRawMaterial()
+    public void testDeleteRawMaterial() throws Exception
     {
+        String rawMaterialID = "id";
+        when(rawMaterialService.deleteRawMaterial(rawMaterialID)).thenReturn("Delete Successful");
         ResponseEntity responseEntity =rawMaterialController.removeRawMaterial(rawMaterialID);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Delete Successful",((String)responseEntity.getBody()).replace("\"",""));
+        assertEquals("Delete Successful", ((String)responseEntity.getBody()).replace("\"",""));
     }
 
     @Test
-    @Order(6)
     public void testGetNoRawMaterial()
     {
-        ResponseEntity responseEntity =rawMaterialController.retrieveRawMaterial(rawMaterialID);
+        when(rawMaterialService.getRawMaterialById("rawMaterialID")).thenReturn(null);
+        ResponseEntity responseEntity = rawMaterialController.retrieveRawMaterial("rawMaterialID");
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
-    @AfterAll
-    public void delete()
-    {
-        Optional<Vendors> vendors = vendorsRepository.findByVendorID(vendorId);
-        vendorsRepository.delete(vendors.get());
-    }
 }

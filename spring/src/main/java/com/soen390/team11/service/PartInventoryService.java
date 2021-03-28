@@ -16,10 +16,13 @@ import java.util.List;
 @Service
 public class PartInventoryService {
 
-    @Autowired
     PartInventoryRepository partInventoryRepository;
-    @Autowired
     PartRepository partRepository;
+
+    public PartInventoryService(PartInventoryRepository partInventoryRepository, PartRepository partRepository) {
+        this.partInventoryRepository = partInventoryRepository;
+        this.partRepository = partRepository;
+    }
 
     /**
      * Gets all Part's Inventory

@@ -18,10 +18,13 @@ import java.util.Map;
 @Service
 public class PartMaterialService {
 
-    @Autowired
     PartMaterialRepository partMaterialRepository;
-    @Autowired
     MaterialRepository materialRepository;
+
+    public PartMaterialService(PartMaterialRepository partMaterialRepository, MaterialRepository materialRepository) {
+        this.partMaterialRepository = partMaterialRepository;
+        this.materialRepository = materialRepository;
+    }
 
     /**
      * Map of all parts' materials and their quantity
