@@ -1,5 +1,5 @@
 # SOEN390 Project [Team 11]
-[![CircleCI](https://circleci.com/gh/Solunra/SOEN390-team11.svg?style=svg&circle-token=c065fd8efe322775fbfce01e8731da3cdc48a2f0)](<LINK>)
+![CircleCI](https://circleci.com/gh/Solunra/SOEN390-team11.svg?style=svg&circle-token=c065fd8efe322775fbfce01e8731da3cdc48a2f0)
 
 ### Description
 
