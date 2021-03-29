@@ -66,6 +66,7 @@ const Order = (props) =>{
     const handleClose =() =>{
         setOpen(false);
         setDateTime('');
+        setPage(0);
     }
     const handleConfirm =()=>{
         if(checkValue()){

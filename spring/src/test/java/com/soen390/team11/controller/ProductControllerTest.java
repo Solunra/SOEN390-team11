@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,5 +83,12 @@ class ProductControllerTest {
         when(productService.deleteProduct("1000")).thenThrow(new Exception());
         responseEntity = productController.deleteProduct("1000");
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void getPreConfigParts() {
+        when(productService.getAllProductPart()).thenReturn(List.of());
+        ResponseEntity<?> responseEntity = productController.getPreConfigParts();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 }

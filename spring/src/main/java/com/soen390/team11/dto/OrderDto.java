@@ -1,5 +1,6 @@
 package com.soen390.team11.dto;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 /**
@@ -11,8 +12,13 @@ public class OrderDto {
     private String saleID;
     private int quantity;
     private OffsetDateTime dateTime;
+    private String userid;
 
-    public OrderDto(String vendorID, String saleID,int quantity, OffsetDateTime dateTime) {
+
+    public OrderDto() {
+    }
+
+    public OrderDto(String vendorID, String saleID, int quantity, OffsetDateTime dateTime) {
         this.vendorID = vendorID;
         this.saleID = saleID;
         this.quantity = quantity;
@@ -39,11 +45,15 @@ public class OrderDto {
         this.vendorID = vendorID;
     }
 
-    public OffsetDateTime getDateTime() {
-        return dateTime;
-    }
-
     public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public OffsetDateTime getDateTime() {
+        return dateTime;
     }
 }

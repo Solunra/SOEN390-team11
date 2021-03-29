@@ -10,8 +10,6 @@ import request from 'superagent';
 
 const CustomerOrder = (props) => {
     const {rows,loading, setLoading} = props;
-    const [open, setOpen] = useState(false);
-    const [data, setData] = useState({});
     const [actionsReply, setActionsReply] = useState('');
     const [errMessage,setErrMessage]=useState('');
     const columns = [
@@ -40,8 +38,9 @@ const CustomerOrder = (props) => {
             .then(res => {
                 if (res.status === 200)
                 {
-                    var prolist = JSON.stringify(res.body);
+                    console.log(res.body);
                     setLoading(!loading);
+                    setActionsReply(res.body);
                 }
             })
             .catch(err => {
@@ -56,6 +55,9 @@ const CustomerOrder = (props) => {
 
     return (
         <>
+            <Grid item xs={12}>
+                <div style={ {color: 'blue' }}>{actionsReply}</div>
+            </Grid>
             <CustomTable
                 data={rows}
                 columns={columns}
@@ -63,9 +65,7 @@ const CustomerOrder = (props) => {
                 title = {`Customer Order Table`}
             >
             </CustomTable>
-            <Grid item xs={12}>
-                <div style={ {color: 'blue' }}>{actionsReply}</div>
-            </Grid>
+
         </>
     );
 }

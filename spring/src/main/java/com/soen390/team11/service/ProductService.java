@@ -10,6 +10,7 @@ import com.soen390.team11.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Layer for Product
@@ -34,7 +35,14 @@ public class ProductService {
      * @return
      */
     public Product createProduct(ProductRequestDto productRequestDto){
-        return productRepository.save(productRequestDto.getProduct());
+        Optional<Product> product = productRepository.findByNameAndTypeAndSizeAndColorAndFinishAndGrade(productRequestDto.getName(),productRequestDto.getType(),
+                productRequestDto.getSize(),productRequestDto.getColor(),productRequestDto.getFinish(),
+                productRequestDto.getGrade());
+        if(Optional.empty().isEmpty()){
+            return productRepository.save(productRequestDto.getProduct());
+        }
+        return new Product();
+
     }
 
     /**
@@ -76,7 +84,7 @@ public class ProductService {
         if(getProductById(id)==null) {
             throw new Exception("invalid id");
         }
-        productRepository.deleteById(id);
+        productRepository.deleteByProductid(id);
         return "success";
     }
 

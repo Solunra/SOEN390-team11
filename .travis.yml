@@ -15,6 +15,7 @@ before_install:
   - chmod +x gradlew
   - docker-compose up -d db
 script:
+  - sleep 5
   - ./gradlew test
 after_success:
   - docker-compose down db

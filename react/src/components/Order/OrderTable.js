@@ -13,7 +13,6 @@ const OrderTable = (props) => {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
     const [errMessage, setErrMessage] = useState('');
-    console.log(rows);
     const columns = [
         { title: 'Vendor', field: 'vendorname' },
         { title: 'Type', field: 'type' },
@@ -21,27 +20,6 @@ const OrderTable = (props) => {
         { title: 'Quantity', field: 'quantity'},
         { title: 'Status', field: 'status' },
     ];
-    // const actions = [
-    //     {
-    //         icon: () => { return <EditIcon />;},
-    //         export: false,
-    //         onClick: (event, rowData) => {
-    //             handleEdit(rowData);
-    //         }
-    //     },
-    // ];
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleEdit = (row) =>{
-        setData(row);
-        setOpen(true);
-    }
-    const handleAdd = () =>{
-        setData({});
-        setOpen(true);
-    }
-
     return (
         <>
             <CustomTable

@@ -1,17 +1,23 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.constant.Type;
+import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.OrderDto;
 import com.soen390.team11.dto.OrderResponseDto;
 import com.soen390.team11.entity.Orders;
 import com.soen390.team11.entity.RawMaterial;
+import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.OrdersRepository;
 import com.soen390.team11.repository.RawMaterialRepository;
 import com.soen390.team11.repository.VendorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +31,13 @@ public class OrdersService {
     OrdersRepository ordersRepository;
     VendorsRepository vendorsRepository;
     RawMaterialRepository rawMaterialRepository;
+    UserService userService;
 
-    public OrdersService(OrdersRepository ordersRepository, VendorsRepository vendorsRepository, RawMaterialRepository rawMaterialRepository) {
+    public OrdersService(OrdersRepository ordersRepository, VendorsRepository vendorsRepository, RawMaterialRepository rawMaterialRepository,UserService userService) {
         this.ordersRepository = ordersRepository;
         this.vendorsRepository = vendorsRepository;
         this.rawMaterialRepository = rawMaterialRepository;
+        this.userService =userService;
     }
 
     /**
@@ -40,7 +48,7 @@ public class OrdersService {
      */
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), OffsetDateTime.now(), userService.getLoggedUser().getUserID());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }
@@ -71,10 +79,37 @@ public class OrdersService {
      */
     public List<OrderResponseDto> getAllOrders()
     {
-        Iterable<Orders> orders = ordersRepository.findAll();
+        List<Orders> orders = (List<Orders>) ordersRepository.findAll();
+        if(orders.isEmpty()){
+            return new ArrayList<>();
+        }
+        return extractOrders(orders);
+    }
+
+    /**
+     * get customize report within start and end date
+     * @param customizeReportDto
+     * @return
+     */
+    public List<OrderResponseDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
+        List<Orders> orders = ordersRepository.findAllByOrdertimeBetween(OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.now(), ZoneOffset.UTC) ,
+                OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.now(), ZoneOffset.UTC));
+        if(orders.isEmpty()){
+            return new ArrayList<>();
+        }
+        return extractOrders(orders);
+    }
+
+    /**
+     * extract the order
+     * @param orders
+     * @return
+     */
+    public List<OrderResponseDto> extractOrders(List<Orders> orders){
         List<OrderResponseDto> orderDtos = new ArrayList<>();
         Vendors vendor=null;
         RawMaterial rawMaterial=null;
+        UserAccount userAccount=null;
         for (Orders order: orders) {
             rawMaterial=null;
             vendor=vendorsRepository.findByVendorID(order.getVendorID()).get();
@@ -82,9 +117,12 @@ public class OrdersService {
                 rawMaterial=rawMaterialRepository.findByRawmaterialid(order.getSaleID()).get();
             }
             OffsetDateTime dateTime = OffsetDateTime.now();
+            userAccount=userService.getUserAccountByUserid(order.getUserid());
+            String username = userAccount == null ? "Null": userAccount.getUsername();
             orderDtos.add(new OrderResponseDto(
-                    vendor.getCompanyname(), vendor.getVendorID(),Type.RAW_MATERIAL.toString(),rawMaterial==null?order.getSaleID():rawMaterial.getName(), order.getSaleID(),
-                    order.getQuantity(), order.getTime().isAfter(dateTime)?"Not Receive":"Receive")
+                    vendor.getCompanyname(), Type.RAW_MATERIAL.toString(),rawMaterial==null?order.getSaleID():rawMaterial.getName(),
+                    order.getQuantity(),order.getTime().isAfter(dateTime)?"Not Receive":"Receive",vendor.getVendorID(),
+                    order.getSaleID(),order.getOrdertime(),username,order.getUserid(),order.getQuantity()*rawMaterial.getCost(),order.getTime())
             );
         }
         return orderDtos;

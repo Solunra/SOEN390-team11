@@ -161,7 +161,7 @@ const RawMaterialForm = (props) =>{
                     margin="dense"
                     defaultValue={rowData['name']}
                     onChange = {e => {setName(e.target.value)}}
-                    label="type"
+                    label="Name"
                     fullWidth
                     variant="outlined"
                 />

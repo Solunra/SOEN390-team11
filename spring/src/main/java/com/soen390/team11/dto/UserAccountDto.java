@@ -3,20 +3,29 @@ package com.soen390.team11.dto;
 /**
  * Sign up Request Body
  */
-public class UserSignUpRequestDto {
+public class UserAccountDto {
 
     private String username;
     private String password;
     private String email;
+    private String role;
+    private String userID;
 
-    public UserSignUpRequestDto(){
+    public UserAccountDto(){
 
     }
 
-    public UserSignUpRequestDto(String username, String password, String email) {
+    public UserAccountDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email=email;
+    }
+    public UserAccountDto(String username, String password, String email, String role, String userID) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -41,6 +50,14 @@ public class UserSignUpRequestDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     @Override

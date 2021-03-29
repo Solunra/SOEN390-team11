@@ -82,10 +82,10 @@ const ProductTable = (props) => {
                 }
             })
             .catch(err => {
-                setErrMessage(err.response.body['message']);
+                setErrMessage("Cannot delete product");
                 setTimeout(()=>{
-                    setMessage("")
-                }, 5000);
+                    setErrMessage("")
+                }, 3000);
             });
     }
     const handleStart=(row)=>{
@@ -96,10 +96,10 @@ const ProductTable = (props) => {
             .then(res => {
                 console.log(res.body);
                 if (res.body === "Success") {
-                    setMessage("sucess add product to machine");
+                    setMessage("success add product to machine");
                     setTimeout(()=>{
                         setMessage("")
-                    }, 5000);
+                    }, 3000);
                 }
             })
             .catch(err => {
