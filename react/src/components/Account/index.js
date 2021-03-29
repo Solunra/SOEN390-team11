@@ -21,8 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 }))
 const Account = ()=>{
-    // const [orderList, setOrderList] = useState([]);
-    // const [customerorderList, setCustomerorderList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(true);
     const [customizeReport, setCustomizeReport]= useState(false);
@@ -88,6 +86,10 @@ const Account = ()=>{
         setPage(true);
         setLoading(!loading);
     }
+    const refreshChangePage=()=>{
+        setPage(!page)
+        setLoading(!loading);
+    }
 
     const classes = useStyles();
     return(
@@ -98,7 +100,7 @@ const Account = ()=>{
                         <Button onClick={handleRefresh} className={classes.button}>Refresh</Button>
                     </Grid>
                     <Grid item md={3}>
-                        <Button onClick={()=>setPage(!page)} className={classes.button}>{!page?"Account Payable": "Account Receivable"}</Button>
+                        <Button onClick={refreshChangePage} className={classes.button}>{!page?"Account Payable": "Account Receivable"}</Button>
                     </Grid>
                     <Grid item md={3}>
                         <Button onClick={()=>setCustomizeReport(true)} className={classes.button}>Customize Report</Button>

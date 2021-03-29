@@ -21,7 +21,6 @@ const AccountReceivable = (props) => {
         { title: 'Finish', field: 'finish' },
         { title: 'Price', field: 'price'},
         { title: 'Status', field: 'status'},
-        //    maybe user
     ];
     const actionsPL = [
         {

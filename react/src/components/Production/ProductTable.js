@@ -96,10 +96,10 @@ const ProductTable = (props) => {
             .then(res => {
                 console.log(res.body);
                 if (res.body === "Success") {
-                    setMessage("sucess add product to machine");
+                    setMessage("success add product to machine");
                     setTimeout(()=>{
                         setMessage("")
-                    }, 5000);
+                    }, 3000);
                 }
             })
             .catch(err => {
