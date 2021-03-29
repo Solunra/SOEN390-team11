@@ -143,6 +143,8 @@ const Users = ()=>{
                             setOpen={setAddUser}
                             userEditInfo={useEditInfo}
                             setUserEditInfo={setUseEditInfo}
+                            loading={loading}
+                            setLoading={setLoading}
                         />
                         <AssignRole
                             open={assignRole}

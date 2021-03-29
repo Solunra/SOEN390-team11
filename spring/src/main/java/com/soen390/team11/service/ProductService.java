@@ -17,12 +17,16 @@ import java.util.Optional;
  */
 @Service
 public class ProductService {
-    @Autowired
+
     ProductRepository productRepository;
-    @Autowired
     PartRepository partRepository;
-    @Autowired
     ProductInventoryRepository productInventoryRepository;
+
+    public ProductService(ProductRepository productRepository, PartRepository partRepository, ProductInventoryRepository productInventoryRepository) {
+        this.productRepository = productRepository;
+        this.partRepository = partRepository;
+        this.productInventoryRepository = productInventoryRepository;
+    }
 
     /**
      * Create a new Product

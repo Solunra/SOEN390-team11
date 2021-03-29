@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 import { Grid} from "@material-ui/core";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
@@ -27,8 +28,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const UserForm = (props) =>{
-
-    const {open, setOpen, userEditInfo,setUserEditInfo} = props;
+    const history = useHistory();
+    const {open, setOpen, userEditInfo,setUserEditInfo,loading,setLoading} = props;
     const [error, setError] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -69,9 +70,11 @@ const UserForm = (props) =>{
                 )
                 .set('Accept', 'application/json')
                 .then(res => {
-                    console.log(res);
-                    cleanUp();
-                    setOpen(false);
+                    if(res.status === 201){
+                        cleanUp();
+                        setOpen(false);
+                        setLoading(!loading);
+                    }
                 })
                 .catch(err =>{
                     setError("Cannot Create account");
@@ -101,7 +104,10 @@ const UserForm = (props) =>{
                     console.log(res);
                     cleanUp();
                     setOpen(false);
-
+                    if(role === "CUSTOMER"){
+                        localStorage.removeItem("Authorization");
+                        history.push("/");
+                    }
                 })
                 .catch(err =>{
                     setError("Cannot Create account");
@@ -116,9 +122,6 @@ const UserForm = (props) =>{
                 setError("")
             }, 5000);
         }
-
-
-
     };
     const checkValue=(type)=>{
         if(type === "edit"){

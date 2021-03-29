@@ -27,8 +27,11 @@ public class OrderController {
 
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
     public OrdersService ordersService;
+
+    public OrderController(OrdersService ordersService) {
+        this.ordersService = ordersService;
+    }
 
     /**
      * Gets all orders

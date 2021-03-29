@@ -7,7 +7,10 @@ import com.soen390.team11.repository.PartRepository;
 import com.soen390.team11.repository.ProductInventoryRepository;
 import com.soen390.team11.repository.ProductPartsRepository;
 import com.soen390.team11.repository.ProductRepository;
+import com.soen390.team11.service.PartService;
+import com.soen390.team11.service.ProductInventoryService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -20,112 +23,98 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductInventoryControllerTest {
 
-    @Autowired
     ProductInventoryController productInventoryController;
-    @Autowired
-    PartRepository partRepository;
-    @Autowired
-    ProductPartsRepository productPartsRepository;
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    ProductInventoryRepository productInventoryRepository;
-    ProductInventoryRequestDto productInventoryRequestDto;
+    @Mock
+    ProductInventoryService productInventoryService;
+    @Mock
+    PartService partService;
 
+    ProductInventoryRequestDto productInventoryRequestDto;
     List<ProductInventory> productInventoryList = new ArrayList<>();
     List<Part> partList = new ArrayList<>();
     List<Product> productList = new ArrayList<>();
     List<ProductParts> productPartsList = new ArrayList<>();
     ObjectMapper objectMapper= new ObjectMapper();
+    ProductInventory productInventory;
 
-    @BeforeAll
+    @BeforeEach
     public  void setup(){
+        openMocks(this);
         Product product1 = new Product("bike1","mountain","medium","black","matte","A",0,0);
         Product product2 = new Product("bike2","road","large","red","matte","A",0,0);
-        productList.add(productRepository.save(product1));
-        productList.add(productRepository.save(product2));
+        productList.add(product1);
+        productList.add(product2);
         Part part1 = new Part("part1","part1");
         Part part2 = new Part("part2","part2");
-        partList.add(partRepository.save(part1));
-        partList.add(partRepository.save(part2));
+        partList.add(part1);
+        partList.add(part2);
         ProductPartsId productPartsId1 = new ProductPartsId(partList.get(0).getPartid(),productList.get(0).getProductid());
         ProductPartsId productPartsId2 = new ProductPartsId(partList.get(1).getPartid(),productList.get(0).getProductid());
         ProductParts productParts1 = new ProductParts(productPartsId1);
         ProductParts productParts2 = new ProductParts(productPartsId2);
-        productPartsList.add(productPartsRepository.save(productParts1));
-        productPartsList.add(productPartsRepository.save(productParts2));
-        productInventoryList.add(productInventoryRepository.save(new ProductInventory("montreal", 5,productList.get(0).getProductid())));
+        productPartsList.add(productParts1);
+        productPartsList.add(productParts2);
+        productInventoryList.add(new ProductInventory("montreal", 5, productList.get(0).getProductid()));
+        productInventoryList.add(new ProductInventory("montreal", 5, productList.get(1).getProductid()));
         productInventoryRequestDto = new ProductInventoryRequestDto("montreal", 5,productList.get(1).getProductid());
+        productInventory = new ProductInventory("montreal", 5,productList.get(1).getProductid());
+
+        productInventoryController = new ProductInventoryController(productInventoryService, partService);
     }
 
     @Test
-    @Order(1)
     void createProductInventory() throws Exception{
+        when(productInventoryService.createProductInventory(productInventoryRequestDto)).thenReturn(productInventory);
         ResponseEntity<?> responseEntity = productInventoryController.createProductInventory(productInventoryRequestDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        Map<String,Object> responseBody = objectMapper.readValue(responseEntity.getBody().toString(),Map.class);
-        productInventoryList.add(new ProductInventory(responseBody.get("location").toString(),Integer.parseInt(responseBody.get("quantity").toString()), responseBody.get("productid").toString()));
-        productInventoryList.get(1).setId(responseBody.get("id").toString());
     }
 
     @Test
-    @Order(2)
     void retrieveAllProductsInInventory() {
+        when(productInventoryService.getAllProInv()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = productInventoryController.retrieveAllProductsInInventory();
         assertNotNull(responseEntity.getBody());
     }
 
     @Test
-    @Order(3)
     void retrieveProductParts() {
+        when(productInventoryService.getProductParts(productList.get(0).getProductid())).thenReturn(List.of());
         ResponseEntity<?> responseEntity = productInventoryController.retriveProductParts(productList.get(0).getProductid());
         assertNotNull(responseEntity.getBody());
     }
 
     @Test
-    @Order(4)
-    void updateProductInInventory() {
+    void updateProductInInventory() throws Exception {
         ProductInventoryRequestDto updateProductInventory = new ProductInventoryRequestDto(
                 productInventoryList.get(0).getLocation(),
                 100,
                 productInventoryList.get(0).getProductid()
 
         );
-        ResponseEntity<?> responseEntity = productInventoryController.editProductInfoInInventory(productInventoryList.get(0).getId() ,updateProductInventory );
+        ProductInventory updatedProductInventory = new ProductInventory(
+                productInventoryList.get(0).getLocation(),
+                100,
+                productInventoryList.get(0).getProductid()
+
+        );
+
+        when(productInventoryService.updateProductInInventory(productInventoryList.get(0).getId(), updateProductInventory)).thenReturn(updatedProductInventory);
+        ResponseEntity<?> responseEntity = productInventoryController.editProductInfoInInventory(productInventoryList.get(0).getId(), updateProductInventory);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(5)
-    void deleteProductFromInventory() {
+    void deleteProductFromInventory() throws Exception {
+        when(productInventoryService.deleteProductFromInventory(productInventoryList.get(1).getId())).thenReturn("success").thenThrow(new Exception());
         ResponseEntity<?> responseEntity = productInventoryController.deleteProductInInventory(productInventoryList.get(1).getId());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         responseEntity = productInventoryController.deleteProductInInventory(productInventoryList.get(1).getId());
         assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 
-    @AfterAll
-    public void cleanup(){
-
-        for (ProductParts productParts:productPartsList){
-            productPartsRepository.delete(productParts);
-        }
-        for(Part part:partList){
-            partRepository.delete(part);
-        }
-        for(ProductInventory productInventory:productInventoryList){
-            productInventoryRepository.delete(productInventory);
-        }
-        for(Product product: productList){
-            productRepository.delete(product);
-        }
-
-    }
 }

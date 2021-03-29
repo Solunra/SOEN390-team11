@@ -98,14 +98,6 @@ const LeftDrawer = props => {
                     handleClick("accounts");
                 }
             },
-            // {
-            //     text: "Reports",
-            //     icon: <BookmarkBorderOutlined />,
-            //     onClick: () =>{
-            //         handleClick("reports");
-            //     }
-            // },
-
             {
                 text: "Users",
                 icon: <SupervisedUserCircle />,

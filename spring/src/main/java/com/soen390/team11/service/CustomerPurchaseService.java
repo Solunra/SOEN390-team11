@@ -16,22 +16,31 @@ import java.util.List;
 
 @Service
 public class CustomerPurchaseService {
-    @Autowired
+
     CustomerRepository customerRepository;
-    @Autowired
     CustomerPurchaseRepository customerPurchaseRepository;
-    @Autowired
     InvoiceRepository invoiceRepository;
-    @Autowired
     ProductRepository productRepository;
-    @Autowired
     ProductInventoryRepository productInventoryRepository;
-    @Autowired
     ProductMachineryService productMachineryService;
-    @Autowired
     ProductMachineryRepository productMachineryRepository;
-    @Autowired
     UserService userService;
+    UserAccountRepository userAccountRepository;
+
+    public CustomerPurchaseService(CustomerRepository customerRepository, CustomerPurchaseRepository customerPurchaseRepository,
+                                   InvoiceRepository invoiceRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository,
+                                   ProductMachineryService productMachineryService, ProductMachineryRepository productMachineryRepository,UserService userService,
+                                   UserAccountRepository userAccountRepository) {
+        this.customerRepository = customerRepository;
+        this.customerPurchaseRepository = customerPurchaseRepository;
+        this.invoiceRepository = invoiceRepository;
+        this.productRepository = productRepository;
+        this.productInventoryRepository = productInventoryRepository;
+        this.productMachineryService = productMachineryService;
+        this.productMachineryRepository = productMachineryRepository;
+        this.userService=userService;
+        this.userAccountRepository=userAccountRepository;
+    }
 
     /**
      * service to make the purchase
@@ -139,6 +148,9 @@ public class CustomerPurchaseService {
      */
     public List<AccountReceivableDto> getAllAccountOrder() {
         List<Invoice> invoiceList= (List<Invoice>) invoiceRepository.findAll();
+        if(invoiceList.isEmpty()){
+            return new ArrayList<>();
+        }
         return extractAccountReceivable(invoiceList);
     }
 
@@ -148,8 +160,11 @@ public class CustomerPurchaseService {
      * @return
      */
     public List<AccountReceivableDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
-        List<Invoice> invoiceList = invoiceRepository.findAllByPurchasedateBetween(OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.NOON, ZoneOffset.UTC) ,
-                OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.NOON, ZoneOffset.UTC));
+        List<Invoice> invoiceList = invoiceRepository.findAllByPurchasedateBetween(OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.now(), ZoneOffset.UTC) ,
+                OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.now(), ZoneOffset.UTC));
+        if(invoiceList.isEmpty()){
+            return new ArrayList<>();
+        }
         return extractAccountReceivable(invoiceList);
     }
 
@@ -166,7 +181,7 @@ public class CustomerPurchaseService {
         UserAccount userAccount=null;
         for(Invoice invoice1: invoiceList){
             customerPurchaseList = customerPurchaseRepository.findAllByCustomerPurchaseIdInvoiceID(invoice1.getInvoiceID());
-            userAccount = userService.userAccountRepository.findByUserID(customerPurchaseList.get(0).getUserid());
+            userAccount = userAccountRepository.findByUserID(customerPurchaseList.get(0).getUserid());
             accountReceivableDto = new AccountReceivableDto(invoice1.getPurchasedate(),invoice1.getInvoiceID(),userAccount.getUsername(),customerPurchaseList.get(0).getUserid(), invoice1.getPaymentamount());
             accountReceivableDtoList.add(accountReceivableDto);
         }

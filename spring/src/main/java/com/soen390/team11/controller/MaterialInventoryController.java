@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/inventory/material")
 public class MaterialInventoryController {
 
-    @Autowired
     MaterialInventoryService materialInventoryService;
+
+    public MaterialInventoryController(MaterialInventoryService materialInventoryService) {
+        this.materialInventoryService = materialInventoryService;
+    }
 
     /**
      * Gets all the materials' inventory

@@ -21,12 +21,15 @@ import java.util.Optional;
 @Service
 public class RawMaterialService {
 
-    @Autowired
     RawMaterialRepository rawmaterialRepository;
-    @Autowired
     VendorsRepository vendorsRepository;
-    @Autowired
     VendorSaleRepository vendorSaleRepository;
+
+    public RawMaterialService(RawMaterialRepository rawmaterialRepository, VendorsRepository vendorsRepository, VendorSaleRepository vendorSaleRepository) {
+        this.rawmaterialRepository = rawmaterialRepository;
+        this.vendorsRepository = vendorsRepository;
+        this.vendorSaleRepository = vendorSaleRepository;
+    }
 
     /**
      * Gets all Raw Materials

@@ -11,7 +11,7 @@ const AccountReceivable = (props) => {
     const [productList, setProductList]=useState([]);
     const columnsAR = [
         { title: 'Invoice Date', field: 'invoiceDate' },
-        { title: 'Customer', field: 'customerName' },
+        { title: 'Customer', field: 'username' },
         { title: 'Balance Due', field: 'amount' },
     ];
     const columnsPL = [

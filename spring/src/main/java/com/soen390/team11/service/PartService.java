@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class PartService {
 
-    @Autowired
     PartRepository partRepository;
+
+    public PartService(PartRepository partRepository) {
+        this.partRepository = partRepository;
+    }
 
     /**
      * Gets all Parts

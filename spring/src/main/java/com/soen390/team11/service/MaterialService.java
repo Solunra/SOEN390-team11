@@ -17,12 +17,15 @@ import java.util.List;
 @Service
 public class MaterialService {
 
-    @Autowired
     MaterialRepository materialRepository;
-    @Autowired
     MaterialRawMaterialRepository materialrawmaterialRepository;
-    @Autowired
     RawMaterialService rawmaterialService;
+
+    public MaterialService(MaterialRepository materialRepository, MaterialRawMaterialRepository materialrawmaterialRepository, RawMaterialService rawmaterialService) {
+        this.materialRepository = materialRepository;
+        this.materialrawmaterialRepository = materialrawmaterialRepository;
+        this.rawmaterialService = rawmaterialService;
+    }
 
     /**
      * Creates a new Material

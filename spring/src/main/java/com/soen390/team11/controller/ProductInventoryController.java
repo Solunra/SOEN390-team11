@@ -26,11 +26,13 @@ public class ProductInventoryController {
 
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
     ProductInventoryService productInventoryService;
-
-    @Autowired
     PartService partService;
+
+    public ProductInventoryController(ProductInventoryService productInventoryService, PartService partService) {
+        this.productInventoryService = productInventoryService;
+        this.partService = partService;
+    }
 
     /**
      * Gets all products in the inventory

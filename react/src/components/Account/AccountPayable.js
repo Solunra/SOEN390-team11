@@ -9,9 +9,6 @@ const AccountPayable = (props) => {
         { title: 'Cost', field: 'amount' },
         { title: 'Username', field: 'username' },
     ];
-    console.log(payableList);
-
-
     return (
         <>
             <CustomTable

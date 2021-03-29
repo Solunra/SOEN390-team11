@@ -22,13 +22,9 @@ import java.util.Optional;
 public class ProductMachineryService {
 
     ProductMachineryRepository productMachineryRepository;
-
     ProductRepository productRepository;
 
-    @Autowired
-    public ProductMachineryService(
-        ProductMachineryRepository productMachineryRepository,
-        ProductRepository productRepository) {
+    public ProductMachineryService(ProductMachineryRepository productMachineryRepository, ProductRepository productRepository) {
         this.productMachineryRepository = productMachineryRepository;
         this.productRepository = productRepository;
     }

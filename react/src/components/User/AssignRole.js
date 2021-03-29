@@ -84,7 +84,7 @@ const AssignRole = (props) =>{
 
     return (
         <Dialog open={open} onClose={()=>{setOpen(false)}} aria-labelledby="form-dialog-title" classes={ classes.dialogWrapper }>
-            <DialogTitle id="form-dialog-title">Raw Material From</DialogTitle>
+            <DialogTitle id="form-dialog-title">Assign Role From</DialogTitle>
             <DialogContent >
                 <DialogContentText>Assign Role</DialogContentText>
                 <Grid item xs={12}>
