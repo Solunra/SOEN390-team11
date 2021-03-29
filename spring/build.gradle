@@ -30,6 +30,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+	testImplementation 'org.mockito:mockito-core:3.8.0'
 	testImplementation 'org.testcontainers:testcontainers:1.15.1'
 	testImplementation 'org.testcontainers:mysql:1.15.1'
 	testImplementation 'org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0'

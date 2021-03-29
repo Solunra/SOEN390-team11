@@ -22,10 +22,11 @@ import java.util.Optional;
 @RequestMapping("/vendor")
 public class VendorController {
 
-    ObjectMapper objectMapper= new ObjectMapper();
+    private final VendorsService vendorsService;
 
-    @Autowired
-    public VendorsService vendorsService;
+    public VendorController(VendorsService vendorsService) {
+        this.vendorsService = vendorsService;
+    }
 
     /**
      * Gets all vendors

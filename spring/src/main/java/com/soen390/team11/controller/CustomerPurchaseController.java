@@ -20,9 +20,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/customer")
 public class CustomerPurchaseController {
+
     ObjectMapper objectMapper = new ObjectMapper();
-    @Autowired
     CustomerPurchaseService customerPurchaseService;
+
+    public CustomerPurchaseController(CustomerPurchaseService customerPurchaseService) {
+        this.customerPurchaseService = customerPurchaseService;
+    }
 
     /**
      * make the purchase

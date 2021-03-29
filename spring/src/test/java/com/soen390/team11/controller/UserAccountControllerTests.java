@@ -1,62 +1,48 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.dto.UserSignUpRequestDto;
-import com.soen390.team11.entity.UserAccount;
-import com.soen390.team11.repository.UserAccountRepository;
-import org.junit.jupiter.api.AfterAll;
+import com.soen390.team11.service.UserService;
+import org.hibernate.DuplicateMappingException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserAccountControllerTests {
 
-    @Autowired
     UserAccountController userAccountController;
-    @Autowired
-    private UserAccountRepository userAccountRepository;
 
+    @Mock
+    UserService userService;
 
-    UserSignUpRequestDto userSignUpRequestDto;
+    UserSignUpRequestDto userSignUpRequestDto = new UserSignUpRequestDto("usernameHere", "passwordHere", "TestUniqueEmail@test.com");
 
-    @BeforeAll
+    @BeforeEach
     public void setup()
     {
-        userSignUpRequestDto = new UserSignUpRequestDto("usernameHere", "passwordHere", "TestUniqueEmail@test.com");
+        openMocks(this);
+        userAccountController = new UserAccountController(userService);
     }
 
     @Test
-    @Order(1)
     public void createAccount()
     {
+        doNothing().when(userService).createUser(userSignUpRequestDto);
         ResponseEntity responseEntity = userAccountController.signUp(userSignUpRequestDto);
         Assertions.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(2)
     public void accountConflict()
     {
+        doThrow(DuplicateMappingException.class).when(userService).createUser(userSignUpRequestDto);
         ResponseEntity responseEntity = userAccountController.signUp(userSignUpRequestDto);
         Assertions.assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
 
-    @AfterAll
-    public void delete()
-    {
-        UserAccount account = userAccountRepository.findByEmail(userSignUpRequestDto.getEmail());
-        userAccountRepository.delete(account);
-    }
 }

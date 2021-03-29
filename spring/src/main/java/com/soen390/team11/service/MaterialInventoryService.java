@@ -16,17 +16,20 @@ import java.util.List;
 @Service
 public class MaterialInventoryService {
 
-    @Autowired
     MaterialInventoryRepository materialInventoryRepository;
-    @Autowired
     MaterialRepository materialRepository;
+
+    public MaterialInventoryService(MaterialInventoryRepository materialInventoryRepository, MaterialRepository materialRepository) {
+        this.materialInventoryRepository = materialInventoryRepository;
+        this.materialRepository = materialRepository;
+    }
 
     /**
      * Gets all Material Inventory
      *
      * @return List of all Material's Inventory
      */
-    public ArrayList<MaterialInventoryResponse> getAllMaterialInventory() {
+    public List<MaterialInventoryResponse> getAllMaterialInventory() {
         List<MaterialInventory> materialInventories= (List<MaterialInventory>) materialInventoryRepository.findAll();
         List<Material> materials = (List<Material>) materialRepository.findAll();
         ArrayList<MaterialInventoryResponse> materialInventoryList = new ArrayList<>();

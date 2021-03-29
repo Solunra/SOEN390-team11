@@ -20,11 +20,13 @@ import java.util.ArrayList;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     UserAccountRepository userAccountRepository;
+
+    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserAccountRepository userAccountRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userAccountRepository = userAccountRepository;
+    }
 
     /**
      * Creates a new user
@@ -44,7 +46,7 @@ public class UserService implements UserDetailsService {
     @Bean
     public void addAdmin(){
         try{
-            UserAccount admin=  new UserAccount("Admin",
+            UserAccount admin = new UserAccount("Admin",
                     bCryptPasswordEncoder.encode("admin"),
                     "admin@erp.com", Role.ADMIN.toString());
             userAccountRepository.save(admin);

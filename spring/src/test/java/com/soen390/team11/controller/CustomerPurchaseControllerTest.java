@@ -10,7 +10,9 @@ import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.CustomerPurchaseRepository;
 import com.soen390.team11.repository.CustomerRepository;
 import com.soen390.team11.repository.InvoiceRepository;
+import com.soen390.team11.service.CustomerPurchaseService;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -23,24 +25,22 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
+
 class CustomerPurchaseControllerTest {
-    @Autowired
+
     CustomerPurchaseController customerPurchaseController;
-    @Autowired
-    CustomerPurchaseRepository customerPurchaseRepository;
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    InvoiceRepository invoiceRepository;
+    @Mock
+    CustomerPurchaseService customerPurchaseService;
     CustomerPurchaseDto customerPurchaseDto;
-    String invoiceid="";
-    @BeforeAll
+    String invoiceid = "id";
+
+    @BeforeEach
     public void setup()
     {
+        openMocks(this);
+        customerPurchaseController = new CustomerPurchaseController(customerPurchaseService);
         List<HashMap<String, Object>> carte = new ArrayList<>();
         HashMap<String, Object> item= new HashMap<>();
         item.put("productid","Aero-lbm");
@@ -49,59 +49,51 @@ class CustomerPurchaseControllerTest {
         customerPurchaseDto = new CustomerPurchaseDto("firstname","lastname","address","city","province"
             ,"zip","country",2000.0,carte);
     }
+
     @Test
-    @Order(1)
     void makePurchase() {
+        when(customerPurchaseService.makePurchase(customerPurchaseDto)).thenReturn(invoiceid);
         ResponseEntity<?> responseEntity = customerPurchaseController.makePurchase(customerPurchaseDto);
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        invoiceid = ((String) responseEntity.getBody()).replace("\"","");
     }
 
     @Test
-    @Order(2)
     void getStatus() {
+        when(customerPurchaseService.checkStatus(invoiceid)).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getStatus(invoiceid);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(3)
     void getAllProduct() {
+        when(customerPurchaseService.getAllProduct()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getAllProduct();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
-    @Order(4)
     void getCustomizeProduct() {
         ProductRequestDto productRequestDto= new ProductRequestDto();
         productRequestDto.setName("Aero bikes");
         productRequestDto.setColor("Blue");
         productRequestDto.setSize("Large");
         productRequestDto.setFinish("Matte");
+
+        when(customerPurchaseService.getCustomerizeProduct(productRequestDto)).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getCustomizeProduct(productRequestDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
     @Test
-    @Order(5)
     void getAllOrder() {
+        when(customerPurchaseService.getAllProduct()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getAllOrder();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
     @Test
-    @Order(6)
     void orderActions() {
+        when(customerPurchaseService.orderActions("Aero-lbm", invoiceid)).thenReturn("");
         ResponseEntity<?> responseEntity = customerPurchaseController.orderActions("Aero-lbm",invoiceid);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
-    @AfterAll
-    public void delete()
-    {
-        CustomerPurchase customerPurchase= customerPurchaseRepository.findByCustomerPurchaseIdInvoiceID(invoiceid).get();
-        invoiceRepository.deleteByInvoiceID(invoiceid);
-        customerRepository.deleteByCustomerID(customerPurchase.getCustomerPurchaseId().getCustomerID());
-    }
-
-
 
 }

@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MaterialController {
     ObjectMapper objectMapper= new ObjectMapper();
 
-    @Autowired
     MaterialService materialService;
+
+    public MaterialController(MaterialService materialService) {
+        this.materialService = materialService;
+    }
 
     /**
      * Creates a new material

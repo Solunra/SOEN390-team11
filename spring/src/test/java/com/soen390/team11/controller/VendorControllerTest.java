@@ -5,13 +5,16 @@ import com.soen390.team11.dto.VendorDto;
 import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.VendorsRepository;
+import com.soen390.team11.service.VendorsService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -21,52 +24,50 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 public class VendorControllerTest {
 
-    @Autowired
     VendorController vendorController;
-    @Autowired
-    VendorsRepository vendorsRepository;
+    @Mock
+    VendorsService vendorsService;
 
     VendorDto vendorDto;
     String ID;
-    int sizeOfVendors;
 
 
-    @BeforeAll
+    @BeforeEach
     public void setup()
     {
+        openMocks(this);
+        vendorController = new VendorController(vendorsService);
         vendorDto = new VendorDto("Bike Company","Address","514-515-1323","bikecompany@email.com");
-        sizeOfVendors = ((List) vendorController.retrieveAllVendors().getBody()).size();
+        ID = "id-1";
     }
 
     @Test
-    @Order(1)
     public void testCreation()
     {
+        when(vendorsService.createVendor(vendorDto)).thenReturn(ID);
         ResponseEntity responseEntity = vendorController.createVendor(vendorDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        ID = (String) responseEntity.getBody();
     }
 
     @Test
-    @Order(2)
     public void testGetAllVendors()
     {
+        when(vendorsService.getAllVendors()).thenReturn(List.of(new Vendors()));
         ResponseEntity responseEntity = vendorController.retrieveAllVendors();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(sizeOfVendors+1, ((List<Vendors>) responseEntity.getBody()).size());
+        assertEquals(1, ((List<Vendors>) responseEntity.getBody()).size());
     }
 
     @Test
-    @Order(3)
     public void testGetVendor()
     {
+        when(vendorsService.getVendor(ID)).thenReturn(Optional.of(new Vendors(vendorDto.getCompanyName(), vendorDto.getAddress(), vendorDto.getPhone(), vendorDto.getEmail())));
         ResponseEntity responseEntity = vendorController.getVendorById(ID);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Bike Company", ((VendorDto) responseEntity.getBody()).getCompanyName());
@@ -76,18 +77,11 @@ public class VendorControllerTest {
     }
 
     @Test
-    @Order(4)
     public void testGetNoVendor()
     {
+        when(vendorsService.getVendor("v-98")).thenReturn(Optional.empty());
         ResponseEntity responseEntity = vendorController.getVendorById("v-98");
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-    }
-
-    @AfterAll
-    public void delete()
-    {
-        Optional<Vendors> vendors = vendorsRepository.findByVendorID(ID);
-        vendorsRepository.delete(vendors.get());
     }
 
 }

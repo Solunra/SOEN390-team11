@@ -1,5 +1,6 @@
 # SOEN390 Project [Team 11]
-[![Build Status](https://travis-ci.com/Solunra/SOEN390-team11.svg?token=qjefmiJCZRcnxVWWGqs5&branch=main)](https://travis-ci.com/Solunra/SOEN390-team11)
+[![CircleCI](https://circleci.com/gh/Solunra/SOEN390-team11.svg?style=svg&circle-token=c065fd8efe322775fbfce01e8731da3cdc48a2f0)](https://app.circleci.com/pipelines/github/Solunra/SOEN390-team11)
+
 ### Description
 
 ---

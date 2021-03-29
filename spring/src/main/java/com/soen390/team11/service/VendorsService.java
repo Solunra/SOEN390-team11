@@ -14,8 +14,11 @@ import java.util.Optional;
 @Service
 public class VendorsService {
 
-    @Autowired
     VendorsRepository vendorsRepository;
+
+    public VendorsService(VendorsRepository vendorsRepository) {
+        this.vendorsRepository = vendorsRepository;
+    }
 
     /**
      * Gets all vendors

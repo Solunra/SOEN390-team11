@@ -22,12 +22,15 @@ import java.util.Optional;
 @Service
 public class OrdersService {
 
-    @Autowired
     OrdersRepository ordersRepository;
-    @Autowired
     VendorsRepository vendorsRepository;
-    @Autowired
     RawMaterialRepository rawMaterialRepository;
+
+    public OrdersService(OrdersRepository ordersRepository, VendorsRepository vendorsRepository, RawMaterialRepository rawMaterialRepository) {
+        this.ordersRepository = ordersRepository;
+        this.vendorsRepository = vendorsRepository;
+        this.rawMaterialRepository = rawMaterialRepository;
+    }
 
     /**
      * Creates a new Order
