@@ -19,7 +19,6 @@ const CustomerOrder = (props) => {
         { title: 'Finish', field: 'finish' },
         { title: 'Price', field: 'price'},
         { title: 'Status', field: 'status'},
-    //    maybe user
     ];
     const actions = [
         {

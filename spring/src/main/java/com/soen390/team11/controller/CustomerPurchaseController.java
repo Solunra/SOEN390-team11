@@ -6,7 +6,6 @@ import com.soen390.team11.dto.CustomerPurchaseDto;
 import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.service.CustomerPurchaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

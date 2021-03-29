@@ -4,9 +4,7 @@ import com.soen390.team11.constant.Status;
 import com.soen390.team11.dto.*;
 import com.soen390.team11.entity.*;
 import com.soen390.team11.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -28,8 +26,9 @@ public class CustomerPurchaseService {
     UserAccountRepository userAccountRepository;
 
     public CustomerPurchaseService(CustomerRepository customerRepository, CustomerPurchaseRepository customerPurchaseRepository,
-                                   InvoiceRepository invoiceRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository,
-                                   ProductMachineryService productMachineryService, ProductMachineryRepository productMachineryRepository,UserService userService,
+                                   InvoiceRepository invoiceRepository, ProductRepository productRepository,
+                                   ProductInventoryRepository productInventoryRepository, ProductMachineryService productMachineryService,
+                                   ProductMachineryRepository productMachineryRepository, UserService userService,
                                    UserAccountRepository userAccountRepository) {
         this.customerRepository = customerRepository;
         this.customerPurchaseRepository = customerPurchaseRepository;
@@ -38,20 +37,8 @@ public class CustomerPurchaseService {
         this.productInventoryRepository = productInventoryRepository;
         this.productMachineryService = productMachineryService;
         this.productMachineryRepository = productMachineryRepository;
-        this.userService=userService;
-        this.userAccountRepository=userAccountRepository;
-    }
-
-    public CustomerPurchaseService(CustomerRepository customerRepository, CustomerPurchaseRepository customerPurchaseRepository,
-                                   InvoiceRepository invoiceRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository,
-                                   ProductMachineryService productMachineryService, ProductMachineryRepository productMachineryRepository) {
-        this.customerRepository = customerRepository;
-        this.customerPurchaseRepository = customerPurchaseRepository;
-        this.invoiceRepository = invoiceRepository;
-        this.productRepository = productRepository;
-        this.productInventoryRepository = productInventoryRepository;
-        this.productMachineryService = productMachineryService;
-        this.productMachineryRepository = productMachineryRepository;
+        this.userService = userService;
+        this.userAccountRepository = userAccountRepository;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.soen390.team11.controller;
 
 import com.soen390.team11.constant.Status;
 import com.soen390.team11.dto.CustomerPurchaseDto;
+import com.soen390.team11.dto.CustomizeReportDto;
 import com.soen390.team11.dto.MaterialRequestDto;
 import com.soen390.team11.dto.ProductRequestDto;
 import com.soen390.team11.entity.CustomerPurchase;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,4 +98,18 @@ class CustomerPurchaseControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
+    @Test
+    void getAllAccountOrder() {
+        when(customerPurchaseService.getAllAccountOrder()).thenReturn(new ArrayList<>());
+        ResponseEntity<?> responseEntity = customerPurchaseController.getAllAccountOrder();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void getReport() {
+        CustomizeReportDto customizeReportDto = new CustomizeReportDto(LocalDate.of(2021,3, 27),LocalDate.of(2021,3, 28));
+        when(customerPurchaseService.getCustomizeReport(customizeReportDto)).thenReturn(new ArrayList<>());
+        ResponseEntity<?> responseEntity = customerPurchaseController.getReport(customizeReportDto);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 }

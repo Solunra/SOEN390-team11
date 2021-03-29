@@ -3,10 +3,7 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.constant.Type;
-import com.soen390.team11.dto.OrderDto;
-import com.soen390.team11.dto.OrderResponseDto;
-import com.soen390.team11.dto.RawMaterialRequestDto;
-import com.soen390.team11.dto.VendorDto;
+import com.soen390.team11.dto.*;
 import com.soen390.team11.entity.*;
 import com.soen390.team11.repository.OrdersRepository;
 import com.soen390.team11.repository.RawMaterialRepository;
@@ -27,6 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -96,4 +95,11 @@ public class OrderControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
+    @Test
+    void getReport() {
+        CustomizeReportDto customizeReportDto = new CustomizeReportDto(LocalDate.of(2021,3, 27),LocalDate.of(2021,3, 28));
+        when(ordersService.getCustomizeReport(customizeReportDto)).thenReturn(new ArrayList<>());
+        ResponseEntity<?> responseEntity = orderController.getReport(customizeReportDto);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 }

@@ -46,7 +46,7 @@ public class OrdersService {
      */
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(), userService.getLoggedUser().getUsername());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(), userService.getLoggedUser().getUserID());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }
@@ -78,6 +78,9 @@ public class OrdersService {
     public List<OrderResponseDto> getAllOrders()
     {
         List<Orders> orders = (List<Orders>) ordersRepository.findAll();
+        if(orders.isEmpty()){
+            return new ArrayList<>();
+        }
         return extractOrders(orders);
     }
 
@@ -88,6 +91,9 @@ public class OrdersService {
      */
     public List<OrderResponseDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
         List<Orders> orders = ordersRepository.findAllByOrdertimeBetween(customizeReportDto.getStartDate(),customizeReportDto.getEndDate());
+        if(orders.isEmpty()){
+            return new ArrayList<>();
+        }
         return extractOrders(orders);
     }
 
@@ -108,13 +114,12 @@ public class OrdersService {
                 rawMaterial=rawMaterialRepository.findByRawmaterialid(order.getSaleID()).get();
             }
             OffsetDateTime dateTime = OffsetDateTime.now();
-            userService.getUserAccountByUserid(order.getUserid());
-//            String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID,
-//            String orderDateTime, String username, String userid, String amount, String deliveryDateTime
+            userAccount=userService.getUserAccountByUserid(order.getUserid());
+            String username = userAccount == null ? "Null": userAccount.getUsername();
             orderDtos.add(new OrderResponseDto(
                     vendor.getCompanyname(), Type.RAW_MATERIAL.toString(),rawMaterial==null?order.getSaleID():rawMaterial.getName(),
                     order.getQuantity(),order.getTime().isAfter(dateTime)?"Not Receive":"Receive",vendor.getVendorID(),
-                    order.getSaleID(),order.getOrdertime(),userAccount.getUsername(),order.getUserid(),order.getQuantity()*rawMaterial.getCost(),order.getTime())
+                    order.getSaleID(),order.getOrdertime(),username,order.getUserid(),order.getQuantity()*rawMaterial.getCost(),order.getTime())
             );
         }
         return orderDtos;

@@ -1,6 +1,7 @@
 package com.soen390.team11.controller;
 
 import com.soen390.team11.dto.UserSignUpRequestDto;
+import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.service.UserService;
 import org.hibernate.DuplicateMappingException;
 import org.junit.jupiter.api.Assertions;
@@ -9,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 public class UserAccountControllerTests {
@@ -43,6 +47,28 @@ public class UserAccountControllerTests {
         doThrow(DuplicateMappingException.class).when(userService).createUser(userSignUpRequestDto);
         ResponseEntity responseEntity = userAccountController.signUp(userSignUpRequestDto);
         Assertions.assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+    }
+    @Test
+    void getAllUser() {
+        when(userService.getAllUser()).thenReturn(new ArrayList<>());
+        ResponseEntity<?> responseEntity = userAccountController.getAllUser();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void getLogUser() {
+        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN","userid_test");
+        when(userService.getLoggedUser()).thenReturn(userAccount);
+        ResponseEntity<?> responseEntity = userAccountController.getLogUser();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void editUser() {
+        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN","userid_test");
+        when(userService.editUser(userSignUpRequestDto)).thenReturn(userAccount);
+        ResponseEntity<?> responseEntity = userAccountController.editUser(userSignUpRequestDto);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
 }
