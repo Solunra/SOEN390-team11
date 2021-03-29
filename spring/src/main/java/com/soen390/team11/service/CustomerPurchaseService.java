@@ -42,6 +42,18 @@ public class CustomerPurchaseService {
         this.userAccountRepository=userAccountRepository;
     }
 
+    public CustomerPurchaseService(CustomerRepository customerRepository, CustomerPurchaseRepository customerPurchaseRepository,
+                                   InvoiceRepository invoiceRepository, ProductRepository productRepository, ProductInventoryRepository productInventoryRepository,
+                                   ProductMachineryService productMachineryService, ProductMachineryRepository productMachineryRepository) {
+        this.customerRepository = customerRepository;
+        this.customerPurchaseRepository = customerPurchaseRepository;
+        this.invoiceRepository = invoiceRepository;
+        this.productRepository = productRepository;
+        this.productInventoryRepository = productInventoryRepository;
+        this.productMachineryService = productMachineryService;
+        this.productMachineryRepository = productMachineryRepository;
+    }
+
     /**
      * service to make the purchase
      * @param customerPurchaseDto

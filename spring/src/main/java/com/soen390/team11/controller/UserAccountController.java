@@ -19,8 +19,12 @@ import java.util.Map;
 @RequestMapping("/account")
 public class UserAccountController {
     ObjectMapper objectMapper = new ObjectMapper();
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserAccountController(UserService userService) {
+        this.userService = userService;
+    }
+
 
     /**
      * Mapping with the endpoint POST /account/signup
