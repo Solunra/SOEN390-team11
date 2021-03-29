@@ -23,7 +23,7 @@ public class OrderResponseDto {
     public OrderResponseDto() {
     }
 
-    public OrderResponseDto(String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID, LocalDate orderDateTime, String username, String userid, Double amount, OffsetDateTime deliveryDateTime) {
+    public OrderResponseDto(String vendorname, String type, String rawname, int quantity, String status, String vendorID, String rawID, OffsetDateTime orderDateTime, String username, String userid, Double amount, OffsetDateTime deliveryDateTime) {
         this.vendorname = vendorname;
         this.type = type;
         this.rawname = rawname;
@@ -31,7 +31,7 @@ public class OrderResponseDto {
         this.status = status;
         this.vendorID = vendorID;
         this.rawID = rawID;
-        this.orderDateTime = orderDateTime.toString();
+        this.orderDateTime = orderDateTime.toLocalDate().toString();
         this.username = username;
         this.userid = userid;
         this.amount= "$ "+ amount;

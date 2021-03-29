@@ -41,5 +41,5 @@ public interface OrdersRepository extends CrudRepository<Orders, String> {
      * @param end
      * @return
      */
-    List<Orders> findAllByOrdertimeBetween(LocalDate start, LocalDate end);
+    List<Orders> findAllByOrdertimeBetween(OffsetDateTime start, OffsetDateTime end);
 }

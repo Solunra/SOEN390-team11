@@ -10,7 +10,7 @@ import javax.persistence.Id;
 /**
  * data entity of customer information
  */
-@Entity(name = "customer")
+@Entity(name = "customer_shipping")
 public class Customer {
     @Id
     @GenericGenerator(name="customer_id", strategy = "com.soen390.team11.generator.CustomerIDGenerator")

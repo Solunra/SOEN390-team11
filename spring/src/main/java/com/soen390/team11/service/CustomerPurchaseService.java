@@ -1,9 +1,25 @@
 package com.soen390.team11.service;
 
 import com.soen390.team11.constant.Status;
-import com.soen390.team11.dto.*;
-import com.soen390.team11.entity.*;
-import com.soen390.team11.repository.*;
+import com.soen390.team11.dto.CustomerPurchaseDto;
+import com.soen390.team11.dto.ProductCustomerOrderDto;
+import com.soen390.team11.dto.ProductRequestDto;
+import com.soen390.team11.dto.CustomizeReportDto;
+import com.soen390.team11.dto.AccountReceivableDto;
+import com.soen390.team11.entity.Product;
+import com.soen390.team11.entity.CustomerPurchase;
+import com.soen390.team11.entity.CustomerPurchaseId;
+import com.soen390.team11.entity.Invoice;
+import com.soen390.team11.entity.Customer;
+import com.soen390.team11.entity.UserAccount;
+import com.soen390.team11.entity.ProductInventory;
+import com.soen390.team11.repository.CustomerRepository;
+import com.soen390.team11.repository.CustomerPurchaseRepository;
+import com.soen390.team11.repository.InvoiceRepository;
+import com.soen390.team11.repository.ProductRepository;
+import com.soen390.team11.repository.ProductInventoryRepository;
+import com.soen390.team11.repository.ProductMachineryRepository;
+import com.soen390.team11.repository.UserAccountRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -102,9 +118,6 @@ public class CustomerPurchaseService {
      */
     public List<Product> getCustomerizeProduct(ProductRequestDto productRequestDto){
         List<Product> customizeProduct=productRepository.findByNameAndColorAndSizeAndFinish(productRequestDto.getName(), productRequestDto.getColor(), productRequestDto.getSize(), productRequestDto.getFinish());
-        for(Product p: customizeProduct){
-            System.out.println(p);
-        }
         return customizeProduct;
     }
 

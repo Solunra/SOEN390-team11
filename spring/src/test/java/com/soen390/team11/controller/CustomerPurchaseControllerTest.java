@@ -100,7 +100,7 @@ class CustomerPurchaseControllerTest {
 
     @Test
     void getAllAccountOrder() {
-        when(customerPurchaseService.getAllAccountOrder()).thenReturn(new ArrayList<>());
+        when(customerPurchaseService.getAllAccountOrder()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getAllAccountOrder();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -108,7 +108,7 @@ class CustomerPurchaseControllerTest {
     @Test
     void getReport() {
         CustomizeReportDto customizeReportDto = new CustomizeReportDto(LocalDate.of(2021,3, 27),LocalDate.of(2021,3, 28));
-        when(customerPurchaseService.getCustomizeReport(customizeReportDto)).thenReturn(new ArrayList<>());
+        when(customerPurchaseService.getCustomizeReport(customizeReportDto)).thenReturn(List.of());
         ResponseEntity<?> responseEntity = customerPurchaseController.getReport(customizeReportDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

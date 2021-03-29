@@ -1,6 +1,6 @@
 package com.soen390.team11.controller;
 
-import com.soen390.team11.dto.UserSignUpRequestDto;
+import com.soen390.team11.dto.UserAccountDto;
 import com.soen390.team11.entity.UserAccount;
 import com.soen390.team11.service.UserService;
 import org.hibernate.DuplicateMappingException;
@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -24,7 +24,7 @@ public class UserAccountControllerTests {
     @Mock
     UserService userService;
 
-    UserSignUpRequestDto userSignUpRequestDto = new UserSignUpRequestDto("usernameHere", "passwordHere", "TestUniqueEmail@test.com");
+    UserAccountDto userAccountDto = new UserAccountDto("usernameHere", "passwordHere", "TestUniqueEmail@test.com");
 
     @BeforeEach
     public void setup()
@@ -36,28 +36,28 @@ public class UserAccountControllerTests {
     @Test
     public void createAccount()
     {
-        doNothing().when(userService).createUser(userSignUpRequestDto);
-        ResponseEntity responseEntity = userAccountController.signUp(userSignUpRequestDto);
+        doNothing().when(userService).createUser(userAccountDto);
+        ResponseEntity responseEntity = userAccountController.signUp(userAccountDto);
         Assertions.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
 
     @Test
     public void accountConflict()
     {
-        doThrow(DuplicateMappingException.class).when(userService).createUser(userSignUpRequestDto);
-        ResponseEntity responseEntity = userAccountController.signUp(userSignUpRequestDto);
+        doThrow(DuplicateMappingException.class).when(userService).createUser(userAccountDto);
+        ResponseEntity responseEntity = userAccountController.signUp(userAccountDto);
         Assertions.assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
     }
     @Test
     void getAllUser() {
-        when(userService.getAllUser()).thenReturn(new ArrayList<>());
+        when(userService.getAllUser()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = userAccountController.getAllUser();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
     void getLogUser() {
-        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN","userid_test");
+        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN");
         when(userService.getLoggedUser()).thenReturn(userAccount);
         ResponseEntity<?> responseEntity = userAccountController.getLogUser();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -65,9 +65,9 @@ public class UserAccountControllerTests {
 
     @Test
     void editUser() {
-        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN","userid_test");
-        when(userService.editUser(userSignUpRequestDto)).thenReturn(userAccount);
-        ResponseEntity<?> responseEntity = userAccountController.editUser(userSignUpRequestDto);
+        UserAccount userAccount = new UserAccount("test", "test","test@gmail.com","ADMIN");
+        when(userService.editUser(userAccountDto)).thenReturn(userAccount);
+        ResponseEntity<?> responseEntity = userAccountController.editUser(userAccountDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 

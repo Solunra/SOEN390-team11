@@ -98,7 +98,7 @@ public class OrderControllerTest {
     @Test
     void getReport() {
         CustomizeReportDto customizeReportDto = new CustomizeReportDto(LocalDate.of(2021,3, 27),LocalDate.of(2021,3, 28));
-        when(ordersService.getCustomizeReport(customizeReportDto)).thenReturn(new ArrayList<>());
+        when(ordersService.getCustomizeReport(customizeReportDto)).thenReturn(List.of());
         ResponseEntity<?> responseEntity = orderController.getReport(customizeReportDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

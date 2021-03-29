@@ -26,7 +26,7 @@ public class Orders {
 
     private OffsetDateTime time;
     private String userid;
-    private LocalDate ordertime;
+    private OffsetDateTime ordertime;
 
     public Orders() {
     }
@@ -37,7 +37,7 @@ public class Orders {
         this.quantity = quantity;
         this.time = time;
     }
-    public Orders(String vendorID, String saleID, int quantity, OffsetDateTime time,LocalDate ordertime, String userid) {
+    public Orders(String vendorID, String saleID, int quantity, OffsetDateTime time,OffsetDateTime ordertime, String userid) {
         this.vendorID = vendorID;
         this.saleID = saleID;
         this.quantity = quantity;
@@ -90,7 +90,7 @@ public class Orders {
         return userid;
     }
 
-    public LocalDate getOrdertime() {
+    public OffsetDateTime getOrdertime() {
         return ordertime;
     }
 }

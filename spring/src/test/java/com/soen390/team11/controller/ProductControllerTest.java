@@ -87,7 +87,7 @@ class ProductControllerTest {
 
     @Test
     void getPreConfigParts() {
-        when(productService.getAllProductPart()).thenReturn(new ArrayList<>());
+        when(productService.getAllProductPart()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = productController.getPreConfigParts();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

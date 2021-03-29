@@ -1,4 +1,4 @@
-CREATE TABLE customer (
+CREATE TABLE customer_shipping (
     customerID char(255),
     firstname char(255),
     lastname char(255),

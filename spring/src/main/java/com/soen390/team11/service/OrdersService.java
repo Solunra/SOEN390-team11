@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +48,7 @@ public class OrdersService {
      */
     public String createOrder(OrderDto orderDto)
     {
-        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), LocalDate.now(), userService.getLoggedUser().getUserID());
+        Orders order = new Orders(orderDto.getVendorID(), orderDto.getSaleID() ,orderDto.getQuantity(), orderDto.getDateTime(), OffsetDateTime.now(), userService.getLoggedUser().getUserID());
         Orders result = ordersRepository.save(order);
         return result.getOrderID();
     }
@@ -90,7 +92,8 @@ public class OrdersService {
      * @return
      */
     public List<OrderResponseDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
-        List<Orders> orders = ordersRepository.findAllByOrdertimeBetween(customizeReportDto.getStartDate(),customizeReportDto.getEndDate());
+        List<Orders> orders = ordersRepository.findAllByOrdertimeBetween(OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.now(), ZoneOffset.UTC) ,
+                OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.now(), ZoneOffset.UTC));
         if(orders.isEmpty()){
             return new ArrayList<>();
         }

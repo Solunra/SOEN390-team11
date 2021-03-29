@@ -3,7 +3,7 @@ package com.soen390.team11.dto;
 /**
  * Sign up Request Body
  */
-public class UserSignUpRequestDto {
+public class UserAccountDto {
 
     private String username;
     private String password;
@@ -11,16 +11,16 @@ public class UserSignUpRequestDto {
     private String role;
     private String userID;
 
-    public UserSignUpRequestDto(){
+    public UserAccountDto(){
 
     }
 
-    public UserSignUpRequestDto(String username, String password, String email) {
+    public UserAccountDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email=email;
     }
-    public UserSignUpRequestDto(String username, String password, String email, String role, String userID) {
+    public UserAccountDto(String username, String password, String email, String role, String userID) {
         this.username = username;
         this.password = password;
         this.email = email;

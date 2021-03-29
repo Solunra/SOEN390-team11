@@ -2,9 +2,8 @@ package com.soen390.team11.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.soen390.team11.dto.UserSignUpRequestDto;
+import com.soen390.team11.dto.UserAccountDto;
 import com.soen390.team11.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +28,14 @@ public class UserAccountController {
     /**
      * Mapping with the endpoint POST /account/signup
      *
-     * @param userSignUpRequestDto The request body with a sign up request informations
+     * @param userAccountDto The request body with a sign up request informations
      * @return A status code
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
+    public ResponseEntity<?> signUp(@RequestBody UserAccountDto userAccountDto) {
         Map<String, String > response = new HashMap<>();
         try{
-            userService.createUser(userSignUpRequestDto);
+            userService.createUser(userAccountDto);
             return new ResponseEntity<Object>(response, HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -73,13 +72,13 @@ public class UserAccountController {
 
     /**
      * edit user
-     * @param userSignUpRequestDto
+     * @param userAccountDto
      * @return
      */
     @PostMapping("/edit")
-    public ResponseEntity<?> editUser(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
+    public ResponseEntity<?> editUser(@RequestBody UserAccountDto userAccountDto) {
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(userService.editUser(userSignUpRequestDto)), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(userService.editUser(userAccountDto)), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
