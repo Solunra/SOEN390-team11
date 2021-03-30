@@ -8,7 +8,8 @@ import com.soen390.team11.entity.PartInventory;
 import com.soen390.team11.service.PartInventoryService;
 import com.soen390.team11.service.ProductInventoryService;
 import com.soen390.team11.service.ProductMachineryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -97,13 +98,26 @@ public class ProductMachineryController {
      */
     @PostMapping("/product/{productId}")
     public ResponseEntity<?> attemptProduceProduct(@PathVariable String productId) {
-        System.out.println("attempt product");
         try {
+            List<Part> requiredParts = productInventoryService.getProductParts(productId);
+            List<PartInventory> requiredPartInventory = new ArrayList<>(requiredParts.size());
+            for (Part part : requiredParts) {
+                int partQuantity = part.getPartInventory().getQuantity();
+                if (partQuantity == 0) {
+                    return new ResponseEntity<>(objectMapper.writeValueAsString("Part inventory not available. "), HttpStatus.INSUFFICIENT_STORAGE);
+                } else {
+                    part.getPartInventory().setQuantity(partQuantity - 1);
+                    requiredPartInventory.add(part.getPartInventory());
+                }
+            }
+
             // try to find an unassigned machinery and occupy it
             String result = productMachineryService.occupyMachinery(productMachineryService.findAvailableMachinery(), productId);
 
-            if (result != null && result.equals("Success"))
+            if (result != null && result.equals("Success")) {
+                requiredPartInventory.forEach(partInventoryService::updatePartInventory);
                 return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);
+            }
 
             return new ResponseEntity<>(objectMapper.writeValueAsString("Not Success"), HttpStatus.BAD_REQUEST);
         } catch (JsonProcessingException e) {
