@@ -5,10 +5,9 @@ import com.soen390.team11.entity.Part;
 import com.soen390.team11.entity.PartInventory;
 import com.soen390.team11.repository.PartInventoryRepository;
 import com.soen390.team11.repository.PartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  * Service Layer for Part Inventory
@@ -43,5 +42,16 @@ public class PartInventoryService {
             partInventoryList.add(partInventoryResponse);
         }
         return partInventoryList;
+    }
+
+
+    /**
+     * Updates a part inventory
+     *
+     * @param partInventory the part inventory to be updated
+     * @return The updated PartInventory's details
+     */
+    public PartInventory updatePartInventory(PartInventory partInventory) {
+        return partInventoryRepository.save(partInventory);
     }
 }
