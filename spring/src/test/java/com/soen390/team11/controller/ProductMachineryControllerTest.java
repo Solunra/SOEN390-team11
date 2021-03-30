@@ -1,65 +1,44 @@
 package com.soen390.team11.controller;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.soen390.team11.Team11Application;
 import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
-import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.ProductMachinery;
-import com.soen390.team11.repository.ProductMachineryRepository;
-import com.soen390.team11.repository.ProductRepository;
+import com.soen390.team11.service.PartInventoryService;
+import com.soen390.team11.service.ProductInventoryService;
 import com.soen390.team11.service.ProductMachineryService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProductMachineryControllerTest {
 
     ProductMachineryController productMachineryController;
+
     @Mock
     ProductMachineryService productMachineryService;
+
+    @Mock
+    ProductInventoryService productInventoryService;
+
+    @Mock
+    PartInventoryService partInventoryService;
 
     private final Map<String, ProductMachinery> machineryMap = new HashMap<>();
 
     @BeforeEach
     public void setUp() {
         openMocks(this);
-        productMachineryController = new ProductMachineryController(productMachineryService);
+        productMachineryController = new ProductMachineryController(productMachineryService,
+            productInventoryService, partInventoryService);
     }
 
     @Test
@@ -80,7 +59,7 @@ public class ProductMachineryControllerTest {
     }
 
     @Test
-    public void createProductMachineryWithExistingProduct_Success() throws Exception {
+    public void createProductMachineryWithExistingProduct_Success() {
 
         ProductMachineryDto productMachineryDto = new ProductMachineryDto("dummy_machine",
             "running", 50, "prod-randomid");
@@ -91,7 +70,7 @@ public class ProductMachineryControllerTest {
     }
 
     @Test
-    public void ChangeMachineryStatusFromReadyToRunning_Success() throws Exception {
+    public void ChangeMachineryStatusFromReadyToRunning_Success() {
         String machineryId = "prodmac-randomid";
 
         when(productMachineryService.updateMachineryStatus(machineryId, "start")).thenReturn("Success");
@@ -100,7 +79,7 @@ public class ProductMachineryControllerTest {
     }
 
     @Test
-    public void ChangeMachineryStatusFromUnassignedToRunning_Fail() throws Exception {
+    public void ChangeMachineryStatusFromUnassignedToRunning_Fail() {
         String machineryId = "prodmac-randomid";
 
         when(productMachineryService.updateMachineryStatus(machineryId, "start")).thenReturn("Operation is not supported");

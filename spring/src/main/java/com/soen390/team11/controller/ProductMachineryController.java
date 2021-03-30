@@ -3,6 +3,10 @@ package com.soen390.team11.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soen390.team11.dto.ProductMachineryDto;
+import com.soen390.team11.entity.Part;
+import com.soen390.team11.entity.PartInventory;
+import com.soen390.team11.service.PartInventoryService;
+import com.soen390.team11.service.ProductInventoryService;
 import com.soen390.team11.service.ProductMachineryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +24,16 @@ public class ProductMachineryController {
 
     private final ProductMachineryService productMachineryService;
 
-    public ProductMachineryController(ProductMachineryService productMachineryService) {
+    private final ProductInventoryService productInventoryService;
+
+    private final PartInventoryService partInventoryService;
+
+    public ProductMachineryController(ProductMachineryService productMachineryService,
+        ProductInventoryService productInventoryService,
+        PartInventoryService partInventoryService) {
         this.productMachineryService = productMachineryService;
+        this.productInventoryService = productInventoryService;
+        this.partInventoryService = partInventoryService;
     }
 
     /**
