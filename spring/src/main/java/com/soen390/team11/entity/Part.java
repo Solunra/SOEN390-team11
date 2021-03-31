@@ -1,5 +1,7 @@
 package com.soen390.team11.entity;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +21,10 @@ public class Part {
 
     @Column
     private String name;
+
+    @OneToOne
+    @JoinColumn(name = "partid")
+    private PartInventory partInventory;
 
     /**
      * default constructor
@@ -71,5 +77,23 @@ public class Part {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * getter method for the part inventory
+     *
+     * @return the inventory of the corresponding part
+     */
+    public PartInventory getPartInventory() {
+        return partInventory;
+    }
+
+    /**
+     * mutator method for the part inventory
+     *
+     * @param partInventory the inventory to set to
+     */
+    public void setPartInventory(PartInventory partInventory) {
+        this.partInventory = partInventory;
     }
 }
