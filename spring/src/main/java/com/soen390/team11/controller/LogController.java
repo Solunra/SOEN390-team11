@@ -57,6 +57,12 @@ public class LogController {
         }
     }
 
+    /**
+     * Allows a CSV of the logs to be downloaded
+     *
+     * @param logType The type of logs to download
+     * @return The download file
+     */
     @GetMapping("/{logType}/download")
     public ResponseEntity<Resource> downloadLogs(@PathVariable String logType)
     {

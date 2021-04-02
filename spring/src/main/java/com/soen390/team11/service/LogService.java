@@ -52,7 +52,7 @@ public class LogService {
     /**
      * Returns the SYSTEM logs
      *
-     * @return Map of
+     * @return List of System logs
      */
     public List<Log> getAllLogs()
     {
