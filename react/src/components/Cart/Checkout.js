@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import { ShippingAddress } from './ShippingAddress'
+import ShippingForm from './ShippingForm'
 import { Payment } from './Payment'
 import { Review } from './Review'
 import {
@@ -45,14 +45,10 @@ const CheckOut = ({
   const [invoiceId, setInvoiceId] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
 
-  const closeAlert = () => {
-    setError('')
-  }
-
   const checkPage = () => {
     switch (page) {
       case 0:
-        return <ShippingAddress setShipping={setShipping} />
+        return <ShippingForm setShipping={setShipping} />
       case 1:
         return <Payment setPayment={setPayment} />
       case 2:
