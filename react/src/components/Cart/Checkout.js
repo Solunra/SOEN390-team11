@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
-import ShippingForm from './ShippingForm'
+import ShippingStep from './ShippingStep'
 import PaymentForm from './PaymentForm'
 import { Review } from './Review'
 import {
@@ -50,7 +50,7 @@ const CheckOut = ({
   const checkPage = () => {
     switch (page) {
       case 0:
-        return <ShippingForm setShipping={setShipping} />
+        return <ShippingStep setShipping={setShipping} />
       case 1:
         return <PaymentForm setPayment={setPayment} />
       case 2:
