@@ -229,12 +229,12 @@ const CheckOut = ({
         </DialogContent>
         <DialogActions classes={{ root: classes.leftDialogActions }}>
           {(page === 0 || page === 2) && (
-            <Button onClick={handleClose} color='primary'>
+            <Button onClick={handleClose} color='default'>
               Close
             </Button>
           )}
           {page === 1 && (
-            <Button onClick={handleBack} color='primary'>
+            <Button onClick={handleBack} color='secondary'>
               Back
             </Button>
           )}
