@@ -104,7 +104,7 @@ const CheckOut = ({
 
   const handleNext = () => {
     if (page === 0 && !checkShipping()) {
-      setError('ALl field is required')
+      setError('All fields are required. ')
       setTimeout(() => {
         setError('')
       }, 3000)
@@ -122,7 +122,7 @@ const CheckOut = ({
   }
   const handleSubmit = () => {
     if (!checkPayment()) {
-      setError('All field is required')
+      setError('All fields are required. ')
       setTimeout(() => {
         setError('')
       }, 3000)
