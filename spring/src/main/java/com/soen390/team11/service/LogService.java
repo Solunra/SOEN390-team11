@@ -81,10 +81,10 @@ public class LogService {
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (Writer writer = new OutputStreamWriter(out)) {
-            writer.write("type,time,message");
+            writer.write("type,time,message\n");
             logs.get(logTypes).forEach((log) -> {
                 try {
-                    writer.write(log.getType() + "," + log.getTime() + "," + log.getMessage());
+                    writer.write(log.getType() + "," + log.getTime() + "," + log.getMessage() + "\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
