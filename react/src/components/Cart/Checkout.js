@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import ShippingForm from './ShippingForm'
-import { Payment } from './Payment'
+import PaymentForm from './PaymentForm'
 import { Review } from './Review'
 import {
   AppBar,
@@ -50,7 +50,7 @@ const CheckOut = ({
       case 0:
         return <ShippingForm setShipping={setShipping} />
       case 1:
-        return <Payment setPayment={setPayment} />
+        return <PaymentForm setPayment={setPayment} />
       case 2:
         return (
           <Review
