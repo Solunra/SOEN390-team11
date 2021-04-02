@@ -1,7 +1,5 @@
 package com.soen390.team11.dto;
 
-import java.util.List;
-
 import com.soen390.team11.constant.Status;
 import com.soen390.team11.entity.Product;
 
