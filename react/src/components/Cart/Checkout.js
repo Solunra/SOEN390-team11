@@ -29,23 +29,26 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CheckOut = props => {
+const CheckOut = ({
+  cartList,
+  setCartList,
+  openCheckOut,
+  handleCloseCheckOut
+}) => {
   // shipping address, payment handle here
   // check the payment shipping is missing or not
   const classes = useStyles()
-  const { cartList, setCartList, openCheckOut, handleCloseCheckOut } = props
   const [page, setPage] = useState(0)
   const [shipping, setShipping] = useState(() => new Map())
   const [payment, setPayment] = useState(() => new Map())
   const [error, setError] = useState('')
   const [invoiceId, setInvoiceId] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
+
   const closeAlert = () => {
     setError('')
   }
-  useEffect(() => {
-    console.log(totalPrice)
-  }, [totalPrice])
+
   const checkPage = () => {
     switch (page) {
       case 0:

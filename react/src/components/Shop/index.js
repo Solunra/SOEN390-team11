@@ -35,6 +35,7 @@ const Shop = () => {
   const [openCheckout, setOpenCheckout] = React.useState(false)
   const [openCheckStatus, setOpenCheckStatus] = React.useState(false)
   const [openCustomize, setOpenCustomize] = React.useState(false)
+
   const handleAdd = product => {
     for (let i = 0; i < cart.length; i++) {
       if (cart[i]['product']['productid'] === product['productid']) {
@@ -46,6 +47,7 @@ const Shop = () => {
     }
     setCart([{ product: product, count: 1 }, ...cart])
   }
+
   const handleRemove = (item, mode) => {
     let index = cart.indexOf(item['product'])
     let temp = [...cart]
@@ -63,22 +65,26 @@ const Shop = () => {
       }
     }
   }
+
   const handleIncrement = cartItem => {
     handleAdd(cartItem['product'])
   }
+
   const handleClose = () => {
     setOpen(false)
   }
+
   const handleCloseCheckOut = () => {
     setOpenCheckout(false)
   }
+
   const handleCheckOut = () => {
     handleClose()
-    console.log(cart.length !== 0)
     if (cart.length !== 0) {
       setOpenCheckout(true)
     }
   }
+
   const getProducts = () => {
     request
       .get(BuildPath('/customer/allProduct'))
@@ -96,13 +102,17 @@ const Shop = () => {
         console.log(err)
       })
   }
+
   useEffect(() => {
     getProducts()
   })
+
   useEffect(() => {
     console.log(cart)
   }, [cart])
+
   const classes = useStyles()
+
   return (
     <>
       <Grid container className={classes.container}>
