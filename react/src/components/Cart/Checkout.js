@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Breadcrumbs from '@material-ui/core/Breadcrumbs'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import ShippingForm from './ShippingForm'
 import PaymentForm from './PaymentForm'
 import { Review } from './Review'
@@ -197,6 +199,29 @@ const CheckOut = ({
         </AppBar>
         <DialogTitle id='form-dialog-title'>Product From</DialogTitle>
         <DialogContent>
+          <Breadcrumbs
+            separator={<NavigateNextIcon fontSize='small' />}
+            aria-label='breadcrumb'
+          >
+            <Typography
+              variant='h6'
+              color={page === 0 ? 'textPrimary' : 'inherit'}
+            >
+              Shipping Information
+            </Typography>
+            <Typography
+              variant='h6'
+              color={page === 1 ? 'textPrimary' : 'inherit'}
+            >
+              Payment
+            </Typography>
+            <Typography
+              variant='h6'
+              color={page === 2 ? 'textPrimary' : 'inherit'}
+            >
+              Review
+            </Typography>
+          </Breadcrumbs>
           {checkPage()}
           <Grid item xs={12}>
             <div style={{ color: 'red' }}>{error}</div>
