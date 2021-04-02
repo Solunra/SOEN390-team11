@@ -41,7 +41,7 @@ export default function AddressCard ({
           color='textSecondary'
           gutterBottom
         >
-          {/* name of address? */}
+          Customer ID Here?
         </Typography>
         <Typography variant='h5' component='h2'>
           {fullname}
