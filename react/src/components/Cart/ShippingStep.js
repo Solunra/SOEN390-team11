@@ -49,25 +49,7 @@ const ShippingStep = ({ setShipping }) => {
               state='QC'
               country='Canada'
               zip='H3G'
-            />
-          </ListItem>
-          <ListItem>
-            <AddressCard
-              fullname='John Doe'
-              address='1455 Boulevard de Maisonneuve'
-              city='Montreal'
-              country='Canada'
-              zip='H3G'
-            />
-          </ListItem>
-          <ListItem>
-            <AddressCard
-              fullname='John Doe'
-              address='1455 Boulevard de Maisonneuve'
-              city='Montreal'
-              state='QC'
-              country='Canada'
-              zip='H3G'
+              setShipping={setShipping}
             />
           </ListItem>
           <ListItem>

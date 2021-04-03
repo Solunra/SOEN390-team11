@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
+import ShippingForm from './ShippingForm'
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275
@@ -29,9 +31,15 @@ export default function AddressCard ({
   city,
   state,
   country,
-  zip
+  zip,
+  setShipping
 }) {
   const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    console.log(open)
+  }, [open])
 
   return (
     <Card className={classes.root} variant='outlined'>
@@ -60,10 +68,11 @@ export default function AddressCard ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant='outlined' size='small'>
+        <Button variant='outlined' size='small' onClick={() => setOpen(true)}>
           Edit
         </Button>
       </CardActions>
+      <ShippingForm open={open} setOpen={setOpen} setShipping={setShipping} />
     </Card>
   )
 }

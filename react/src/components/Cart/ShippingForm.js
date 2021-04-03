@@ -147,7 +147,7 @@ const ShippingForm = ({ open, setOpen, setShipping }) => {
             Cancel
           </Button>
           <Button onClick={handleClose} color='primary'>
-            Create
+            Save
           </Button>
         </DialogActions>
       </Dialog>
