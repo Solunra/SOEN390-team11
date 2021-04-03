@@ -30,18 +30,31 @@ public class Customer {
     private String zip;
     @Column
     private String country;
+    @Column
+    private String userID;
 
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String address, String city, String zip, String country,String province) {
+    public Customer(String firstname, String lastname, String address, String city, String province, String zip, String country) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
         this.city = city;
         this.zip = zip;
         this.country = country;
-        this.province=province;
+        this.province = province;
+    }
+
+    public Customer(String firstname, String lastname, String address, String city, String province, String zip, String country, String userId) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.city = city;
+        this.province = province;
+        this.zip = zip;
+        this.country = country;
+        this.userID = userId;
     }
 
     public String getCustomerID() {
