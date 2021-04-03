@@ -36,6 +36,7 @@ const flexContainer = {
 const ShippingStep = ({ setShipping }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
+  const [selected, setSelected] = React.useState(null)
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -43,12 +44,33 @@ const ShippingStep = ({ setShipping }) => {
         <List style={flexContainer}>
           <ListItem>
             <AddressCard
-              fullname='John Doe'
-              address='1455 Boulevard de Maisonneuve'
-              city='Montreal'
-              state='QC'
-              country='Canada'
-              zip='H3G'
+              customer={{
+                id: 1,
+                fullname: 'John Doe',
+                address: '1455 Boulevard de Maisonneuve',
+                city: 'Montreal',
+                state: 'QC',
+                country: 'Canada',
+                zip: 'H3G'
+              }}
+              selected={selected}
+              setSelected={setSelected}
+              setShipping={setShipping}
+            />
+          </ListItem>
+          <ListItem>
+            <AddressCard
+              customer={{
+                id: 2,
+                fullname: 'John Doe',
+                address: '1455 Boulevard de Maisonneuve',
+                city: 'Montreal',
+                state: 'QC',
+                country: 'Canada',
+                zip: 'H3G'
+              }}
+              selected={selected}
+              setSelected={setSelected}
               setShipping={setShipping}
             />
           </ListItem>
