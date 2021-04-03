@@ -1,7 +1,6 @@
 package com.soen390.team11.dto;
 
 import com.soen390.team11.entity.Customer;
-
 import java.util.HashMap;
 import java.util.List;
 
