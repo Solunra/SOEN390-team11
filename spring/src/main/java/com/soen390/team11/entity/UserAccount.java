@@ -1,5 +1,8 @@
 package com.soen390.team11.entity;
 
+import java.util.Set;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +27,10 @@ public class UserAccount {
     private String email;
     @Column
     private String role;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name="userID")
+    private Set<Customer> customers;
 
     public UserAccount(String username, String password, String email, String role) {
         this.username = username;
@@ -83,5 +90,9 @@ public class UserAccount {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public Set<Customer> getCustomers() {
+        return customers;
     }
 }

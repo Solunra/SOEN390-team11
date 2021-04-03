@@ -46,7 +46,7 @@ public class UserAccountController {
 
     /**
      * get all user except logged in user
-     * @return
+     * @return a list of users
      */
     @GetMapping("/allUser")
     public ResponseEntity<?> getAllUser(){
@@ -59,7 +59,7 @@ public class UserAccountController {
 
     /**
      * get logged user
-     * @return
+     * @return a user object
      */
     @GetMapping("/loggedUser")
     public ResponseEntity<?> getLogUser(){
@@ -71,9 +71,17 @@ public class UserAccountController {
     }
 
     /**
+     * Get logged user customers
+     */
+    @GetMapping("/customers")
+    public ResponseEntity<?> getUserCustomers(){
+        return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
+    }
+
+    /**
      * edit user
-     * @param userAccountDto
-     * @return
+     * @param userAccountDto user data to be updated
+     * @return the updated user
      */
     @PostMapping("/edit")
     public ResponseEntity<?> editUser(@RequestBody UserAccountDto userAccountDto) {
