@@ -30,7 +30,8 @@ const useStyles = makeStyles({
 })
 
 export default function AddressCard ({
-  customer: { id, fullname, address, city, state, country, zip },
+  address: { firstname, lastname, address, city, province, country, zip },
+  i,
   selected,
   setSelected,
   setShipping
@@ -42,14 +43,14 @@ export default function AddressCard ({
     <Card
       className={classes.root}
       variant='outlined'
-      onClick={() => setSelected(id)}
+      onClick={() => setSelected(i)}
     >
       <Radio
         className={classes.radio}
-        checked={selected === id}
-        value={id}
+        checked={selected === i}
+        value={i}
         name='radio-button'
-        inputProps={{ 'aria-label': `customer #${id}` }}
+        inputProps={{ 'aria-label': `address #${i}` }}
       />
       <CardContent>
         <Typography
@@ -57,10 +58,10 @@ export default function AddressCard ({
           color='textSecondary'
           gutterBottom
         >
-          Customer ID Here?
+          {/* Customer ID Here? */}
         </Typography>
         <Typography variant='h5' component='h2'>
-          {fullname}
+          {[firstname, lastname].filter(e => e).join('')}
         </Typography>
         <Typography className={classes.pos} color='textSecondary'>
           {/* some side notes? */}
@@ -68,7 +69,7 @@ export default function AddressCard ({
         <Typography variant='body2' component='p'>
           {address}
           <br />
-          {[city, state].filter(e => e).join(',')}
+          {[city, province].filter(e => e).join(',')}
           <br />
           {country}
           <br />
@@ -76,7 +77,12 @@ export default function AddressCard ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant='outlined' size='small' onClick={() => setOpen(true)}>
+        <Button
+          variant='outlined'
+          color='secondary'
+          size='small'
+          onClick={() => setOpen(true)}
+        >
           Edit
         </Button>
       </CardActions>
