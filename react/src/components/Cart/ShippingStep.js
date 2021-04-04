@@ -41,24 +41,23 @@ const ShippingStep = ({ setShipping }) => {
   const [selected, setSelected] = React.useState(null)
   const [addresses, setAddresses] = React.useState([])
 
+  const updateAddressList = () => {
+    request
+      .get(BuildPath('/account/customers'))
+      .set('Authorization', localStorage.getItem('Authorization'))
+      .set('Accept', 'application/json')
+      .then(res => {
+        if (res.status === 200) {
+          setAddresses(res.body)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
   React.useEffect(() => {
-    if (open === false)
-      request
-        .get(BuildPath('/account/customers'))
-        .set('Authorization', localStorage.getItem('Authorization'))
-        .set('Accept', 'application/json')
-        .then(res => {
-          if (res.status === 200) {
-            setAddresses(
-              res.body.sort((a, b) => {
-                return a['firstname'] < b['firstname']
-              })
-            )
-          }
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    if (open === false) updateAddressList()
   }, [open])
 
   return (
@@ -72,6 +71,7 @@ const ShippingStep = ({ setShipping }) => {
                 selected={selected}
                 setSelected={setSelected}
                 setShipping={setShipping}
+                updateAddressList={updateAddressList}
               />
             </ListItem>
           ))}

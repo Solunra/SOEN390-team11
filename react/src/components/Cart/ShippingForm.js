@@ -22,35 +22,25 @@ const useStyles = makeStyles(theme => ({
 const ShippingForm = ({ open, setOpen, address }) => {
   const classes = useStyles()
 
-  const createCustomer = () => {
+  const createAddress = () => {
     address['userID'] = localStorage.getItem('userId')
     request
       .put(BuildPath('/customer/address'))
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res.body)
-        }
-      })
       .catch(err => {
         console.error(err)
       })
   }
 
-  const updateCustomer = () => {
+  const updateAddress = () => {
     address['userID'] = localStorage.getItem('userId')
     request
       .post(BuildPath('/customer/address'))
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res.body)
-        }
-      })
       .catch(err => {
         console.error(err)
       })
@@ -112,15 +102,15 @@ const ShippingForm = ({ open, setOpen, address }) => {
             <Grid item xs={12}></Grid>
           </Grid>
         </DialogContent>
-        <DialogActions style={{ display: 'inline-block' }}>
+        <DialogActions>
           <Button onClick={handleClose} color='default'>
             Cancel
           </Button>
           <Button
             onClick={() => {
               handleClose()
-              if (address.hasOwnProperty('customerID')) updateCustomer()
-              else createCustomer()
+              if (address.hasOwnProperty('customerID')) updateAddress()
+              else createAddress()
             }}
             color='primary'
           >
