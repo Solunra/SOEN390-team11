@@ -30,27 +30,36 @@ const useStyles = makeStyles({
 })
 
 export default function AddressCard ({
-  address: { firstname, lastname, address, city, province, country, zip },
-  i,
+  address,
   selected,
   setSelected,
   setShipping
 }) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
+  const {
+    customerID,
+    firstname,
+    lastname,
+    address: addr,
+    city,
+    province,
+    country,
+    zip
+  } = address
 
   return (
     <Card
       className={classes.root}
       variant='outlined'
-      onClick={() => setSelected(i)}
+      onClick={() => setSelected(customerID)}
     >
       <Radio
         className={classes.radio}
-        checked={selected === i}
-        value={i}
+        checked={selected === customerID}
+        value={customerID}
         name='radio-button'
-        inputProps={{ 'aria-label': `address #${i}` }}
+        inputProps={{ 'aria-label': `address #${customerID}` }}
       />
       <CardContent>
         <Typography
@@ -61,13 +70,13 @@ export default function AddressCard ({
           {/* Customer ID Here? */}
         </Typography>
         <Typography variant='h5' component='h2'>
-          {[firstname, lastname].filter(e => e).join('')}
+          {[firstname, lastname].filter(e => e).join(' ')}
         </Typography>
         <Typography className={classes.pos} color='textSecondary'>
           {/* some side notes? */}
         </Typography>
         <Typography variant='body2' component='p'>
-          {address}
+          {addr}
           <br />
           {[city, province].filter(e => e).join(',')}
           <br />
@@ -86,7 +95,12 @@ export default function AddressCard ({
           Edit
         </Button>
       </CardActions>
-      <ShippingForm open={open} setOpen={setOpen} setShipping={setShipping} />
+      <ShippingForm
+        open={open}
+        setOpen={setOpen}
+        setShipping={setShipping}
+        address={address}
+      />
     </Card>
   )
 }
