@@ -28,6 +28,18 @@ const LoginComponent = () => {
           localStorage.setItem('Authorization', res.headers['authorization'])
           if (res.headers['role'] === 'CUSTOMER') {
             history.push('/customer')
+            request
+              .get(BuildPath('/account/loggedUser'))
+              .set('Authorization', localStorage.getItem('Authorization'))
+              .set('Accept', 'application/json')
+              .then(res => {
+                if (res.status === 200) {
+                  localStorage.setItem('userId', res.body['userID'])
+                }
+              })
+              .catch(err => {
+                console.error(err)
+              })
           } else {
             history.push('/admin')
           }
