@@ -42,21 +42,24 @@ const ShippingStep = ({ setShipping }) => {
   const [addresses, setAddresses] = React.useState([])
 
   React.useEffect(() => {
-    request
-      .get(BuildPath('/account/customers'))
-      .set('Authorization', localStorage.getItem('Authorization'))
-      .set('Accept', 'application/json')
-      .then(res => {
-        if (res.status === 200) {
-          if (JSON.stringify(addresses) !== JSON.stringify(res.body)) {
-            setAddresses(res.body)
+    if (open === false)
+      request
+        .get(BuildPath('/account/customers'))
+        .set('Authorization', localStorage.getItem('Authorization'))
+        .set('Accept', 'application/json')
+        .then(res => {
+          if (res.status === 200) {
+            setAddresses(
+              res.body.sort((a, b) => {
+                return a['firstname'] < b['firstname']
+              })
+            )
           }
-        }
-      })
-      .catch(err => {
-        console.error(err)
-      })
-  }, [])
+        })
+        .catch(err => {
+          console.error(err)
+        })
+  }, [open])
 
   return (
     <MuiThemeProvider theme={theme}>
