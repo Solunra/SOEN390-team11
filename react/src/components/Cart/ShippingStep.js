@@ -40,7 +40,8 @@ const ShippingStep = ({ setShipping }) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
   const [addresses, setAddresses] = React.useState([])
-  ;(() => {
+
+  React.useEffect(() => {
     request
       .get(BuildPath('/account/customers'))
       .set('Authorization', localStorage.getItem('Authorization'))
@@ -53,9 +54,9 @@ const ShippingStep = ({ setShipping }) => {
         }
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
-  })()
+  }, [])
 
   return (
     <MuiThemeProvider theme={theme}>
