@@ -1,20 +1,21 @@
 import React from 'react'
 import bike from '../Utils/bike.png'
 import {
-  Avatar,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
-  makeStyles,
-  Paper
+  makeStyles
 } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    textAlign: 'center',
+    justifyContent: 'center'
+  },
   cardMedia: {
     height: 0,
     paddingTop: '56.25%'
@@ -48,7 +49,7 @@ const Product = props => {
           {product['size']}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.container}>
         {role !== 'public' && (
           <Button
             size='small'

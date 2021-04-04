@@ -11,8 +11,9 @@ import { Customize } from './Customize'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    margin: '60px auto auto auto',
-    justifyContent: 'center'
+    margin: '30px auto',
+    justifyContent: 'center',
+    textAlign: 'center'
   },
   gridRoot: {
     flexGrow: 1
@@ -116,7 +117,7 @@ const Shop = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <Button
             onClick={() => setOpenCustomize(true)}
             className={classes.button}
@@ -124,12 +125,12 @@ const Shop = () => {
             Customize Order
           </Button>
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <Button onClick={() => setOpen(true)} className={classes.button}>
-            Cart
+            Cart ({cart.length})
           </Button>
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <Button
             onClick={() => setOpenCheckStatus(true)}
             className={classes.button}

@@ -27,8 +27,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start'
   },
   leftDialogActions: {
-    justifyContent: 'flex-start',
-    gap: '20px'
+    gap: '20px',
+    justifyContent: 'center'
   }
 }))
 
@@ -99,23 +99,22 @@ const CheckStatus = props => {
           Order summary
         </Typography>
         <List disablePadding>
-          {orderList.size === 0
-            ? ''
-            : orderList.map(row => (
-                <ListItem className={classes.listItem}>
-                  <ListItemText
-                    primary={`${row['name']}, ${row['color']}, ${row['size']}, ${row['finish']}, $${row['price']}`}
-                  />
-                  <Typography variant='body2'>{row['status']}</Typography>
-                </ListItem>
-              ))}
+          {orderList.size !== 0 &&
+            orderList.map(row => (
+              <ListItem>
+                <ListItemText
+                  primary={`${row['name']}, ${row['color']}, ${row['size']}, ${row['finish']}, $${row['price']}`}
+                />
+                <Typography variant='body2'>{row['status']}</Typography>
+              </ListItem>
+            ))}
         </List>
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button onClick={handleClose} color='primary'>
+        <Button variant='outlined' color='secondary' onClick={handleClose}>
           Close
         </Button>
-        <Button onClick={handleCheckStatus} color='primary'>
+        <Button variant='outlined' color='primary' onClick={handleCheckStatus}>
           Check Status
         </Button>
       </DialogActions>

@@ -102,7 +102,7 @@ const ShippingForm = ({ open, setOpen, address }) => {
             <Grid item xs={12}></Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ justifyContent: 'center' }}>
           <Button onClick={handleClose} color='default'>
             Cancel
           </Button>

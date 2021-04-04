@@ -32,7 +32,8 @@ const theme = createMuiTheme({
 
 const flexContainer = {
   display: 'flex',
-  flexDirection: 'row'
+  flexDirection: 'row',
+  gap: '20px'
 }
 
 const ShippingStep = ({ setShipping }) => {
@@ -75,12 +76,11 @@ const ShippingStep = ({ setShipping }) => {
               />
             </ListItem>
           ))}
-          <ListItem>
-            <Button variant='outlined' onClick={() => setOpen(true)}>
-              Add New Address
-            </Button>
-          </ListItem>
+          <ListItem></ListItem>
         </List>
+        <Button variant='outlined' onClick={() => setOpen(true)}>
+          Add New Address
+        </Button>
       </div>
       <ShippingForm open={open} setOpen={setOpen} setShipping={setShipping} />
     </MuiThemeProvider>

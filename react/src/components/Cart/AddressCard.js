@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Radio from '@material-ui/core/Radio'
-import Fab from '@material-ui/core/Fab'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
@@ -104,23 +104,18 @@ export default function AddressCard ({
         </CardContent>
       </div>
       <CardActions style={{ justifyContent: 'center' }}>
-        <Fab>
-          <EditLocationTwoTone
-            size='small'
-            style={{ color: 'darkblue' }}
-            onClick={() => setOpen(true)}
-          />
-        </Fab>
-        <Fab>
-          <DeleteForeverTwoTone
-            size='small'
-            style={{ color: 'darkred' }}
-            onClick={() => {
-              deleteAddress()
-              setTimeout(updateAddressList, 150)
-            }}
-          />
-        </Fab>
+        <Button variant='outlined' onClick={() => setOpen(true)}>
+          <EditLocationTwoTone size='small' style={{ color: 'darkblue' }} />
+        </Button>
+        <Button
+          variant='outlined'
+          onClick={() => {
+            deleteAddress()
+            setTimeout(updateAddressList, 150)
+          }}
+        >
+          <DeleteForeverTwoTone size='small' style={{ color: 'darkred' }} />
+        </Button>
       </CardActions>
       <ShippingForm
         open={open}

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import React, {useState} from 'react'
+import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import ShippingStep from './ShippingStep'
 import PaymentForm from './PaymentForm'
-import { Review } from './Review'
+import {Review} from './Review'
 import {
   AppBar,
   Dialog,
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start'
   },
   leftDialogActions: {
-    justifyContent: 'flex-start'
+    justifyContent: 'center'
   }
 }))
 
@@ -77,31 +77,23 @@ const CheckOut = ({
       shipping.has('address') &&
       shipping.has('country')
     ) {
-      if (
-        shipping.get('firstname').trim() !== '' &&
-        shipping.get('lastname').trim() !== '' &&
-        shipping.get('city').trim() !== '' &&
-        shipping.get('province').trim() !== '' &&
-        shipping.get('zip').trim() !== '' &&
-        shipping.get('address').trim() !== '' &&
-        shipping.get('country').trim() !== ''
-      ) {
-        return true
-      }
-      return false
+      return shipping.get('firstname').trim() !== '' &&
+          shipping.get('lastname').trim() !== '' &&
+          shipping.get('city').trim() !== '' &&
+          shipping.get('province').trim() !== '' &&
+          shipping.get('zip').trim() !== '' &&
+          shipping.get('address').trim() !== '' &&
+          shipping.get('country').trim() !== '';
+
     }
     return false
   }
   const checkPayment = () => {
-    if (
-      payment.has('name') &&
-      payment.has('cardnumber') &&
-      payment.has('exp') &&
-      payment.has('cvv')
-    ) {
-      return true
-    }
-    return false
+    return payment.has('name') &&
+        payment.has('cardnumber') &&
+        payment.has('exp') &&
+        payment.has('cvv');
+
   }
 
   const handleNext = () => {
@@ -229,22 +221,22 @@ const CheckOut = ({
         </DialogContent>
         <DialogActions classes={{ root: classes.leftDialogActions }}>
           {(page === 0 || page === 2) && (
-            <Button onClick={handleClose} color='default'>
+            <Button variant='outlined' color='default' onClick={handleClose}>
               Close
             </Button>
           )}
           {page === 1 && (
-            <Button onClick={handleBack} color='secondary'>
+            <Button variant='outlined' color='secondary' onClick={handleBack}>
               Back
             </Button>
           )}
           {page === 0 && (
-            <Button onClick={handleNext} color='primary'>
+            <Button variant='outlined' color='primary' onClick={handleNext}>
               Next
             </Button>
           )}
           {page === 1 && (
-            <Button onClick={handleSubmit} color='primary'>
+            <Button variant='outlined' color='primary' onClick={handleSubmit}>
               Submit
             </Button>
           )}

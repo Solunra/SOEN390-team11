@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  makeStyles,
-  DialogActions,
   AppBar,
-  Toolbar,
-  IconButton
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  makeStyles,
+  Toolbar
 } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
-import { CartItem } from './CartItem'
+import {CartItem} from './CartItem'
 import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-start'
   },
   leftDialogActions: {
-    justifyContent: 'flex-start'
+    justifyContent: 'center'
   }
 }))
 
@@ -60,11 +59,11 @@ const Cart = ({
         ))}
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button onClick={handleClose} color='secondary'>
+        <Button variant='outlined' color='secondary' onClick={handleClose}>
           Close
         </Button>
-        <Button onClick={handleCheckOut} color='primary'>
-          Check Out
+        <Button variant='outlined' color='primary' onClick={handleCheckOut}>
+          Checkout
         </Button>
       </DialogActions>
     </Dialog>
