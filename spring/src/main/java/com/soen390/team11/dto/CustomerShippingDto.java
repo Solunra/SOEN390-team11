@@ -4,6 +4,7 @@ import com.soen390.team11.entity.Customer;
 
 public class CustomerShippingDto extends CustomerDto {
 
+    private String customerID;
     private String userID;
 
     public CustomerShippingDto() {
@@ -32,5 +33,13 @@ public class CustomerShippingDto extends CustomerDto {
     @Override
     public Customer getCustomer() {
         return new Customer(firstname, lastname, address, city, province, zip, country, userID);
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 }

@@ -4,10 +4,12 @@ import com.soen390.team11.dto.CustomerShippingDto;
 import com.soen390.team11.service.CustomerShippingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * chek the status
  */
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customer/address")
 public class CustomerShippingController {
 
     CustomerShippingService customerShippingService;
@@ -37,4 +39,13 @@ public class CustomerShippingController {
         return new ResponseEntity<>(customerShippingService.createCustomer(customerShippingDto), HttpStatus.CREATED);
     }
 
+    /**
+     * create a shipping address
+     * @param customerShippingDto
+     * @return
+     */
+    @PostMapping
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerShippingDto customerShippingDto){
+        return new ResponseEntity<>(customerShippingService.updateCustomer(customerShippingDto), HttpStatus.CREATED);
+    }
 }
