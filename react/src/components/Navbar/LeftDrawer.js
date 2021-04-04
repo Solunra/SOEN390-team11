@@ -15,6 +15,7 @@ import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import GrainIcon from '@material-ui/icons/Grain';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles({
     drawer: {
@@ -46,10 +47,18 @@ const LeftDrawer = props => {
                 }
             },
             {
+                text: "Customer Order",
+                icon: <AccountCircleIcon />,
+                onClick: () =>{
+                    handleClick("customerOrder");
+                }
+            },
+            {
                 text: "Logout",
                 icon: <ExitToAppRoundedIcon />,
                 onClick: () => logout()
             }
+           
         ];
     }
     else if (role === "admin"){
@@ -89,6 +98,7 @@ const LeftDrawer = props => {
                     handleClick("order");
                 }
             },
+
             {
                 text: "Logout",
                 icon: <ExitToAppRoundedIcon />,
