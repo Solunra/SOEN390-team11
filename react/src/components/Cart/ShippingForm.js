@@ -8,6 +8,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
+import request from 'superagent'
+import BuildPath from '../RequestBuilder'
+
 const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
@@ -16,8 +19,52 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ShippingForm = ({ open, setOpen, setShipping }) => {
+const ShippingForm = ({ open, setOpen, address }) => {
   const classes = useStyles()
+
+  const createCustomer = () => {
+    address['userID'] = localStorage.getItem('userId')
+    request
+      .put(BuildPath('/customer/address'))
+      .set('Authorization', localStorage.getItem('Authorization'))
+      .send(address)
+      .set('Accept', 'application/json')
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res.body)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  const updateCustomer = () => {
+    address['userID'] = localStorage.getItem('userId')
+    request
+      .post(BuildPath('/customer/address'))
+      .set('Authorization', localStorage.getItem('Authorization'))
+      .send(address)
+      .set('Accept', 'application/json')
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res.body)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  address = address || {
+    firstname: '',
+    lastname: '',
+    address: '',
+    city: '',
+    province: '',
+    zip: '',
+    country: ''
+  }
 
   const handleClose = () => {
     setOpen(false)
@@ -26,12 +73,13 @@ const ShippingForm = ({ open, setOpen, setShipping }) => {
   return (
     <div className={classes.root}>
       <Dialog
-        fullScreen
         open={open}
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>New Address</DialogTitle>
+        <DialogTitle id='form-dialog-title'>
+          {address.hasOwnProperty('customerID') ? 'Edit' : 'New'} Address
+        </DialogTitle>
         <DialogContent>
           <Grid
             container
@@ -42,103 +90,25 @@ const ShippingForm = ({ open, setOpen, setShipping }) => {
               width: '100%'
             }}
           >
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id='firstName'
-                name='firstName'
-                label='First name'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['firstname', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id='lastName'
-                name='lastName'
-                label='Last name'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['lastname', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id='address1'
-                name='address1'
-                label='Address line 1'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['address', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id='city'
-                name='city'
-                label='City'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['city', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id='state'
-                name='state'
-                label='State/Province/Region'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['province', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id='zip'
-                name='zip'
-                label='Zip / Postal code'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['zip', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id='country'
-                name='country'
-                label='Country'
-                fullWidth
-                onChange={e =>
-                  setShipping(
-                    prev => new Map([...prev, ['country', e.target.value]])
-                  )
-                }
-              />
-            </Grid>
+            {Object.keys(address).map(
+              key =>
+                key.includes('ID') === false && (
+                  <Grid item xs={12} sm={key === 'address' ? 12 : 3} key={key}>
+                    <TextField
+                      required
+                      id={key}
+                      name={key}
+                      label={key}
+                      defaultValue={address[key]}
+                      style={{
+                        textTransform: 'capitalize'
+                      }}
+                      fullWidth
+                      onChange={e => (address[key] = e.target.value)}
+                    />
+                  </Grid>
+                )
+            )}
             <Grid item xs={12}></Grid>
           </Grid>
         </DialogContent>
@@ -146,7 +116,14 @@ const ShippingForm = ({ open, setOpen, setShipping }) => {
           <Button onClick={handleClose} color='default'>
             Cancel
           </Button>
-          <Button onClick={handleClose} color='primary'>
+          <Button
+            onClick={() => {
+              handleClose()
+              if (address.hasOwnProperty('customerID')) updateCustomer()
+              else createCustomer()
+            }}
+            color='primary'
+          >
             Save
           </Button>
         </DialogActions>

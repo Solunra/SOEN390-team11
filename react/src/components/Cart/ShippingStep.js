@@ -66,7 +66,6 @@ const ShippingStep = ({ setShipping }) => {
             <ListItem key={i}>
               <AddressCard
                 address={address}
-                i={i}
                 selected={selected}
                 setSelected={setSelected}
                 setShipping={setShipping}

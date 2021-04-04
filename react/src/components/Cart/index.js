@@ -60,7 +60,7 @@ const Cart = ({
         ))}
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button onClick={handleClose} color='primary'>
+        <Button onClick={handleClose} color='secondary'>
           Close
         </Button>
         <Button onClick={handleCheckOut} color='primary'>
