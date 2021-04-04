@@ -4,19 +4,17 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Radio from '@material-ui/core/Radio'
-import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
 import Typography from '@material-ui/core/Typography'
-
+import request from 'superagent'
+import BuildPath from '../RequestBuilder'
 import ShippingForm from './ShippingForm'
+import { DeleteForeverTwoTone, EditLocationTwoTone } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    textAlign: 'center',
-    '&:hover': {
-      background: '#eee',
-      cursor: 'pointer'
-    }
+    textAlign: 'center'
   },
   title: {
     fontSize: 14
@@ -26,6 +24,13 @@ const useStyles = makeStyles({
   },
   radio: {
     width: 'auto'
+  },
+  content: {
+    fontSize: 12,
+    '&:hover': {
+      background: '#eee',
+      cursor: 'pointer'
+    }
   }
 })
 
@@ -33,7 +38,8 @@ export default function AddressCard ({
   address,
   selected,
   setSelected,
-  setShipping
+  setShipping,
+  updateAddressList
 }) {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
@@ -47,6 +53,15 @@ export default function AddressCard ({
     country,
     zip
   } = address
+  const deleteAddress = () => {
+    request
+      .delete(BuildPath('/customer/address/' + customerID))
+      .set('Authorization', localStorage.getItem('Authorization'))
+      .set('Accept', 'application/json')
+      .catch(err => {
+        console.error(err)
+      })
+  }
 
   return (
     <Card
@@ -54,46 +69,58 @@ export default function AddressCard ({
       variant='outlined'
       onClick={() => setSelected(customerID)}
     >
-      <Radio
-        className={classes.radio}
-        checked={selected === customerID}
-        value={customerID}
-        name='radio-button'
-        inputProps={{ 'aria-label': `address #${customerID}` }}
-      />
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          {/* Customer ID Here? */}
-        </Typography>
-        <Typography variant='h5' component='h2'>
-          {[firstname, lastname].filter(e => e).join(' ')}
-        </Typography>
-        <Typography className={classes.pos} color='textSecondary'>
-          {/* some side notes? */}
-        </Typography>
-        <Typography variant='body2' component='p'>
-          {addr}
-          <br />
-          {[city, province].filter(e => e).join(',')}
-          <br />
-          {country}
-          <br />
-          {zip}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          variant='outlined'
-          color='secondary'
-          size='small'
-          onClick={() => setOpen(true)}
-        >
-          Edit
-        </Button>
+      <div className={classes.content}>
+        <Radio
+          className={classes.radio}
+          checked={selected === customerID}
+          value={customerID}
+          color='default'
+          name='radio-button'
+          inputProps={{ 'aria-label': `address #${customerID}` }}
+        />
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color='textSecondary'
+            gutterBottom
+          >
+            {/* Customer ID Here? */}
+          </Typography>
+          <Typography variant='h5' component='h2'>
+            {[firstname, lastname].filter(e => e).join(' ')}
+          </Typography>
+          <Typography className={classes.pos} color='textSecondary'>
+            {/* some side notes? */}
+          </Typography>
+          <Typography variant='body2' component='p'>
+            {addr}
+            <br />
+            {[city, province].filter(e => e).join(',')}
+            <br />
+            {country}
+            <br />
+            {zip}
+          </Typography>
+        </CardContent>
+      </div>
+      <CardActions style={{ justifyContent: 'center' }}>
+        <Fab>
+          <EditLocationTwoTone
+            size='small'
+            style={{ color: 'darkblue' }}
+            onClick={() => setOpen(true)}
+          />
+        </Fab>
+        <Fab>
+          <DeleteForeverTwoTone
+            size='small'
+            style={{ color: 'darkred' }}
+            onClick={() => {
+              deleteAddress()
+              setTimeout(updateAddressList, 150)
+            }}
+          />
+        </Fab>
       </CardActions>
       <ShippingForm
         open={open}
