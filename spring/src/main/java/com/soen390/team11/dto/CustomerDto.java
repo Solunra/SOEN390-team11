@@ -2,7 +2,7 @@ package com.soen390.team11.dto;
 
 import com.soen390.team11.entity.Customer;
 
-public class CustomerDto {
+public abstract class CustomerDto {
 
     protected String firstname;
     protected String lastname;
@@ -68,7 +68,5 @@ public class CustomerDto {
         this.country = country;
     }
 
-    public Customer getCustomer(){
-        return new Customer(firstname,lastname,address,city,province,zip,country);
-    }
+    public abstract Customer getCustomer();
 }

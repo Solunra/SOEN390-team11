@@ -4,12 +4,13 @@ import com.soen390.team11.entity.Customer;
 
 public class CustomerShippingDto extends CustomerDto {
 
-    private String userId;
+    private String userID;
 
     public CustomerShippingDto() {
     }
 
-    public CustomerShippingDto(String firstname, String lastname, String address, String city, String province, String zip, String country, String userId) {
+    public CustomerShippingDto(String firstname, String lastname, String address, String city,
+        String province, String zip, String country, String userID) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -17,11 +18,19 @@ public class CustomerShippingDto extends CustomerDto {
         this.province = province;
         this.zip = zip;
         this.country = country;
-        this.userId = userId;
+        this.userID = userID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     @Override
     public Customer getCustomer() {
-        return new Customer(firstname,lastname,address,city,province,zip,country,userId);
+        return new Customer(firstname, lastname, address, city, province, zip, country, userID);
     }
 }

@@ -12,7 +12,9 @@ public class CustomerPurchaseDto extends CustomerDto {
     public CustomerPurchaseDto() {
     }
 
-    public CustomerPurchaseDto(String firstname, String lastname, String address, String city, String province, String zip, String country, Double totalamount, List<HashMap<String, Object>> carte) {
+    public CustomerPurchaseDto(String firstname, String lastname, String address, String city,
+        String province, String zip, String country, Double totalamount,
+        List<HashMap<String, Object>> carte) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -36,4 +38,8 @@ public class CustomerPurchaseDto extends CustomerDto {
         return carte;
     }
 
+    @Override
+    public Customer getCustomer() {
+        return new Customer(firstname, lastname, address, city, province, zip, country);
+    }
 }

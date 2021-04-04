@@ -41,12 +41,12 @@ public class Customer {
         this.lastname = lastname;
         this.address = address;
         this.city = city;
+        this.province = province;
         this.zip = zip;
         this.country = country;
-        this.province = province;
     }
 
-    public Customer(String firstname, String lastname, String address, String city, String province, String zip, String country, String userId) {
+    public Customer(String firstname, String lastname, String address, String city, String province, String zip, String country, String userID) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -54,7 +54,7 @@ public class Customer {
         this.province = province;
         this.zip = zip;
         this.country = country;
-        this.userID = userId;
+        this.userID = userID;
     }
 
     public String getCustomerID() {
@@ -119,5 +119,13 @@ public class Customer {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }
