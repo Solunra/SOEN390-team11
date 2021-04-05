@@ -36,7 +36,7 @@ const flexContainer = {
   gap: '20px'
 }
 
-const ShippingStep = ({ setShipping }) => {
+const ShippingStep = ({ setCustomerId, setCustomerInfo }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
@@ -46,7 +46,7 @@ const ShippingStep = ({ setShipping }) => {
     request
       .get(BuildPath('/account/customers'))
       .set('Authorization', localStorage.getItem('Authorization'))
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .then(res => {
         if (res.status === 200) {
           setAddresses(res.body)
@@ -61,6 +61,12 @@ const ShippingStep = ({ setShipping }) => {
     if (open === false) updateAddressList()
   }, [open])
 
+  const Select = (customerID, address) => {
+    setSelected(customerID)
+    setCustomerId(customerID)
+    setCustomerInfo(address)
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -70,8 +76,7 @@ const ShippingStep = ({ setShipping }) => {
               <AddressCard
                 address={address}
                 selected={selected}
-                setSelected={setSelected}
-                setShipping={setShipping}
+                Select={Select}
                 updateAddressList={updateAddressList}
               />
             </ListItem>
@@ -82,7 +87,7 @@ const ShippingStep = ({ setShipping }) => {
           Add New Address
         </Button>
       </div>
-      <ShippingForm open={open} setOpen={setOpen} setShipping={setShipping} />
+      <ShippingForm open={open} setOpen={setOpen} setShipping={setCustomerId} />
     </MuiThemeProvider>
   )
 }

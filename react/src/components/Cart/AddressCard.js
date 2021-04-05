@@ -37,8 +37,7 @@ const useStyles = makeStyles({
 export default function AddressCard ({
   address,
   selected,
-  setSelected,
-  setShipping,
+  Select,
   updateAddressList
 }) {
   const classes = useStyles()
@@ -57,7 +56,7 @@ export default function AddressCard ({
     request
       .delete(BuildPath('/customer/address/' + customerID))
       .set('Authorization', localStorage.getItem('Authorization'))
-      .set('Accept', 'application/json')
+      .accept('application/json')
       .catch(err => {
         console.error(err)
       })
@@ -67,7 +66,7 @@ export default function AddressCard ({
     <Card
       className={classes.root}
       variant='outlined'
-      onClick={() => setSelected(customerID)}
+      onClick={() => Select(customerID, address)}
     >
       <div className={classes.content}>
         <Radio
@@ -117,12 +116,7 @@ export default function AddressCard ({
           <DeleteForeverTwoTone size='small' style={{ color: 'darkred' }} />
         </Button>
       </CardActions>
-      <ShippingForm
-        open={open}
-        setOpen={setOpen}
-        setShipping={setShipping}
-        address={address}
-      />
+      <ShippingForm open={open} setOpen={setOpen} address={address} />
     </Card>
   )
 }

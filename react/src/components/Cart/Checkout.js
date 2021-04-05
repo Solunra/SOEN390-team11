@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
-import {makeStyles} from '@material-ui/core/styles'
+import React, { useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import ShippingStep from './ShippingStep'
 import PaymentForm from './PaymentForm'
-import {Review} from './Review'
+import { Review } from './Review'
 import {
   AppBar,
   Dialog,
@@ -41,7 +41,8 @@ const CheckOut = ({
   // check the payment shipping is missing or not
   const classes = useStyles()
   const [page, setPage] = useState(0)
-  const [shipping, setShipping] = useState(() => new Map())
+  const [customerId, setCustomerId] = useState('')
+  const [customerInfo, setCustomerInfo] = useState('')
   const [payment, setPayment] = useState(() => new Map())
   const [error, setError] = useState('')
   const [invoiceId, setInvoiceId] = useState('')
@@ -50,14 +51,19 @@ const CheckOut = ({
   const checkPage = () => {
     switch (page) {
       case 0:
-        return <ShippingStep setShipping={setShipping} />
+        return (
+          <ShippingStep
+            setCustomerId={setCustomerId}
+            setCustomerInfo={setCustomerInfo}
+          />
+        )
       case 1:
         return <PaymentForm setPayment={setPayment} />
       case 2:
         return (
           <Review
             invoiceId={invoiceId}
-            shipping={shipping}
+            customerInfo={customerInfo}
             payment={payment}
             cartList={cartList}
             totalPrice={totalPrice}
@@ -67,37 +73,36 @@ const CheckOut = ({
         return
     }
   }
-  const checkShipping = () => {
-    if (
-      shipping.has('firstname') &&
-      shipping.has('lastname') &&
-      shipping.has('city') &&
-      shipping.has('province') &&
-      shipping.has('zip') &&
-      shipping.has('address') &&
-      shipping.has('country')
-    ) {
-      return shipping.get('firstname').trim() !== '' &&
-          shipping.get('lastname').trim() !== '' &&
-          shipping.get('city').trim() !== '' &&
-          shipping.get('province').trim() !== '' &&
-          shipping.get('zip').trim() !== '' &&
-          shipping.get('address').trim() !== '' &&
-          shipping.get('country').trim() !== '';
 
-    }
-    return false
-  }
   const checkPayment = () => {
-    return payment.has('name') &&
-        payment.has('cardnumber') &&
-        payment.has('exp') &&
-        payment.has('cvv');
+    return (
+      payment.has('name') &&
+      payment.has('cardnumber') &&
+      payment.has('exp') &&
+      payment.has('cvv')
+    )
+  }
 
+  const makePurchase = (amount, cart) => {
+    request
+      .put(BuildPath('/customer/purchase'))
+      .set('Authorization', localStorage.getItem('Authorization'))
+      .accept('text/plain')
+      .send({
+        customerID: customerId,
+        totalamount: amount,
+        cart: cart
+      })
+      .then(res => {
+        setInvoiceId(res.text)
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   const handleNext = () => {
-    if (page === 0 && !checkShipping()) {
+    if (customerId === '') {
       setError('All fields are required. ')
       setTimeout(() => {
         setError('')
@@ -106,14 +111,17 @@ const CheckOut = ({
     }
     setPage(page + 1)
   }
+
   const handleBack = () => {
     clearValue()
     setPage(page - 1)
   }
+
   const clearValue = () => {
-    setShipping(new Map())
+    setCustomerId('')
     setPayment(new Map())
   }
+
   const handleSubmit = () => {
     if (!checkPayment()) {
       setError('All fields are required. ')
@@ -136,29 +144,7 @@ const CheckOut = ({
     }
     setTotalPrice(sumprice)
     //set total payment so we can use in review too
-    request
-      .post(BuildPath('/customer/purchase/create'))
-      .set('Authorization', localStorage.getItem('Authorization'))
-      .set('Accept', 'application/json')
-      .send({
-        firstname: shipping.get('firstname'),
-        lastname: shipping.get('lastname'),
-        address: shipping.get('address'),
-        city: shipping.get('city'),
-        province: shipping.get('province'),
-        zip: shipping.get('zip'),
-        country: shipping.get('country'),
-        totalamount: sumprice,
-        cart: submitCart
-      })
-      .then(res => {
-        if (res.status === 201) {
-          setInvoiceId(res.body)
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    makePurchase(sumprice, submitCart)
     handleNext()
     // remove the cart list
     // store address ,store the order and payment
