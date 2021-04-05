@@ -29,7 +29,7 @@ public class Payment {
     @Column
     private String cvc;
     @Column
-    private String userID;
+    private String userid;
 
     public Payment() {
     }
@@ -40,7 +40,7 @@ public class Payment {
         this.cardNum = cardNum;
         this.expireDate = expireDate;
         this.cvc = cvc;
-        this.userID = userID;
+        this.userid = userID;
     }
 
     public String getPayId() {
@@ -68,7 +68,7 @@ public class Payment {
     }
 
     public String getUserID() {
-        return userID;
+        return userid;
     }
 
     public void setPayId(String payId) {

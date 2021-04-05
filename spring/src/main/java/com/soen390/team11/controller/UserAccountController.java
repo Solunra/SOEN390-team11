@@ -91,4 +91,12 @@ public class UserAccountController {
     public ResponseEntity<?> getUserCustomers(){
         return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
     }
+
+    /**
+     * Get logged user payments
+     */
+    @GetMapping("/payments")
+    public ResponseEntity<?> getUserPayments(){
+        return new ResponseEntity<>(userService.getLoggedUser().getPayments(), HttpStatus.OK);
+    }
 }

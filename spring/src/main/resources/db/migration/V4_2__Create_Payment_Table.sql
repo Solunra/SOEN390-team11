@@ -1,12 +1,12 @@
 CREATE TABLE payment(
-    pay_id varchar (100)
-    `type` varchar (100),
-    card_name varchar (100),
-    card_num varchar (100),
-    expire_date TIMESTAMP,
-    cvc varchar (100),
-    userID varchar (100),
-    PRIMARY KEY (payid),
+    pay_id varchar(150)
+    type varchar(150),
+    card_name varchar(150),
+    card_num varchar(150),
+    expire_date varchar(150),
+    cvc varchar(150),
+    userid varchar(150),
+    PRIMARY KEY (pay_id),
     CONSTRAINT user_payment_fk
-        FOREIGN KEY (userID) REFERENCES user_account (userID);
+        FOREIGN KEY (userid) REFERENCES user_account (userID);
 );
