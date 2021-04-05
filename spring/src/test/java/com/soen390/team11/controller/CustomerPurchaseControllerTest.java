@@ -1,55 +1,49 @@
 package com.soen390.team11.controller;
 
-import com.soen390.team11.constant.Status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
+
 import com.soen390.team11.dto.CustomerPurchaseDto;
 import com.soen390.team11.dto.CustomizeReportDto;
-import com.soen390.team11.dto.MaterialRequestDto;
 import com.soen390.team11.dto.ProductRequestDto;
-import com.soen390.team11.entity.CustomerPurchase;
-import com.soen390.team11.entity.Invoice;
-import com.soen390.team11.entity.Vendors;
-import com.soen390.team11.repository.CustomerPurchaseRepository;
-import com.soen390.team11.repository.CustomerRepository;
-import com.soen390.team11.repository.InvoiceRepository;
 import com.soen390.team11.service.CustomerPurchaseService;
-import org.junit.jupiter.api.*;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 class CustomerPurchaseControllerTest {
 
+    @InjectMocks
     CustomerPurchaseController customerPurchaseController;
+
     @Mock
     CustomerPurchaseService customerPurchaseService;
+
     CustomerPurchaseDto customerPurchaseDto;
+
     String invoiceid = "id";
 
     @BeforeEach
     public void setup()
     {
         openMocks(this);
-        customerPurchaseController = new CustomerPurchaseController(customerPurchaseService);
-        List<HashMap<String, Object>> carte = new ArrayList<>();
+
+        List<HashMap<String, Object>> cart = new ArrayList<>();
+
         HashMap<String, Object> item= new HashMap<>();
         item.put("productid","Aero-lbm");
         item.put("quantity",1);
-        carte.add(item);
+        cart.add(item);
         customerPurchaseDto = new CustomerPurchaseDto("firstname","lastname","address","city","province"
-            ,"zip","country",2000.0,carte);
+            ,"zip","country",2000.0,cart);
     }
 
     @Test

@@ -71,14 +71,6 @@ public class UserAccountController {
     }
 
     /**
-     * Get logged user customers
-     */
-    @GetMapping("/customers")
-    public ResponseEntity<?> getUserCustomers(){
-        return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
-    }
-
-    /**
      * edit user
      * @param userAccountDto user data to be updated
      * @return the updated user
@@ -90,5 +82,13 @@ public class UserAccountController {
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
+    }
+
+    /**
+     * Get logged user customers
+     */
+    @GetMapping("/customers")
+    public ResponseEntity<?> getUserCustomers(){
+        return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
     }
 }
