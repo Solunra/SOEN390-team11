@@ -9,7 +9,7 @@ import {
   Toolbar
 } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
-import {CartItem} from './CartItem'
+import { CartItem } from './CartItem'
 import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(theme => ({
@@ -21,25 +21,25 @@ const useStyles = makeStyles(theme => ({
   },
   leftDialogActions: {
     justifyContent: 'center'
+  },
+  content: {
+    alignItems: 'center',
+    verticalAlign: 'middle',
+    textAlign: 'center'
   }
 }))
 
 const Cart = ({
   cartList,
   open,
-  handleClose,
+  setOpen,
   handleIncrement,
-  handleCheckOut,
+  setOpenCheckout,
   handleRemove
 }) => {
   const classes = useStyles()
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      classes={classes.dialogWrapper}
-      fullScreen
-    >
+    <Dialog open={open} classes={classes.dialogWrapper} fullScreen>
       <AppBar>
         <Toolbar>
           <Typography variant='h6' className={classes.title}>
@@ -48,8 +48,8 @@ const Cart = ({
         </Toolbar>
       </AppBar>
       <DialogTitle id='form-dialog-title'>Product From</DialogTitle>
-      <DialogContent>
-        {cartList.length === 0 ? <p>No items in cart.</p> : null}
+      <DialogContent className={classes.content}>
+        {cartList.length === 0 && <p>No items in cart.</p>}
         {cartList.map(item => (
           <CartItem
             item={item}
@@ -59,10 +59,21 @@ const Cart = ({
         ))}
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button variant='outlined' color='secondary' onClick={handleClose}>
-          Close
+        <Button
+          variant='outlined'
+          color='secondary'
+          onClick={() => setOpen(false)}
+        >
+          Return to Shop
         </Button>
-        <Button variant='outlined' color='primary' onClick={handleCheckOut}>
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={() => {
+            cartList.length !== 0 && setOpenCheckout(true)
+          }}
+          disabled={cartList.length === 0}
+        >
           Checkout
         </Button>
       </DialogActions>

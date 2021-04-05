@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 const Shop = () => {
   // retrieve all from database
-  const [cart, setCart] = useState([])
+  const [cartList, setCartList] = useState([])
   const [productList, setProductList] = useState([])
   const [open, setOpen] = React.useState(false)
   const [openCheckout, setOpenCheckout] = React.useState(false)
@@ -38,52 +38,37 @@ const Shop = () => {
   const [openCustomize, setOpenCustomize] = React.useState(false)
 
   const handleAdd = product => {
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i]['product']['productid'] === product['productid']) {
-        let temp = [...cart]
-        temp[i]['count'] = cart.splice(i, 1)[0]['count'] + 1
-        setCart([...temp])
+    for (let i = 0; i < cartList.length; i++) {
+      if (cartList[i]['product']['productid'] === product['productid']) {
+        let temp = [...cartList]
+        temp[i]['count'] = cartList.splice(i, 1)[0]['count'] + 1
+        setCartList([...temp])
         return
       }
     }
-    setCart([{ product: product, count: 1 }, ...cart])
+    setCartList([{ product: product, count: 1 }, ...cartList])
   }
 
   const handleRemove = (item, mode) => {
-    let index = cart.indexOf(item['product'])
-    let temp = [...cart]
+    let index = cartList.indexOf(item['product'])
+    let temp = [...cartList]
     if (mode === 'all') {
       temp.splice(index, 1)
-      setCart([...temp])
+      setCartList([...temp])
     } else {
       let removeItem = temp.splice(index, 1)
       if (removeItem[0]['count'] - 1 === 0) {
-        setCart([...temp])
+        setCartList([...temp])
       } else {
         removeItem[0]['count'] -= 1
         temp = [...temp, removeItem[0]]
-        setCart([...temp])
+        setCartList([...temp])
       }
     }
   }
 
   const handleIncrement = cartItem => {
     handleAdd(cartItem['product'])
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleCloseCheckOut = () => {
-    setOpenCheckout(false)
-  }
-
-  const handleCheckOut = () => {
-    handleClose()
-    if (cart.length !== 0) {
-      setOpenCheckout(true)
-    }
   }
 
   const getProducts = () => {
@@ -108,10 +93,6 @@ const Shop = () => {
     getProducts()
   })
 
-  useEffect(() => {
-    console.log(cart)
-  }, [cart])
-
   const classes = useStyles()
 
   return (
@@ -127,7 +108,7 @@ const Shop = () => {
         </Grid>
         <Grid item md={4}>
           <Button onClick={() => setOpen(true)} className={classes.button}>
-            Cart ({cart.length})
+            Cart ({cartList.length})
           </Button>
         </Grid>
         <Grid item md={4}>
@@ -153,17 +134,17 @@ const Shop = () => {
       </Grid>
       <Cart
         open={open}
-        handleClose={handleClose}
-        cartList={cart}
+        setOpen={setOpen}
+        cartList={cartList}
         handleIncrement={handleIncrement}
-        handleCheckOut={handleCheckOut}
+        setOpenCheckout={setOpenCheckout}
         handleRemove={handleRemove}
       />
       <CheckOut
         openCheckOut={openCheckout}
-        handleCloseCheckOut={handleCloseCheckOut}
-        cartList={cart}
-        setCartList={setCart}
+        setOpenCheckout={setOpenCheckout}
+        cartList={cartList}
+        setCartList={setCartList}
       />
       <CheckStatus
         openCheckStatus={openCheckStatus}

@@ -31,12 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CheckOut = ({
-  cartList,
-  setCartList,
-  openCheckOut,
-  handleCloseCheckOut
-}) => {
+const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
   // shipping address, payment handle here
   // check the payment shipping is missing or not
   const classes = useStyles()
@@ -150,7 +145,7 @@ const CheckOut = ({
     // store address ,store the order and payment
   }
   const handleClose = () => {
-    handleCloseCheckOut()
+    setOpenCheckout(false)
     setPage(0)
     clearValue()
     if (page === 2) {
@@ -175,7 +170,7 @@ const CheckOut = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        <DialogTitle id='form-dialog-title'>Product From</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Product Form</DialogTitle>
         <DialogContent>
           <Breadcrumbs
             separator={<NavigateNextIcon fontSize='small' />}

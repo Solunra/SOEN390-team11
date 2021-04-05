@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const Review = ({ cartList, customerInfo, invoiceId, totalPrice }) => {
   const classes = useStyles()
-  console.log(invoiceId)
+
   return (
     <React.Fragment>
       <Typography variant='h6' gutterBottom>
