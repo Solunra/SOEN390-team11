@@ -2,6 +2,7 @@ package com.soen390.team11.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.soen390.team11.dto.CustomerShippingDto;
@@ -61,5 +62,20 @@ class CustomerShippingControllerTest {
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
         assertThat(responseEntity.getBody()).isEqualTo(updatedCustomerId);
+    }
+
+
+    @Test
+    public void deleteExistingCustomer_Success()
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        String deletedCustomerId = "deleted-customer-uuid";
+
+        ResponseEntity<?> responseEntity = customerShippingController.deleteCustomer(deletedCustomerId);
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseEntity.getBody()).isEqualTo("Deleted " + deletedCustomerId);
     }
 }
