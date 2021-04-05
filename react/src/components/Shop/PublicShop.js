@@ -5,7 +5,7 @@ import BuildPath from '../RequestBuilder'
 import { Product } from './Product'
 import { Cart } from '../Cart'
 import Button from '@material-ui/core/Button'
-import { CheckOut } from '../Cart/Checkout'
+import { Checkout } from '../Cart/Checkout'
 import { CheckStatus } from './CheckStatus'
 import { Customize } from './Customize'
 
@@ -69,10 +69,10 @@ const PublicShop = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const handleCloseCheckOut = () => {
+  const handleCloseCheckout = () => {
     setOpenCheckout(false)
   }
-  const handleCheckOut = () => {
+  const handleCheckout = () => {
     handleClose()
     console.log(cart.length !== 0)
     if (cart.length !== 0) {

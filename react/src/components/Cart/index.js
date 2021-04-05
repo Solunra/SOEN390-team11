@@ -31,15 +31,16 @@ const useStyles = makeStyles(theme => ({
 
 const Cart = ({
   cartList,
-  open,
-  setOpen,
+  isCartOpen,
+  closeCart,
   handleIncrement,
-  setOpenCheckout,
+  openCheckout,
   handleRemove
 }) => {
   const classes = useStyles()
+
   return (
-    <Dialog open={open} classes={classes.dialogWrapper} fullScreen>
+    <Dialog open={isCartOpen} classes={classes.dialogWrapper} fullScreen>
       <AppBar>
         <Toolbar>
           <Typography variant='h6' className={classes.title}>
@@ -52,6 +53,7 @@ const Cart = ({
         {cartList.length === 0 && <p>No items in cart.</p>}
         {cartList.map(item => (
           <CartItem
+            key={item['productid']}
             item={item}
             handleIncrement={handleIncrement}
             handleRemove={handleRemove}
@@ -59,18 +61,14 @@ const Cart = ({
         ))}
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button
-          variant='outlined'
-          color='secondary'
-          onClick={() => setOpen(false)}
-        >
+        <Button variant='outlined' color='secondary' onClick={closeCart}>
           Return to Shop
         </Button>
         <Button
           variant='outlined'
           color='primary'
           onClick={() => {
-            cartList.length !== 0 && setOpenCheckout(true)
+            cartList.length !== 0 && openCheckout() && closeCart()
           }}
           disabled={cartList.length === 0}
         >

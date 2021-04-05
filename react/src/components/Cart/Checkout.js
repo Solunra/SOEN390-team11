@@ -6,7 +6,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import ShippingStep from './ShippingStep'
 import PaymentForm from './PaymentForm'
-import { Review } from './Review'
+import ReviewStep from './ReviewStep'
 import {
   AppBar,
   Dialog,
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
+const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
   // shipping address, payment handle here
   // check the payment shipping is missing or not
   const classes = useStyles()
@@ -43,7 +43,7 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
   const [invoiceId, setInvoiceId] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
 
-  const checkPage = () => {
+  const navigatePage = () => {
     switch (page) {
       case 0:
         return (
@@ -56,7 +56,7 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
         return <PaymentForm setPayment={setPayment} />
       case 2:
         return (
-          <Review
+          <ReviewStep
             invoiceId={invoiceId}
             customerInfo={customerInfo}
             payment={payment}
@@ -117,7 +117,7 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
     setPayment(new Map())
   }
 
-  const handleSubmit = () => {
+  const completeTransaction = () => {
     if (!checkPayment()) {
       setError('All fields are required. ')
       setTimeout(() => {
@@ -144,8 +144,9 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
     // remove the cart list
     // store address ,store the order and payment
   }
+
   const handleClose = () => {
-    setOpenCheckout(false)
+    closeAll()
     setPage(0)
     clearValue()
     if (page === 2) {
@@ -158,7 +159,7 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
   return (
     <>
       <Dialog
-        open={openCheckOut}
+        open={isCheckoutOpen}
         onClose={handleClose}
         classes={classes.dialogWrapper}
         fullScreen
@@ -195,7 +196,7 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
               Review
             </Typography>
           </Breadcrumbs>
-          {checkPage()}
+          {navigatePage()}
           <Grid item xs={12}>
             <div style={{ color: 'red' }}>{error}</div>
           </Grid>
@@ -217,8 +218,12 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
             </Button>
           )}
           {page === 1 && (
-            <Button variant='outlined' color='primary' onClick={handleSubmit}>
-              Submit
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={completeTransaction}
+            >
+              Complete Transaction
             </Button>
           )}
         </DialogActions>
@@ -226,4 +231,4 @@ const CheckOut = ({ cartList, setCartList, openCheckOut, setOpenCheckout }) => {
     </>
   )
 }
-export { CheckOut }
+export { Checkout }

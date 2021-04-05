@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Review = ({ cartList, customerInfo, invoiceId, totalPrice }) => {
+const ReviewStep = ({ cartList, customerInfo, invoiceId, totalPrice }) => {
   const classes = useStyles()
 
   return (
@@ -28,7 +28,7 @@ const Review = ({ cartList, customerInfo, invoiceId, totalPrice }) => {
       </Typography>
       <List disablePadding>
         {cartList.map(row => (
-          <ListItem className={classes.listItem}>
+          <ListItem key={row['product']['id']} className={classes.listItem}>
             <ListItemText
               primary={row['product']['name']}
               secondary={`${row['count']} X ${row['product']['price']}`}
@@ -70,4 +70,4 @@ const Review = ({ cartList, customerInfo, invoiceId, totalPrice }) => {
     </React.Fragment>
   )
 }
-export { Review }
+export default ReviewStep

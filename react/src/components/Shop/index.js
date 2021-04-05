@@ -5,7 +5,7 @@ import BuildPath from '../RequestBuilder'
 import { Product } from './Product'
 import { Cart } from '../Cart'
 import Button from '@material-ui/core/Button'
-import { CheckOut } from '../Cart/Checkout'
+import { Checkout } from '../Cart/Checkout'
 import { CheckStatus } from './CheckStatus'
 import { Customize } from './Customize'
 
@@ -32,7 +32,7 @@ const Shop = () => {
   // retrieve all from database
   const [cartList, setCartList] = useState([])
   const [productList, setProductList] = useState([])
-  const [open, setOpen] = React.useState(false)
+  const [openCart, setOpenCart] = React.useState(false)
   const [openCheckout, setOpenCheckout] = React.useState(false)
   const [openCheckStatus, setOpenCheckStatus] = React.useState(false)
   const [openCustomize, setOpenCustomize] = React.useState(false)
@@ -107,7 +107,7 @@ const Shop = () => {
           </Button>
         </Grid>
         <Grid item md={4}>
-          <Button onClick={() => setOpen(true)} className={classes.button}>
+          <Button onClick={() => setOpenCart(true)} className={classes.button}>
             Cart ({cartList.length})
           </Button>
         </Grid>
@@ -133,16 +133,19 @@ const Shop = () => {
         })}
       </Grid>
       <Cart
-        open={open}
-        setOpen={setOpen}
+        isCartOpen={openCart}
+        closeCart={() => setOpenCart(false)}
+        openCheckout={() => setOpenCheckout(true)}
         cartList={cartList}
-        handleIncrement={handleIncrement}
-        setOpenCheckout={setOpenCheckout}
         handleRemove={handleRemove}
+        handleIncrement={handleIncrement}
       />
-      <CheckOut
-        openCheckOut={openCheckout}
-        setOpenCheckout={setOpenCheckout}
+      <Checkout
+        isCheckoutOpen={openCheckout}
+        closeAll={() => {
+          setOpenCart(false)
+          setOpenCheckout(false)
+        }}
         cartList={cartList}
         setCartList={setCartList}
       />

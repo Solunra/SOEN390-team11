@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Grid,
-  makeStyles,
   AppBar,
-  Toolbar,
-  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
   ListItem,
-  ListItemText
+  ListItemText,
+  makeStyles,
+  Toolbar
 } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -32,8 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CheckStatus = props => {
-  const { setOpenCheckStatus, openCheckStatus, productList } = props
+const CheckStatus = ({ setOpenCheckStatus, openCheckStatus }) => {
   const [errMessage, setErrMessage] = useState('')
   const [invoiceId, setInvoiceId] = useState('')
   const [orderList, setOrderList] = useState([])
@@ -101,7 +99,7 @@ const CheckStatus = props => {
         <List disablePadding>
           {orderList.size !== 0 &&
             orderList.map(row => (
-              <ListItem>
+              <ListItem key={row['id']}>
                 <ListItemText
                   primary={`${row['name']}, ${row['color']}, ${row['size']}, ${row['finish']}, $${row['price']}`}
                 />
