@@ -8,15 +8,16 @@ import {
   ListItemText,
   Toolbar
 } from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
-import {useHistory} from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded'
 import StorefrontRoundedIcon from '@material-ui/icons/StorefrontRounded'
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined'
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined'
 import GrainIcon from '@material-ui/icons/Grain'
 import BorderColorIcon from '@material-ui/icons/BorderColor'
-import {AccountBalanceRounded, SupervisedUserCircle} from '@material-ui/icons'
+import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline'
+import { AccountBalanceRounded, SupervisedUserCircle } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   drawer: {
@@ -24,13 +25,12 @@ const useStyles = makeStyles({
   }
 })
 
-const LeftDrawer = props => {
+const LeftDrawer = ({ role }) => {
   const history = useHistory()
   const logout = () => {
     localStorage.removeItem('Authorization')
     history.push('/')
   }
-  const { role } = props
   const classes = useStyles()
   const handleClick = dir => {
     history.entries = []
@@ -102,6 +102,13 @@ const LeftDrawer = props => {
         icon: <SupervisedUserCircle />,
         onClick: () => {
           handleClick('users')
+        }
+      },
+      {
+        text: 'Logs',
+        icon: <ViewHeadlineIcon />,
+        onClick: () => {
+          handleClick('logs')
         }
       },
       {

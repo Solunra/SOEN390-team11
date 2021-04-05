@@ -25,6 +25,7 @@ import {PublicShop} from "./components/Shop/PublicShop";
 import {Account} from "./components/Account"
 import {Users} from "./components/User";
 import Button from "@material-ui/core/Button";
+import Logs from "./components/Logs"
 
 const useStyles = makeStyles(theme => ({
     dialogWrapper: {
@@ -125,6 +126,7 @@ const App =()=> {
                     <Route path = "/admin/Machinery" component={Machinery}/>
                     <Route path = "/admin/accounts" component={Account}/>
                     <Route path = "/admin/users" component={Users}/>
+                    <Route path = "/admin/logs" component={Logs}/>
                 </div>
             </HashRouter>
         </div>
