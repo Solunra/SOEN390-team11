@@ -15,6 +15,7 @@ import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import GrainIcon from '@material-ui/icons/Grain';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
 import {AccountBalanceRounded, BookmarkBorderOutlined, SupervisedUserCircle} from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -103,6 +104,13 @@ const LeftDrawer = props => {
                 icon: <SupervisedUserCircle />,
                 onClick: () =>{
                     handleClick("users");
+                }
+            },
+            {
+                text: "Logs",
+                icon: <ViewHeadlineIcon />,
+                onClick: () => {
+                    handleClick("logs")
                 }
             },
             {
