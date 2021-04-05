@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.OffsetDateTime;
 
 /**
  * data entity of customer information
@@ -19,7 +18,7 @@ public class Payment {
     @GeneratedValue(generator = "id")
     private String payId;
     @Column
-    private String type;
+    private String payType;
     @Column
     private String cardName;
     @Column
@@ -34,8 +33,8 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(String type, String cardName, String cardNum, String expireDate, String cvc, String userID) {
-        this.type = type;
+    public Payment(String payType, String cardName, String cardNum, String expireDate, String cvc, String userID) {
+        this.payType = payType;
         this.cardName = cardName;
         this.cardNum = cardNum;
         this.expireDate = expireDate;
@@ -47,8 +46,8 @@ public class Payment {
         return payId;
     }
 
-    public String getType() {
-        return type;
+    public String getPayType() {
+        return payType;
     }
 
     public String getCardName() {

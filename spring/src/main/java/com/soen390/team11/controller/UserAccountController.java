@@ -89,7 +89,7 @@ public class UserAccountController {
      */
     @GetMapping("/customers")
     public ResponseEntity<?> getUserCustomers(){
-        return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
+        return new ResponseEntity<>( userService.getLoggedUser().getCustomers(), HttpStatus.OK);
     }
 
     /**

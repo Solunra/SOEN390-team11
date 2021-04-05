@@ -1,6 +1,6 @@
 CREATE TABLE payment(
-    pay_id varchar(150)
-    type varchar(150),
+    pay_id varchar(150),
+    pay_type varchar(150),
     card_name varchar(150),
     card_num varchar(150),
     expire_date varchar(150),
@@ -8,5 +8,5 @@ CREATE TABLE payment(
     userid varchar(150),
     PRIMARY KEY (pay_id),
     CONSTRAINT user_payment_fk
-        FOREIGN KEY (userid) REFERENCES user_account (userID);
+        FOREIGN KEY (userid) REFERENCES user_account (userID)
 );
