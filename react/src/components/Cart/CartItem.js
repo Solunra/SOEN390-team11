@@ -75,6 +75,7 @@ const CartItem = ({ item, handleIncrement, handleRemove }) => {
               <Grid item>
                 <Typography variant='body2' style={{ cursor: 'pointer' }}>
                   <Button
+                    color='secondary'
                     onClick={() => {
                       handleRemove(item, 'all')
                     }}

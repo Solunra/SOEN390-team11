@@ -61,7 +61,7 @@ const Cart = ({
         ))}
       </DialogContent>
       <DialogActions classes={{ root: classes.leftDialogActions }}>
-        <Button variant='outlined' color='secondary' onClick={closeCart}>
+        <Button variant='outlined' color='default' onClick={closeCart}>
           Return to Shop
         </Button>
         <Button

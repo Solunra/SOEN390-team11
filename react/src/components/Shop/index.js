@@ -143,8 +143,8 @@ const Shop = () => {
       <Checkout
         isCheckoutOpen={openCheckout}
         closeAll={() => {
-          setOpenCart(false)
           setOpenCheckout(false)
+          setOpenCart(false)
         }}
         cartList={cartList}
         setCartList={setCartList}

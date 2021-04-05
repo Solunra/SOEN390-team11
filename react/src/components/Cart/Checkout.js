@@ -43,7 +43,7 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
   const [invoiceId, setInvoiceId] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
 
-  const navigatePage = () => {
+  const renderPage = () => {
     switch (page) {
       case 0:
         return (
@@ -98,7 +98,7 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
 
   const handleNext = () => {
     if (customerId === '') {
-      setError('All fields are required. ')
+      setError('Please Select a Shipping Address. ')
       setTimeout(() => {
         setError('')
       }, 3000)
@@ -196,7 +196,7 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
               Review
             </Typography>
           </Breadcrumbs>
-          {navigatePage()}
+          {renderPage()}
           <Grid item xs={12}>
             <div style={{ color: 'red' }}>{error}</div>
           </Grid>
@@ -208,12 +208,17 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
             </Button>
           )}
           {page === 1 && (
-            <Button variant='outlined' color='secondary' onClick={handleBack}>
+            <Button variant='outlined' color='default' onClick={handleBack}>
               Back
             </Button>
           )}
           {page === 0 && (
-            <Button variant='outlined' color='primary' onClick={handleNext}>
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={handleNext}
+              disabled={customerId === ''}
+            >
               Next
             </Button>
           )}
