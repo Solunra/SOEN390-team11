@@ -6,15 +6,16 @@ import java.util.List;
 
 public class CustomerPurchaseDto extends CustomerDto {
 
+    private String customerID;
     private Double totalamount;
-    private List<HashMap<String, Object>> carte;
+    private List<HashMap<String, Object>> cart;
 
     public CustomerPurchaseDto() {
     }
 
     public CustomerPurchaseDto(String firstname, String lastname, String address, String city,
         String province, String zip, String country, Double totalamount,
-        List<HashMap<String, Object>> carte) {
+        List<HashMap<String, Object>> cart) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -23,7 +24,7 @@ public class CustomerPurchaseDto extends CustomerDto {
         this.zip = zip;
         this.country = country;
         this.totalamount = totalamount;
-        this.carte = carte;
+        this.cart = cart;
     }
 
     public Double getTotalamount() {
@@ -34,12 +35,20 @@ public class CustomerPurchaseDto extends CustomerDto {
         this.totalamount = totalamount;
     }
 
-    public List<HashMap<String, Object>> getCarte() {
-        return carte;
+    public List<HashMap<String, Object>> getCart() {
+        return cart;
     }
 
     @Override
     public Customer getCustomer() {
         return new Customer(firstname, lastname, address, city, province, zip, country);
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 }

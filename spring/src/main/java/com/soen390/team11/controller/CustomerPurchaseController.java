@@ -30,16 +30,13 @@ public class CustomerPurchaseController {
 
     /**
      * make the purchase
-     * @param customerPurchaseDto
-     * @return
+     * @param customerPurchaseDto make purchase using customer ID, total, and items
+     * @return invoice id
      */
-    @PostMapping("/purchase/create")
+    @PutMapping("/purchase")
     public ResponseEntity<?> makePurchase(@RequestBody CustomerPurchaseDto customerPurchaseDto){
-        try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.makePurchase(customerPurchaseDto)), HttpStatus.CREATED);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
-        }
+        return new ResponseEntity<>(customerPurchaseService.makePurchase(customerPurchaseDto), HttpStatus.CREATED);
+
     }
 
     /**
