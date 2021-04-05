@@ -31,8 +31,8 @@ public class CustomerShippingController {
 
     /**
      * create a shipping address
-     * @param customerShippingDto
-     * @return
+     * @param customerShippingDto customer to be created
+     * @return response 201
      */
     @PutMapping
     public ResponseEntity<?> createCustomer(@RequestBody CustomerShippingDto customerShippingDto){
@@ -41,8 +41,8 @@ public class CustomerShippingController {
 
     /**
      * update a shipping address
-     * @param customerShippingDto
-     * @return
+     * @param customerShippingDto customer to be updated
+     * @return response 200
      */
     @PostMapping
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerShippingDto customerShippingDto){
@@ -52,9 +52,11 @@ public class CustomerShippingController {
     /**
      * delete an address
      * @param customerID customer to be deleted
+     * @return response 200
      */
     @DeleteMapping("/{customerID}")
-    public void deleteCustomer(@PathVariable String customerID){
+    public ResponseEntity<?> deleteCustomer(@PathVariable String customerID){
         customerShippingService.deleteCustomerById(customerID);
+        return ResponseEntity.ok("Deleted "+customerID);
     }
 }
