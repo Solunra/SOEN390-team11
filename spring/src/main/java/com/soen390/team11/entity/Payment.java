@@ -4,76 +4,74 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
 /**
  * data entity of customer information
  */
-@Entity
+@Entity(name = "payment")
 public class Payment {
 
+    @Id
+    @GenericGenerator(name = "id", strategy = "com.soen390.team11.generator.PaymentIDGenerator")
+    @GeneratedValue(generator = "id")
+    private String payId;
     @Column
     private String type;
     @Column
     private String cardName;
-    @Id
-    private Integer cardNum;
     @Column
-    private OffsetDateTime expireDate;
+    private String cardNum;
     @Column
-    private Integer cvc;
+    private String expireDate;
+    @Column
+    private String cvc;
+    @Column
+    private String userID;
 
     public Payment() {
-        //Empty constructor.
     }
 
-    public Payment(String type, String cardName, Integer cardNum, OffsetDateTime expireDate, Integer cvc) {
+    public Payment(String type, String cardName, String cardNum, String expireDate, String cvc, String userID) {
         this.type = type;
         this.cardName = cardName;
         this.cardNum = cardNum;
         this.expireDate = expireDate;
         this.cvc = cvc;
+        this.userID = userID;
     }
 
+    public String getPayId() {
+        return payId;
+    }
 
     public String getType() {
         return type;
     }
-    public void setType(String type) {
-        this.type = type;
-    }
-
 
     public String getCardName() {
         return cardName;
     }
 
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
-    }
-
-    public Integer getCardNum() {
+    public String getCardNum() {
         return cardNum;
     }
 
-    public void setCardNum(Integer cardNum) {
-        this.cardNum = cardNum;
-    }
-
-    public OffsetDateTime getExpireDate() {
+    public String getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(OffsetDateTime expireDate) {
-        this.expireDate = expireDate;
-    }
-
-    public Integer getCvc() {
+    public String getCvc() {
         return cvc;
     }
 
-    public void setCvc(Integer cvc) {
-        this.cvc = cvc;
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setPayId(String payId) {
+        this.payId = payId;
     }
 }

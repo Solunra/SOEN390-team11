@@ -40,7 +40,7 @@ public class CustomerShippingController {
     }
 
     /**
-     * create a shipping address
+     * update a shipping address
      * @param customerShippingDto
      * @return
      */

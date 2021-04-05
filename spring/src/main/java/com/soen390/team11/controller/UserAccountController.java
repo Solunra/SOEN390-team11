@@ -91,4 +91,11 @@ public class UserAccountController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
     }
+    /**
+     * Get logged user customers
+     */
+    @GetMapping("/paymenst")
+    public ResponseEntity<?> getUserPayments(){
+        return new ResponseEntity<>(userService.getLoggedUser().getCustomers(), HttpStatus.OK);
+    }
 }
