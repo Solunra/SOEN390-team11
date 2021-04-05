@@ -46,4 +46,20 @@ class CustomerShippingControllerTest {
         assertThat(responseEntity.getBody()).isEqualTo(newCustomerId);
     }
 
+
+    @Test
+    public void updateExistingCustomer_Success()
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        String updatedCustomerId = "updated-customer-uuid";
+        when(customerShippingService.updateCustomer(any(CustomerShippingDto.class))).thenReturn(updatedCustomerId);
+
+        CustomerShippingDto customer = new CustomerShippingDto();
+        ResponseEntity<?> responseEntity = customerShippingController.updateCustomer(customer);
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseEntity.getBody()).isEqualTo(updatedCustomerId);
+    }
 }
