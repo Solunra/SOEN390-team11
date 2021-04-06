@@ -1,5 +1,7 @@
 package com.soen390.team11.entity;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +15,8 @@ import javax.persistence.Id;
 public class PartInventory {
 
     @Id
-    @GenericGenerator(name="id", strategy = "com.soen390.team11.generator.PartInventoryIDGenerator")
-    @GeneratedValue(generator="id")
+    @GenericGenerator(name = "id", strategy = "com.soen390.team11.generator.PartInventoryIDGenerator")
+    @GeneratedValue(generator = "id")
     private String id;
 
     @Column
@@ -25,6 +27,10 @@ public class PartInventory {
 
     @Column
     private String partid;
+
+    @OneToOne
+    @JoinColumn(name = "partid", insertable = false, updatable = false)
+    private Part correspondingPart;
 
     public PartInventory() {
     }
