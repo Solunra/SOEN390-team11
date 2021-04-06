@@ -142,6 +142,7 @@ const PaymentForm = ({
         if (mode !== "edit") {
             if (!cardnumber || !type || !cardname || !cvv || !expDate)
                 return false;
+            return true;
         } else {
             if (!cardnumber && !cardname && !cvv && !expDate) {
                 setError("all old value");
@@ -155,8 +156,6 @@ const PaymentForm = ({
             }
             return true;
         }
-
-        return true;
     };
     const clearValue = () => {
         setType("");
