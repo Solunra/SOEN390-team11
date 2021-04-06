@@ -43,6 +43,7 @@ const EditForm = (props) => {
                 .post(BuildPath("/account/edit/"))
                 .set("Authorization", localStorage.getItem("Authorization"))
                 .send({
+                    email: userEditInfo["email"],
                     username: !username ? userEditInfo["username"] : username,
                     password: !password ? userEditInfo["password"] : password,
                     userID: userEditInfo["userID"],
