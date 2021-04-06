@@ -5,6 +5,7 @@ import com.soen390.team11.entity.Payment;
 import com.soen390.team11.repository.PaymentRepository;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -26,13 +27,13 @@ public class CustomerPaymentService {
      * @param customerPaymentDto address information
      * @return customer id
      */
-    public String createPayment(CustomerPaymentDto customerPaymentDto) {
+    public Payment createPayment(CustomerPaymentDto customerPaymentDto) {
         // encrypt
         String salt = bCrypt.gensalt();
-        Payment payment = new Payment(bCrypt.hashpw(customerPaymentDto.getType(), salt),customerPaymentDto.getCardName(),
+        Payment payment = new Payment(bCrypt.hashpw( customerPaymentDto.getType(),salt),customerPaymentDto.getCardName(),
                 bCrypt.hashpw(customerPaymentDto.getCardName(),salt),bCrypt.hashpw(customerPaymentDto.getExpireDate(),salt),
-                bCrypt.hashpw(customerPaymentDto.getCvc().toString(),salt),userService.getLoggedUser().getUserID());
-        return paymentRepository.save(payment).getPayId();
+                bCrypt.hashpw(customerPaymentDto.getCvc(),salt),userService.getLoggedUser().getUserID());
+        return paymentRepository.save(payment);
     }
 
     /**
@@ -40,24 +41,25 @@ public class CustomerPaymentService {
      * @param customerPaymentDto address information
      * @return customer id
      */
-    public String updatePayment(CustomerPaymentDto customerPaymentDto) {
+    public String updatePayment(CustomerPaymentDto customerPaymentDto, String paymentId) {
         Optional<Payment> optionalPayment = paymentRepository
-                .findByPayId(customerPaymentDto.getPayId());
+                .findByPayId(paymentId);
         Payment payment=null;
         if (optionalPayment.isPresent()){
-            String salt = bCrypt.gensalt();
+             String salt = bCrypt.gensalt();
              payment= new Payment(bCrypt.hashpw(customerPaymentDto.getType(), salt),customerPaymentDto.getCardName(),
                     bCrypt.hashpw(customerPaymentDto.getCardName(),salt),bCrypt.hashpw(customerPaymentDto.getExpireDate(),salt),
                     bCrypt.hashpw(customerPaymentDto.getCvc().toString(),salt),userService.getLoggedUser().getUserID());
-             payment.setPayId(customerPaymentDto.getPayId());
-            return paymentRepository.save(payment).getPayId();
+             payment.setPayId(paymentId);
+             return paymentRepository.save(payment).getPayId();
         } else {
             return "Customer address is not found! ";
         }
     }
 
-    public void deletePaymentById(String payid) {
+    public String deletePaymentById(String payid) {
         paymentRepository.deleteByPayId(payid);
+        return "success";
     }
 
 

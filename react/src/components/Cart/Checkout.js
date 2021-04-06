@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core'
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
+import {PaymentStep} from "./PaymentStep";
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -53,7 +54,7 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
           />
         )
       case 1:
-        return <PaymentForm setPayment={setPayment} />
+            return <PaymentStep />
       case 2:
         return (
           <ReviewStep

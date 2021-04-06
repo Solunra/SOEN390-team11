@@ -66,11 +66,35 @@ public class Payment {
         return cvc;
     }
 
-    public String getUserID() {
+    public String getUserid() {
         return userid;
     }
 
     public void setPayId(String payId) {
         this.payId = payId;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public void setCvc(String cvc) {
+        this.cvc = cvc;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

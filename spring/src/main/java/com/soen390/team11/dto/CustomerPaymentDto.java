@@ -7,12 +7,12 @@ import javax.persistence.Column;
 public class CustomerPaymentDto {
     private String type;
     private String cardName;
-    private Integer cardNum;
+    private String cardNum;
     private String expireDate;
-    private Integer cvc;
+    private String cvc;
     private String payId;
 
-    public CustomerPaymentDto(String type, String cardName, Integer cardNum, String expireDate, Integer cvc,String payId) {
+    public CustomerPaymentDto(String type, String cardName, String cardNum, String expireDate, String cvc,String payId) {
         this.type = type;
         this.cardName = cardName;
         this.cardNum = cardNum;
@@ -32,7 +32,7 @@ public class CustomerPaymentDto {
         return cardName;
     }
 
-    public Integer getCardNum() {
+    public String getCardNum() {
         return cardNum;
     }
 
@@ -40,7 +40,7 @@ public class CustomerPaymentDto {
         return expireDate;
     }
 
-    public Integer getCvc() {
+    public String getCvc() {
         return cvc;
     }
 
