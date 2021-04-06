@@ -5,8 +5,8 @@ CREATE TABLE payment(
     card_num varchar(150),
     expire_date varchar(150),
     cvc varchar(150),
-    userid varchar(150),
+    userID varchar(150),
     PRIMARY KEY (pay_id),
     CONSTRAINT user_payment_fk
-        FOREIGN KEY (userid) REFERENCES user_account (userID)
+        FOREIGN KEY (userID) REFERENCES user_account (userID)
 );

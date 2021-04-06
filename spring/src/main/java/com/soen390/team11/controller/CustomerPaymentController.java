@@ -25,7 +25,7 @@ public class CustomerPaymentController {
      * @return
      */
     @PutMapping
-    public ResponseEntity<?> createCustomer(@RequestBody CustomerPaymentDto customerPaymentDto){
+    public ResponseEntity<?> createPayment(@RequestBody CustomerPaymentDto customerPaymentDto){
         return new ResponseEntity<>(customerPaymentService.createPayment(customerPaymentDto), HttpStatus.CREATED);
     }
 
@@ -35,7 +35,7 @@ public class CustomerPaymentController {
      * @return
      */
     @PostMapping("/{paymentId}")
-    public ResponseEntity<?> updateCustomer(@PathVariable String paymentId,@RequestBody CustomerPaymentDto customerPaymentDto){
+    public ResponseEntity<?> updatePayment(@PathVariable String paymentId,@RequestBody CustomerPaymentDto customerPaymentDto){
         return new ResponseEntity<>(customerPaymentService.updatePayment(customerPaymentDto,paymentId), HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class CustomerPaymentController {
      * @param paymentId customer to be deleted
      */
     @DeleteMapping("/{paymentId}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable String paymentId) {
+    public ResponseEntity<?> deletePayment(@PathVariable String paymentId) {
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(customerPaymentService.deletePaymentById(paymentId)), HttpStatus.OK);
         } catch (JsonProcessingException e) {

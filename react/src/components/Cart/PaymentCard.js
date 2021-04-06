@@ -88,9 +88,6 @@ export default function PaymentCard ({payment,payId,setPayId,setSelectedPay,getP
                 </CardContent>
             </div>
             <CardActions style={{ justifyContent: 'center' }}>
-                <Button variant='outlined' onClick={() => setOpen(true)}>
-                    <EditLocationTwoTone size='small' style={{ color: 'darkblue' }} />
-                </Button>
                 <Button
                     variant='outlined'
                     onClick={() => {
@@ -100,12 +97,6 @@ export default function PaymentCard ({payment,payId,setPayId,setSelectedPay,getP
                     <DeleteForeverTwoTone size='small' style={{ color: 'darkred' }} />
                 </Button>
             </CardActions>
-            <PaymentForm
-                open={open}
-                handleClose={handleClose}
-                payment={payment}
-                mode={"edit"}
-            />
         </Card>
     )
 }
