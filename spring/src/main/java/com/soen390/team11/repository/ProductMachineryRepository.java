@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 /**
  * Repository for Product Machinery
@@ -31,4 +30,12 @@ public interface ProductMachineryRepository extends CrudRepository<ProductMachin
     @Transactional
     @Query("UPDATE ProductMachinery mac SET mac.status = 'READY' WHERE mac.timer = 0 and mac.status = 'RUNNING'")
     void checkTimerRunningOut();
+
+    /**
+     * Update status of every product machinery when timer reaches 0.
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE product_inventory inv SET inv.quantity = inv.quantity + 1 WHERE inv.productid = (SELECT mac.product.productid FROM ProductMachinery mac WHERE mac.timer = 0 and mac.status = 'RUNNING')")
+    void updateStock();
 }

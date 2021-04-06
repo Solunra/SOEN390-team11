@@ -77,6 +77,7 @@ public class ScheduleConfig {
     public void updateStatus()
     {
         productMachineryRepository.decrementAllTimers();
+        productMachineryRepository.updateStock();
         productMachineryRepository.checkTimerRunningOut();
     }
 

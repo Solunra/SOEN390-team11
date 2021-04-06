@@ -22,8 +22,7 @@ public class Part {
     @Column
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "partid")
+    @OneToOne(mappedBy = "correspondingPart")
     private PartInventory partInventory;
 
     /**
