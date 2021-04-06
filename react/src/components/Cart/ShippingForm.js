@@ -29,7 +29,7 @@ const ShippingForm = ({ open, setOpen, address ,updateAddressList}) => {
       .set('Accept', 'application/json')
       .then(res => {
           console.log(res);
-          setTimeout(updateAddressList, 150)
+          updateAddressList();
         })
       .catch(err => {
         console.error(err)
@@ -44,8 +44,7 @@ const ShippingForm = ({ open, setOpen, address ,updateAddressList}) => {
       .send(address)
       .set('Accept', 'application/json')
       .then(res => {
-          console.log(res);
-          setTimeout(updateAddressList, 150)
+          updateAddressList();
       })
       .catch(err => {
         console.error(err)

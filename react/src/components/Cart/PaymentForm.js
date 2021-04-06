@@ -11,7 +11,7 @@ import request from "superagent";
 import BuildPath from "../RequestBuilder";
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
-const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment}) => {
+const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}) => {
 
   const [error, setError] = useState('')
   const [cardname,setCardname]=useState('');
@@ -129,6 +129,7 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment}) => {
       }
       handleClose();
       clearValue();
+      setPayment({});
     }
     return;
   }

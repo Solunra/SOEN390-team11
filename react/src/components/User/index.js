@@ -4,12 +4,11 @@ import request from 'superagent';
 import BuildPath from '../RequestBuilder'
 import Button from "@material-ui/core/Button";
 import {CustomTable} from "../Utils/CustomTable";
-import {Logging} from "./Logging";
-import {AssignmentInd, LibraryBooksRounded, PlayCircleFilled} from "@material-ui/icons";
+import {AssignmentInd} from "@material-ui/icons";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import {UserForm} from "./UserForm";
 import {AssignRole} from "./AssignRole";
-// add new admin, customer, assign role, edit
+
 const useStyles = makeStyles(theme => ({
 
     rootGrid: {
@@ -77,15 +76,6 @@ const Users = ()=>{
     // change the role , allow them to change the information of them self
     const actions = [
         {
-            icon: () => {return <LibraryBooksRounded />},
-            export: false,
-            onClick: (event, rowData) => {
-                setLogging(true);
-                getLogList(rowData['username']);
-            }
-
-        },
-        {
             icon: () => {return <AssignmentInd />},
             export: false,
             onClick: (event, rowData) => {
@@ -133,11 +123,6 @@ const Users = ()=>{
                             title={`Users Table`}
                         >
                         </CustomTable>
-                        {logging &&
-                        <Logging
-                            setLogging={setLogging}
-                        />
-                        }
                         <UserForm
                             open={addUser}
                             setOpen={setAddUser}

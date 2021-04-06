@@ -104,4 +104,12 @@ public class UserAccount {
     public Set<Payment> getPayments() {
         return payments;
     }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
 }

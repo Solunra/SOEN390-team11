@@ -76,8 +76,6 @@ const SignupComponent = () => {
         {
             if (password === passwordVerification)
             {
-                setErrMessage("Password mismatch");
-                closeErrMessage();
                 return false;
             }
             return true;

@@ -33,11 +33,10 @@ const flexContainer = {
     flexDirection: 'row',
     gap: '20px'
 }
-const PaymentStep =()=>{
+const PaymentStep =({setPayment})=>{
     const classes = useStyles()
     const [payments, setPayments] = useState([]);
     const [payId, setPayId] =useState('');
-    const [selectedPay, setSelectedPay] = useState({});
     const [open, setOpen]=useState(false);
 
     const getPaymentsList =()=>{
@@ -71,7 +70,7 @@ const PaymentStep =()=>{
                                 payment={payment}
                                 payId={payId}
                                 setPayId={setPayId}
-                                setSelectedPay={setSelectedPay}
+                                setSelectedPay={setPayment}
                                 getPaymentsList={getPaymentsList}
                             />
                         </ListItem>
@@ -85,6 +84,7 @@ const PaymentStep =()=>{
                     open={open}
                     handleClose={handleClose}
                     getPaymentsList={getPaymentsList}
+                    setPayment={setPayment}
                     mode={"Add"}
                     payment={{}}
                 />

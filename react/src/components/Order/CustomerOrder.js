@@ -41,6 +41,9 @@ const CustomerOrder = (props) => {
                     console.log(res.body);
                     setLoading(!loading);
                     setActionsReply(res.body);
+                    setTimeout(() => {
+                        setActionsReply('')
+                    }, 5000)
                 }
             })
             .catch(err => {
