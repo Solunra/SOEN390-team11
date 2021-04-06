@@ -2,6 +2,9 @@ package com.soen390.team11.dto;
 
 import java.time.LocalDate;
 
+/**
+ * customize report DTO, when amdmin would like to set get the report
+ */
 public class CustomizeReportDto {
     private LocalDate startDate;
     private LocalDate endDate;

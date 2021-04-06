@@ -13,12 +13,13 @@ const CustomerOrderTable = (props) => {
     const [error,setError]=useState('');
     const getCustomerOrder = () =>{
         request
-            .get(BuildPath("/customerOrder/"))
+            .get(BuildPath("/customer/loggedCustomer/allOrder"))
             .set('Authorization', localStorage.getItem("Authorization"))
             .set('Accept', 'application/json')
             .then(res => {
                 if (res.status === 200)
                 {
+                    console.log(res.body);
                     if(JSON.stringify(customerOrderList) !== JSON.stringify(res.body)){
                         setCustomerOrderList(res.body);
                     }
@@ -34,10 +35,10 @@ const CustomerOrderTable = (props) => {
 
 
     const columns = [
-        {title: 'Order description', field: "orderdescription"},
+        {title: 'Order description', field: "description"},
         {title: 'Quantity', field: "quantity"},
-        {title: 'Order date', field: "orderdate"},
-        {title: 'Delivery date', field: "deliverydate"},
+        {title: 'Order date', field: "purchaseDate"},
+        {title: 'Delivery date', field: "deliveryDate"},
         {title: 'Cost', field: "cost"}
     ];
   

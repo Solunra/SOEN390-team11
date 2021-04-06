@@ -44,6 +44,7 @@ const EditForm = (props) =>{
                 .set('Authorization', localStorage.getItem("Authorization"))
                 .send(
                     {
+                        "email":userEditInfo['email'],
                         "username": !username?userEditInfo['username']:username,
                         "password":!password?userEditInfo['password']:password ,
                         "userID":userEditInfo['userID']

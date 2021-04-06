@@ -2,6 +2,10 @@ package com.soen390.team11.dto;
 
 import com.soen390.team11.entity.Customer;
 
+/**
+ * customer shipping DTO
+ * the information of the customer shipping
+ */
 public class CustomerShippingDto extends CustomerDto {
 
     private String customerID;

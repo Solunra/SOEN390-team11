@@ -23,9 +23,9 @@ public class CustomerPaymentService {
     }
 
     /**
-     * create customer
+     * create payment
      * @param customerPaymentDto address information
-     * @return customer id
+     * @return Payment
      */
     public Payment createPayment(CustomerPaymentDto customerPaymentDto) {
         // encrypt
@@ -37,9 +37,9 @@ public class CustomerPaymentService {
     }
 
     /**
-     * update customer
+     * update payment
      * @param customerPaymentDto address information
-     * @return customer id
+     * @return payment id
      */
     public String updatePayment(CustomerPaymentDto customerPaymentDto, String paymentId) {
         Optional<Payment> optionalPayment = paymentRepository
@@ -57,6 +57,11 @@ public class CustomerPaymentService {
         }
     }
 
+    /**
+     * delete payment by their id
+     * @param payid
+     * @return
+     */
     public String deletePaymentById(String payid) {
         paymentRepository.deleteByPayId(payid);
         return "success";

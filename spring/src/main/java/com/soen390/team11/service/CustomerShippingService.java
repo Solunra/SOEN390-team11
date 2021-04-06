@@ -46,6 +46,10 @@ public class CustomerShippingService {
         return customerRepository.save(optionalCustomer.get()).getCustomerID();
     }
 
+    /**
+     * delete customer by id
+     * @param customerID
+     */
     public void deleteCustomerById(String customerID) {
         customerRepository.deleteByCustomerID(customerID);
     }

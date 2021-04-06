@@ -106,4 +106,12 @@ class CustomerPurchaseControllerTest {
         ResponseEntity<?> responseEntity = customerPurchaseController.getReport(customizeReportDto);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
+
+    @Test
+    void getAllOrderLoggedUser(){
+        when(customerPurchaseService.getAllOrderOfLogCustomer()).thenReturn(List.of());
+        ResponseEntity<?> responseEntity = customerPurchaseController.getAllOrderOfLogCustomer();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
 }

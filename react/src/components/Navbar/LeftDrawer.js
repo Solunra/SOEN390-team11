@@ -17,7 +17,12 @@ import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined'
 import GrainIcon from '@material-ui/icons/Grain'
 import BorderColorIcon from '@material-ui/icons/BorderColor'
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline'
-import { AccountBalanceRounded, SupervisedUserCircle } from '@material-ui/icons'
+import {
+  AccountBalanceRounded,
+  ListAltRounded, PersonAddSharp,
+  SupervisedUserCircle,
+} from '@material-ui/icons'
+import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles({
   drawer: {
@@ -45,6 +50,20 @@ const LeftDrawer = ({ role }) => {
         icon: <StorefrontRoundedIcon />,
         onClick: () => {
           handleClick('shop')
+        }
+      },
+      {
+        text: 'Customer Order',
+        icon: <ListAltRounded />,
+        onClick: () => {
+          handleClick('customerOrder')
+        }
+      },
+      {
+        text: 'info',
+        icon: <PersonIcon />,
+        onClick: () => {
+          handleClick('info')
         }
       },
       {

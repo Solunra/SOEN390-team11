@@ -91,7 +91,7 @@ public class CustomerPurchaseController {
         }
     }
     /**
-     * get customize product
+     * get all order for order tab
      * @return
      */
     @GetMapping("/allOrder")
@@ -141,4 +141,17 @@ public class CustomerPurchaseController {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
     }
+    /**
+     * get all order of logged customer
+     * @return
+     */
+    @GetMapping("/loggedCustomer/allOrder")
+    public ResponseEntity<?> getAllOrderOfLogCustomer(){
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerPurchaseService.getAllOrderOfLogCustomer()), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
+        }
+    }
+
 }
