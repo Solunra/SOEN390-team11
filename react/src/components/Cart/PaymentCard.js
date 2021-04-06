@@ -71,6 +71,7 @@ export default function PaymentCard ({payment,payId,setPayId,setSelectedPay,getP
             <div className={classes.content}>
                 <Radio
                     className={classes.radio}
+                    checked={payId === payment['payId']}
                     color='default'
                     name='radio-button'
                 />

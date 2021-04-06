@@ -96,7 +96,6 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
         .catch(err => {
           console.error(err)
         })
-    getPaymentsList();
   }
   const handleEdit=()=>{
     request
@@ -113,7 +112,6 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
         .catch(err => {
           console.error(err)
         })
-    getPaymentsList();
   }
   const handleSubmit=()=>{
     if(checkValue()){
@@ -123,6 +121,7 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
       else{
         handleAdd();
       }
+      getPaymentsList();
       handleClose();
       clearValue();
       setPayment({});
@@ -130,9 +129,10 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
     return;
   }
   const checkValue=()=>{
-    if(mode !== "edit"){
+    if(mode === "Add"){
       if(!cardnumber || !type || !cardname || !cvv ||!expDate )
         return false;
+      return true;
     }
     else{
       if(!cardnumber && !cardname && !cvv && !expDate )

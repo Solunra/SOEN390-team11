@@ -38,12 +38,11 @@ const PaymentStep =({setPayment})=>{
     const [payments, setPayments] = useState([]);
     const [payId, setPayId] =useState('');
     const [open, setOpen]=useState(false);
-
     const getPaymentsList =()=>{
         request
             .get(BuildPath('/account/payments'))
             .set('Authorization', localStorage.getItem('Authorization'))
-            .accept('application/json')
+            .set('Accept', 'application/json')
             .then(res => {
                 if (res.status === 200) {
                     setPayments(res.body)
