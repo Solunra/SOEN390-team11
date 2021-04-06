@@ -225,6 +225,9 @@ public class CustomerPurchaseService {
         for (Invoice invoice1 : invoiceList) {
             customerPurchaseList = customerPurchaseRepository
                 .findAllByCustomerPurchaseIdInvoiceID(invoice1.getInvoiceID());
+            if(customerPurchaseList.isEmpty()){
+                continue;
+            }
             userAccount = userAccountRepository
                 .findByUserID(customerPurchaseList.get(0).getUserid());
             accountReceivableDto = new AccountReceivableDto(invoice1.getPurchasedate(),
