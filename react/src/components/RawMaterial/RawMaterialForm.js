@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -6,161 +6,184 @@ import {
     makeStyles,
     DialogContentText,
     DialogActions,
-    FormControl, InputLabel, Select, MenuList, Menu, MenuItem, Box
-} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import request from 'superagent';
-import BuildPath from '../RequestBuilder'
-import { Grid} from "@material-ui/core";
+    FormControl,
+    InputLabel,
+    Select,
+    MenuList,
+    Menu,
+    MenuItem,
+    Box,
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import request from "superagent";
+import BuildPath from "../RequestBuilder";
+import { Grid } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
-        width: '75%'
+        width: "75%",
     },
     dialogAction: {
-        justifyContent: 'flex-start'
+        justifyContent: "flex-start",
     },
     leftDialogActions: {
-        justifyContent: 'flex-start'
+        justifyContent: "flex-start",
     },
-}))
+}));
 
-const RawMaterialForm = (props) =>{
-
-    const {open, handleClose,setRowData,rowData,re_render, setRe_render,setErrMessage} = props;
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [vendorID, setVendorID] = useState('');
+const RawMaterialForm = (props) => {
+    const {
+        open,
+        handleClose,
+        setRowData,
+        rowData,
+        re_render,
+        setRe_render,
+        setErrMessage,
+    } = props;
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [vendorID, setVendorID] = useState("");
     const [vendorList, setVendorList] = useState([]);
     const [price, setPrice] = useState(0);
-    const [unit, setUnit] = useState('');
-    const unitList = ["None","Ton","L","kg","Piece"];
+    const [unit, setUnit] = useState("");
+    const unitList = ["None", "Ton", "L", "kg", "Piece"];
     const classes = useStyles();
-    const getVendorList = () =>{
+    const getVendorList = () => {
         request
             .get(BuildPath("/vendor/"))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .then(res => {
-                if (res.status === 200)
-                {
-                    if(JSON.stringify(vendorList) !== JSON.stringify(res.body)){
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                if (res.status === 200) {
+                    if (
+                        JSON.stringify(vendorList) !== JSON.stringify(res.body)
+                    ) {
                         setVendorList(res.body);
                     }
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
     };
-    useEffect(()=>{
+    useEffect(() => {
         getVendorList();
-    },[vendorList])
-    const clearValue =() => {
-        setUnit('');
-        setVendorID('');
+    }, [vendorList]);
+    const clearValue = () => {
+        setUnit("");
+        setVendorID("");
         setPrice(0);
-        setDescription('');
-        setName('');
-    }
+        setDescription("");
+        setName("");
+    };
 
-    const checkValue = ()=>{
+    const checkValue = () => {
         // console.log(!name +"\t"+ !description +"\t"+ price===0 +"\t"+ !price +"\t"+ unit ==="None"+"\t"+vendor==="None");
-        if(!name || !description || price===0 || !price || unit ==="None"||vendorID === "None"){
+        if (
+            !name ||
+            !description ||
+            price === 0 ||
+            !price ||
+            unit === "None" ||
+            vendorID === "None"
+        ) {
             return false;
         }
         return true;
-    }
-    const handleCancel =() =>{
+    };
+    const handleCancel = () => {
         clearValue();
         setRowData({});
         handleClose();
-    }
-    const cleanup=()=>{
+    };
+    const cleanup = () => {
         clearValue();
         handleClose();
         setRowData({});
-    }
+    };
 
-
-
-    const handleSubmit = (e)=>{
-        if(JSON.stringify(rowData) !== JSON.stringify({}))
-        {
+    const handleSubmit = (e) => {
+        if (JSON.stringify(rowData) !== JSON.stringify({})) {
             editOperation();
-        }
-        else{
+        } else {
             addOperation();
         }
-
-    }
-    const addOperation =()=>{
-        if(checkValue())
-        {
+    };
+    const addOperation = () => {
+        if (checkValue()) {
             request
                 .post(BuildPath("/rawmaterials/define"))
-                .set('Authorization', localStorage.getItem("Authorization"))
-                .set('Accept', 'application/json')
-                .send(
-                    {
-                        "name":name,
-                        "description":description,
-                        "cost":price,
-                        "unit":unit,
-                        "vendorID":vendorID,
-                    }
-                )
-                .then(res => {
+                .set("Authorization", localStorage.getItem("Authorization"))
+                .set("Accept", "application/json")
+                .send({
+                    name: name,
+                    description: description,
+                    cost: price,
+                    unit: unit,
+                    vendorID: vendorID,
+                })
+                .then((res) => {
                     if (res.status === 201) {
                         // re render
                         setRe_render(!re_render);
                         cleanup();
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     cleanup();
                     setErrMessage("cannot add");
                 });
         }
-    }
-    const editOperation =() => {
+    };
+    const editOperation = () => {
         request
             ///edit/{rid}
-            .put(BuildPath("/rawmaterials/edit/"+rowData['rawmaterialid']))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .send(
-                {
-                    "name":!name?rowData['name']:name,
-                    "description":!description?rowData['description']:description,
-                    "cost":!price?rowData['cost']:price,
-                    "unit":!unit?rowData['unit']:unit,
-                    "vendorID":!vendorID?rowData['vendorID']:vendorID,
-                }
-            )
-            .then(res => {
+            .put(BuildPath("/rawmaterials/edit/" + rowData["rawmaterialid"]))
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .send({
+                name: !name ? rowData["name"] : name,
+                description: !description
+                    ? rowData["description"]
+                    : description,
+                cost: !price ? rowData["cost"] : price,
+                unit: !unit ? rowData["unit"] : unit,
+                vendorID: !vendorID ? rowData["vendorID"] : vendorID,
+            })
+            .then((res) => {
                 if (res.status === 200) {
                     setRe_render(!re_render);
                     cleanup();
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 cleanup();
                 setErrMessage("cannot edit");
             });
-    }
+    };
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" classes={ classes.dialogWrapper }>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="form-dialog-title"
+            classes={classes.dialogWrapper}
+        >
             <DialogTitle id="form-dialog-title">Raw Material From</DialogTitle>
-            <DialogContent >
-                <DialogContentText> Create or Edit Raw Material</DialogContentText>
+            <DialogContent>
+                <DialogContentText>
+                    {" "}
+                    Create or Edit Raw Material
+                </DialogContentText>
 
                 <TextField
                     autoFocus
                     margin="dense"
-                    defaultValue={rowData['name']}
-                    onChange = {e => {setName(e.target.value)}}
+                    defaultValue={rowData["name"]}
+                    onChange={(e) => {
+                        setName(e.target.value);
+                    }}
                     label="Name"
                     fullWidth
                     variant="outlined"
@@ -168,24 +191,30 @@ const RawMaterialForm = (props) =>{
                 <TextField
                     autoFocus
                     margin="dense"
-                    defaultValue={rowData['description']}
-                    onChange = {e => setDescription(e.target.value)}
+                    defaultValue={rowData["description"]}
+                    onChange={(e) => setDescription(e.target.value)}
                     label="Description"
                     multiline
                     rows={4}
                     fullWidth
                     variant="outlined"
                 />
-                <FormControl variant="outlined" fullWidth >
+                <FormControl variant="outlined" fullWidth>
                     <InputLabel>Vendor</InputLabel>
                     <Select
-                        value={`${vendorID===''?rowData['vendorID']:vendorID}`}
-                        onChange={e => setVendorID(e.target.value)}
+                        value={`${
+                            vendorID === "" ? rowData["vendorID"] : vendorID
+                        }`}
+                        onChange={(e) => setVendorID(e.target.value)}
                         label="Vendor"
                     >
                         <MenuItem value={`None`}>None</MenuItem>
-                        {vendorList.map((row) =>{
-                            return <MenuItem value={`${row.vendorID}`} >{row.companyname}</MenuItem>;
+                        {vendorList.map((row) => {
+                            return (
+                                <MenuItem value={`${row.vendorID}`}>
+                                    {row.companyname}
+                                </MenuItem>
+                            );
                         })}
                     </Select>
                 </FormControl>
@@ -194,30 +223,34 @@ const RawMaterialForm = (props) =>{
                     type="number"
                     autoFocus
                     margin="dense"
-                    defaultValue={`${price===0?rowData['cost']:price}`}
-                    onChange = {e => setPrice(e.target.value)}
+                    defaultValue={`${price === 0 ? rowData["cost"] : price}`}
+                    onChange={(e) => setPrice(e.target.value)}
                     label="price"
                     variant="outlined"
                 />
 
-                <FormControl variant="outlined" fullWidth >
+                <FormControl variant="outlined" fullWidth>
                     <InputLabel>Unit</InputLabel>
                     <Select
-                        value={`${unit===''?rowData['unit']:unit}`}
-                        onChange={e => setUnit(e.target.value)}
+                        value={`${unit === "" ? rowData["unit"] : unit}`}
+                        onChange={(e) => setUnit(e.target.value)}
                         label="Unit"
                     >
-                        {unitList.map((row) =>{
-                            return <MenuItem value={row} >{row}</MenuItem>;
+                        {unitList.map((row) => {
+                            return <MenuItem value={row}>{row}</MenuItem>;
                         })}
                     </Select>
                 </FormControl>
             </DialogContent>
             <DialogActions classes={{ root: classes.leftDialogActions }}>
-                <Button onClick={handleCancel} color="primary">Cancel</Button>
-                <Button onClick={handleSubmit} color="primary">Submit</Button>
+                <Button onClick={handleCancel} color="primary">
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} color="primary">
+                    Submit
+                </Button>
             </DialogActions>
         </Dialog>
-    )
+    );
 };
-export {RawMaterialForm};
+export { RawMaterialForm };

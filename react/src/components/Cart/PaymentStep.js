@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import request from "superagent";
 import BuildPath from "../RequestBuilder";
 import List from "@material-ui/core/List";
@@ -6,61 +6,65 @@ import ListItem from "@material-ui/core/ListItem";
 import AddressCard from "./AddressCard";
 import Button from "@material-ui/core/Button";
 import ShippingForm from "./ShippingForm";
-import {createMuiTheme, makeStyles, MuiThemeProvider} from "@material-ui/core/styles";
+import {
+    createMuiTheme,
+    makeStyles,
+    MuiThemeProvider,
+} from "@material-ui/core/styles";
 import PaymentForm from "./PaymentForm";
 import PaymentCard from "./PaymentCard";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {
-            margin: theme.spacing(1)
-        }
-    }
-}))
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+    },
+}));
 
 const theme = createMuiTheme({
     overrides: {
         MuiListItem: {
             root: {
-                '&': { width: 'initial' }
-            }
-        }
-    }
-})
+                "&": { width: "initial" },
+            },
+        },
+    },
+});
 
 const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '20px'
-}
-const PaymentStep =({setPayment})=>{
-    const classes = useStyles()
+    display: "flex",
+    flexDirection: "row",
+    gap: "20px",
+};
+const PaymentStep = ({ setPayment }) => {
+    const classes = useStyles();
     const [payments, setPayments] = useState([]);
-    const [payId, setPayId] =useState('');
-    const [open, setOpen]=useState(false);
+    const [payId, setPayId] = useState("");
+    const [open, setOpen] = useState(false);
 
-    const getPaymentsList =()=>{
+    const getPaymentsList = () => {
         request
-            .get(BuildPath('/account/payments'))
-            .set('Authorization', localStorage.getItem('Authorization'))
-            .accept('application/json')
-            .then(res => {
+            .get(BuildPath("/account/payments"))
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .accept("application/json")
+            .then((res) => {
                 if (res.status === 200) {
-                    setPayments(res.body)
+                    setPayments(res.body);
                 }
             })
-            .catch(err => {
-                console.error(err)
-            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
-    const handleClose=()=>{
+    const handleClose = () => {
         setOpen(false);
-    }
+    };
 
     useEffect(() => {
-        if (open === false) getPaymentsList()
-    }, [open])
-    return(
+        if (open === false) getPaymentsList();
+    }, [open]);
+    return (
         <MuiThemeProvider theme={theme}>
             <div className={classes.root}>
                 <List style={flexContainer}>
@@ -75,9 +79,9 @@ const PaymentStep =({setPayment})=>{
                             />
                         </ListItem>
                     ))}
-                    <ListItem></ListItem>
+                    <ListItem />
                 </List>
-                <Button variant='outlined' onClick={()=>setOpen(true)}>
+                <Button variant="outlined" onClick={() => setOpen(true)}>
                     Add New Payment
                 </Button>
                 <PaymentForm
@@ -89,8 +93,7 @@ const PaymentStep =({setPayment})=>{
                     payment={{}}
                 />
             </div>
-
         </MuiThemeProvider>
     );
-}
-export {PaymentStep}
+};
+export { PaymentStep };
