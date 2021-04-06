@@ -2,6 +2,7 @@ package com.soen390.team11.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soen390.team11.dto.ProductInventoryRequestDto;
 import com.soen390.team11.dto.ProductMachineryDto;
 import com.soen390.team11.entity.Part;
 import com.soen390.team11.entity.PartInventory;
@@ -116,11 +117,12 @@ public class ProductMachineryController {
 
             if (result != null && result.equals("Success")) {
                 requiredPartInventory.forEach(partInventoryService::updatePartInventory);
+                productInventoryService.createProductInventory(new ProductInventoryRequestDto("Local Stock", 0, productId));
                 return new ResponseEntity<>(objectMapper.writeValueAsString(result), HttpStatus.OK);
             }
 
             return new ResponseEntity<>(objectMapper.writeValueAsString("Not Success"), HttpStatus.BAD_REQUEST);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
 
