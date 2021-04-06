@@ -130,7 +130,7 @@ const ProductTable = (props) => {
     };
 
     return (
-        <>
+        <div>
             <Grid>
                 <Grid item xs={12}>
                     <div style={{ color: "blue" }}>{message}</div>
@@ -145,7 +145,7 @@ const ProductTable = (props) => {
                 actions={actions}
                 title={`Products Table`}
             ></CustomTable>
-        </>
+        </div>
     );
 };
 export { ProductTable };

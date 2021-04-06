@@ -21,13 +21,11 @@ const OrderTable = (props) => {
         { title: "Status", field: "status" },
     ];
     return (
-        <>
-            <CustomTable
-                data={rows}
-                columns={columns}
-                title={`Order Table`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={rows}
+            columns={columns}
+            title={`Order Table`}
+        ></CustomTable>
     );
 };
 export { OrderTable };

@@ -42,14 +42,12 @@ const PartTable = (props) => {
         setMaterialTable(true);
     };
     return (
-        <>
-            <CustomTable
-                data={rows}
-                columns={columns}
-                actions={actions}
-                title={`Part list table of ${productPartTitle}`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={rows}
+            columns={columns}
+            actions={actions}
+            title={`Part list table of ${productPartTitle}`}
+        ></CustomTable>
     );
 };
 export { PartTable };

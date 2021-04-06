@@ -64,7 +64,7 @@ const AccountReceivable = (props) => {
     ];
 
     return (
-        <>
+        <div>
             <CustomTable
                 data={receivableList}
                 columns={columnsAR}
@@ -79,7 +79,7 @@ const AccountReceivable = (props) => {
                     title={`List of product within invoices`}
                 />
             )}
-        </>
+        </div>
     );
 };
 export { AccountReceivable };

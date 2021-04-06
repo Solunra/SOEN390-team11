@@ -48,7 +48,7 @@ const UserInfo = () => {
         getUserInfo();
     }, [loading]);
     return (
-        <>
+        <div>
             <Card className={classes.rootGrid}>
                 <CardContent>
                     <Typography
@@ -93,7 +93,7 @@ const UserInfo = () => {
                 loading={loading}
                 setLoading={setLoading}
             />
-        </>
+        </div>
     );
 };
 export { UserInfo };

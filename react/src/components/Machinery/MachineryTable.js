@@ -128,7 +128,7 @@ const MachineryTable = (props) => {
         }, 3000);
     };
     return (
-        <>
+        <div>
             <CustomTable
                 data={machineryList}
                 columns={columns}
@@ -138,7 +138,7 @@ const MachineryTable = (props) => {
             <Grid item xs={12}>
                 <div style={{ color: "red" }}>{error}</div>
             </Grid>
-        </>
+        </div>
     );
 };
 

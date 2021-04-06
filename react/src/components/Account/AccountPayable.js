@@ -10,13 +10,11 @@ const AccountPayable = (props) => {
         { title: "Username", field: "username" },
     ];
     return (
-        <>
-            <CustomTable
-                data={payableList}
-                columns={columns}
-                title={`Account Payable Table`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={payableList}
+            columns={columns}
+            title={`Account Payable Table`}
+        ></CustomTable>
     );
 };
 export { AccountPayable };

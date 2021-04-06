@@ -10,13 +10,11 @@ const PartInventory = (props) => {
     ];
 
     return (
-        <>
-            <CustomTable
-                data={rows}
-                columns={columns}
-                title={`Part Inventory`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={rows}
+            columns={columns}
+            title={`Part Inventory`}
+        ></CustomTable>
     );
 };
 export { PartInventory };

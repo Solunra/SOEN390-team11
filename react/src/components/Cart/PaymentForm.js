@@ -171,149 +171,135 @@ const PaymentForm = ({
     };
 
     return (
-        <>
-            <Dialog
-                open={open}
-                onClose={close}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">
-                    Add/Edit address
-                </DialogTitle>
-                <DialogContent>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <div style={{ color: "red" }}>{error}</div>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                defaultValue={
-                                    cardname === ""
-                                        ? payment["cardName"]
-                                        : cardname
-                                }
-                                required
-                                id="cardName"
-                                label="Name on card"
-                                fullWidth
-                                onChange={(e) => {
-                                    validation(e, 0);
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel>Type</InputLabel>
-                                <Select
-                                    // value={`${vendorID===''?userEditInfo['vendorID']:vendorID}`}
-                                    // value={userEditInfo['role']}
-                                    onChange={(e) => {
-                                        setType(e.target.value);
-                                    }}
-                                    label="Vendor"
-                                >
-                                    {typeList.map((row) => {
-                                        return (
-                                            <MenuItem value={row}>
-                                                {row}
-                                            </MenuItem>
-                                        );
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                defaultValue={
-                                    cardnumber === ""
-                                        ? payment["cardNum"]
-                                        : cardnumber
-                                }
-                                required
-                                id="cardNumber"
-                                label="Card number"
-                                fullWidth
-                                onChange={(e) => {
-                                    validation(e, 1);
-                                }}
-                                InputProps={{
-                                    inputProps: {
-                                        maxLength: 16,
-                                    },
-                                }}
-                                type={
-                                    mode === "edit" && cardnumber === ""
-                                        ? "password"
-                                        : "text"
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                defaultValue={
-                                    expDate === ""
-                                        ? payment["expireDate"]
-                                        : expDate
-                                }
-                                required
-                                id="expDate"
-                                label="Expiry date"
-                                fullWidth
-                                InputProps={{
-                                    inputProps: {
-                                        maxLength: 4,
-                                    },
-                                }}
-                                onChange={(e) => {
-                                    validation(e, 2);
-                                }}
-                                type={
-                                    mode === "edit" && expDate === ""
-                                        ? "password"
-                                        : "text"
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                defaultValue={cvv === "" ? payment["cvc"] : cvv}
-                                required
-                                id="cvv"
-                                label="CVV"
-                                helperText="Last three digits on signature strip"
-                                fullWidth
-                                InputProps={{
-                                    inputProps: {
-                                        maxLength: 3,
-                                    },
-                                }}
-                                onChange={(e) => {
-                                    validation(e, 3);
-                                }}
-                                type={
-                                    mode === "edit" && cvv === ""
-                                        ? "password"
-                                        : "text"
-                                }
-                            />
-                        </Grid>
+        <Dialog open={open} onClose={close} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Add/Edit address</DialogTitle>
+            <DialogContent>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <div style={{ color: "red" }}>{error}</div>
                     </Grid>
-                </DialogContent>
-                <DialogActions style={{ justifyContent: "center" }}>
-                    <Button onClick={close} color="default">
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            handleSubmit();
-                        }}
-                        color="primary"
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            defaultValue={
+                                cardname === "" ? payment["cardName"] : cardname
+                            }
+                            required
+                            id="cardName"
+                            label="Name on card"
+                            fullWidth
+                            onChange={(e) => {
+                                validation(e, 0);
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormControl variant="outlined" fullWidth>
+                            <InputLabel>Type</InputLabel>
+                            <Select
+                                // value={`${vendorID===''?userEditInfo['vendorID']:vendorID}`}
+                                // value={userEditInfo['role']}
+                                onChange={(e) => {
+                                    setType(e.target.value);
+                                }}
+                                label="Vendor"
+                            >
+                                {typeList.map((row) => {
+                                    return (
+                                        <MenuItem value={row}>{row}</MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            defaultValue={
+                                cardnumber === ""
+                                    ? payment["cardNum"]
+                                    : cardnumber
+                            }
+                            required
+                            id="cardNumber"
+                            label="Card number"
+                            fullWidth
+                            onChange={(e) => {
+                                validation(e, 1);
+                            }}
+                            InputProps={{
+                                inputProps: {
+                                    maxLength: 16,
+                                },
+                            }}
+                            type={
+                                mode === "edit" && cardnumber === ""
+                                    ? "password"
+                                    : "text"
+                            }
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            defaultValue={
+                                expDate === "" ? payment["expireDate"] : expDate
+                            }
+                            required
+                            id="expDate"
+                            label="Expiry date"
+                            fullWidth
+                            InputProps={{
+                                inputProps: {
+                                    maxLength: 4,
+                                },
+                            }}
+                            onChange={(e) => {
+                                validation(e, 2);
+                            }}
+                            type={
+                                mode === "edit" && expDate === ""
+                                    ? "password"
+                                    : "text"
+                            }
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            defaultValue={cvv === "" ? payment["cvc"] : cvv}
+                            required
+                            id="cvv"
+                            label="CVV"
+                            helperText="Last three digits on signature strip"
+                            fullWidth
+                            InputProps={{
+                                inputProps: {
+                                    maxLength: 3,
+                                },
+                            }}
+                            onChange={(e) => {
+                                validation(e, 3);
+                            }}
+                            type={
+                                mode === "edit" && cvv === ""
+                                    ? "password"
+                                    : "text"
+                            }
+                        />
+                    </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions style={{ justifyContent: "center" }}>
+                <Button onClick={close} color="default">
+                    Cancel
+                </Button>
+                <Button
+                    onClick={() => {
+                        handleSubmit();
+                    }}
+                    color="primary"
+                >
+                    Save
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 export default PaymentForm;

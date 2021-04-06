@@ -10,13 +10,11 @@ const MaterialInventory = (props) => {
     ];
 
     return (
-        <>
-            <CustomTable
-                data={rows}
-                columns={columns}
-                title={`Material Inventory`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={rows}
+            columns={columns}
+            title={`Material Inventory`}
+        ></CustomTable>
     );
 };
 export { MaterialInventory };

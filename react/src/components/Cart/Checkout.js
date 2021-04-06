@@ -149,91 +149,89 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
     };
 
     return (
-        <>
-            <Dialog
-                open={isCheckoutOpen}
-                onClose={handleClose}
-                classes={classes.dialogWrapper}
-                fullScreen
-            >
-                <AppBar>
-                    <Toolbar>
-                        <Typography variant="h6" className={classes.title}>
-                            Checkout
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <DialogTitle id="form-dialog-title">Product Form</DialogTitle>
-                <DialogContent>
-                    <Breadcrumbs
-                        separator={<NavigateNextIcon fontSize="small" />}
-                        aria-label="breadcrumb"
+        <Dialog
+            open={isCheckoutOpen}
+            onClose={handleClose}
+            classes={classes.dialogWrapper}
+            fullScreen
+        >
+            <AppBar>
+                <Toolbar>
+                    <Typography variant="h6" className={classes.title}>
+                        Checkout
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <DialogTitle id="form-dialog-title">Product Form</DialogTitle>
+            <DialogContent>
+                <Breadcrumbs
+                    separator={<NavigateNextIcon fontSize="small" />}
+                    aria-label="breadcrumb"
+                >
+                    <Typography
+                        variant="h6"
+                        color={page === 0 ? "textPrimary" : "inherit"}
                     >
-                        <Typography
-                            variant="h6"
-                            color={page === 0 ? "textPrimary" : "inherit"}
-                        >
-                            Shipping Information
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            color={page === 1 ? "textPrimary" : "inherit"}
-                        >
-                            Payment
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            color={page === 2 ? "textPrimary" : "inherit"}
-                        >
-                            Review
-                        </Typography>
-                    </Breadcrumbs>
-                    {renderPage()}
-                    <Grid item xs={12}>
-                        <div style={{ color: "red" }}>{error}</div>
-                    </Grid>
-                </DialogContent>
-                <DialogActions classes={{ root: classes.leftDialogActions }}>
-                    {(page === 0 || page === 2) && (
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            onClick={handleClose}
-                        >
-                            Close
-                        </Button>
-                    )}
-                    {page === 1 && (
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            onClick={handleBack}
-                        >
-                            Back
-                        </Button>
-                    )}
-                    {page === 0 && (
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={handleNext}
-                            disabled={customerId === ""}
-                        >
-                            Next
-                        </Button>
-                    )}
-                    {page === 1 && (
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={completeTransaction}
-                        >
-                            Complete Transaction
-                        </Button>
-                    )}
-                </DialogActions>
-            </Dialog>
-        </>
+                        Shipping Information
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        color={page === 1 ? "textPrimary" : "inherit"}
+                    >
+                        Payment
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        color={page === 2 ? "textPrimary" : "inherit"}
+                    >
+                        Review
+                    </Typography>
+                </Breadcrumbs>
+                {renderPage()}
+                <Grid item xs={12}>
+                    <div style={{ color: "red" }}>{error}</div>
+                </Grid>
+            </DialogContent>
+            <DialogActions classes={{ root: classes.leftDialogActions }}>
+                {(page === 0 || page === 2) && (
+                    <Button
+                        variant="outlined"
+                        color="default"
+                        onClick={handleClose}
+                    >
+                        Close
+                    </Button>
+                )}
+                {page === 1 && (
+                    <Button
+                        variant="outlined"
+                        color="default"
+                        onClick={handleBack}
+                    >
+                        Back
+                    </Button>
+                )}
+                {page === 0 && (
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleNext}
+                        disabled={customerId === ""}
+                    >
+                        Next
+                    </Button>
+                )}
+                {page === 1 && (
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={completeTransaction}
+                    >
+                        Complete Transaction
+                    </Button>
+                )}
+            </DialogActions>
+        </Dialog>
     );
 };
 export { Checkout };

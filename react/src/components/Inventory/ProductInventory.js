@@ -9,13 +9,11 @@ const ProductInventory = (props) => {
         { title: "Location", field: "location" },
     ];
     return (
-        <>
-            <CustomTable
-                data={rows}
-                columns={columns}
-                title={`Product Inventory`}
-            ></CustomTable>
-        </>
+        <CustomTable
+            data={rows}
+            columns={columns}
+            title={`Product Inventory`}
+        ></CustomTable>
     );
 };
 export { ProductInventory };

@@ -90,51 +90,46 @@ const Account = () => {
 
     const classes = useStyles();
     return (
-        <>
-            <div className={classes.rootGrid}>
-                <Grid container spacing={3}>
-                    <Grid item md={3}>
-                        <Button
-                            onClick={handleRefresh}
-                            className={classes.button}
-                        >
-                            Refresh
-                        </Button>
-                    </Grid>
-                    <Grid item md={3}>
-                        <Button
-                            onClick={refreshChangePage}
-                            className={classes.button}
-                        >
-                            {!page ? "Account Payable" : "Account Receivable"}
-                        </Button>
-                    </Grid>
-                    <Grid item md={3}>
-                        <Button
-                            onClick={() => setCustomizeReport(true)}
-                            className={classes.button}
-                        >
-                            Customize Report
-                        </Button>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        {checkPage()}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {customizeReport && (
-                            <CustomizeReport
-                                open={customizeReport}
-                                handleClose={closeCustomizeReport}
-                                setPage={setPage}
-                                setPayableList={setPayableList}
-                                setReceivableList={setReceivableList}
-                            ></CustomizeReport>
-                        )}
-                    </Grid>
+        <div className={classes.rootGrid}>
+            <Grid container spacing={3}>
+                <Grid item md={3}>
+                    <Button onClick={handleRefresh} className={classes.button}>
+                        Refresh
+                    </Button>
                 </Grid>
-            </div>
-        </>
+                <Grid item md={3}>
+                    <Button
+                        onClick={refreshChangePage}
+                        className={classes.button}
+                    >
+                        {!page ? "Account Payable" : "Account Receivable"}
+                    </Button>
+                </Grid>
+                <Grid item md={3}>
+                    <Button
+                        onClick={() => setCustomizeReport(true)}
+                        className={classes.button}
+                    >
+                        Customize Report
+                    </Button>
+                </Grid>
+
+                <Grid item xs={12}>
+                    {checkPage()}
+                </Grid>
+                <Grid item xs={12}>
+                    {customizeReport && (
+                        <CustomizeReport
+                            open={customizeReport}
+                            handleClose={closeCustomizeReport}
+                            setPage={setPage}
+                            setPayableList={setPayableList}
+                            setReceivableList={setReceivableList}
+                        ></CustomizeReport>
+                    )}
+                </Grid>
+            </Grid>
+        </div>
     );
 };
 export { Account };
