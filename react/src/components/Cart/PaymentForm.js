@@ -93,12 +93,10 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
           "cvc":cvv
         })
         .set('Accept', 'application/json')
-        .then(res => {
-          getPaymentsList();
-        })
         .catch(err => {
           console.error(err)
         })
+    getPaymentsList();
   }
   const handleEdit=()=>{
     request
@@ -112,12 +110,10 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
           "cvc":cvv
         })
         .set('Accept', 'application/json')
-        .then(res => {
-          setTimeout(getPaymentsList, 150)
-        })
         .catch(err => {
           console.error(err)
         })
+    getPaymentsList();
   }
   const handleSubmit=()=>{
     if(checkValue()){

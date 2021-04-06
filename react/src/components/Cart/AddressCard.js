@@ -116,7 +116,7 @@ export default function AddressCard ({
           <DeleteForeverTwoTone size='small' style={{ color: 'darkred' }} />
         </Button>
       </CardActions>
-      <ShippingForm open={open} setOpen={setOpen} address={address} />
+      <ShippingForm open={open} setOpen={setOpen} address={address} updateAddressList={updateAddressList}/>
     </Card>
   )
 }

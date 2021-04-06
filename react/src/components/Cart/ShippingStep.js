@@ -46,14 +46,16 @@ const ShippingStep = ({ setCustomerId, setCustomerInfo }) => {
     request
       .get(BuildPath('/account/customers'))
       .set('Authorization', localStorage.getItem('Authorization'))
-      .accept('application/json')
+      .set('Accept', 'application/json')
+      // .accept('application/json')
       .then(res => {
         if (res.status === 200) {
           setAddresses(res.body)
         }
       })
       .catch(err => {
-        console.error(err)
+        console.log(err.rawResponse)
+        // console.error(err)
       })
   }
 
@@ -91,7 +93,8 @@ const ShippingStep = ({ setCustomerId, setCustomerInfo }) => {
           open={open}
           setOpen={setOpen}
           setShipping={setCustomerId}
-          updateAddressList={updateAddressList}/>
+          updateAddressList={updateAddressList}
+      />
     </MuiThemeProvider>
   )
 }

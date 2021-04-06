@@ -27,13 +27,11 @@ const ShippingForm = ({ open, setOpen, address ,updateAddressList}) => {
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
-      .then(res => {
-          console.log(res);
-          updateAddressList();
-        })
       .catch(err => {
+          console.log(err.rawResponse)
         console.error(err)
       })
+    updateAddressList();
   }
 
   const updateAddress = () => {
@@ -43,12 +41,11 @@ const ShippingForm = ({ open, setOpen, address ,updateAddressList}) => {
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
-      .then(res => {
-          updateAddressList();
-      })
       .catch(err => {
+          console.log(err.rawResponse)
         console.error(err)
       })
+      updateAddressList();
   }
 
   address = address || {

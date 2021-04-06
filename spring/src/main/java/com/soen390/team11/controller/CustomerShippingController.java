@@ -36,7 +36,6 @@ public class CustomerShippingController {
      */
     @PutMapping
     public ResponseEntity<?> createCustomer(@RequestBody CustomerShippingDto customerShippingDto){
-        System.out.println("create customer");
         return new ResponseEntity<>(customerShippingService.createCustomer(customerShippingDto), HttpStatus.CREATED);
     }
 
