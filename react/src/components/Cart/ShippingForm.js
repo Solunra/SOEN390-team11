@@ -30,7 +30,6 @@ const ShippingForm = ({ open, setOpen, address, updateAddressList }) => {
             .catch((err) => {
                 console.error(err);
             });
-        updateAddressList();
     };
 
     const updateAddress = () => {
@@ -43,7 +42,6 @@ const ShippingForm = ({ open, setOpen, address, updateAddressList }) => {
             .catch((err) => {
                 console.error(err);
             });
-        updateAddressList();
     };
 
     address = address || {
