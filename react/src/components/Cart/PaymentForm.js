@@ -82,6 +82,9 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
     }
   }
   const handleAdd=()=>{
+    alert(!checkValue())
+    if(!checkValue())
+      return;
     request
         .put(BuildPath('/customer/payment'))
         .set('Authorization', localStorage.getItem('Authorization'))
@@ -94,64 +97,17 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
         })
         .set('Accept', 'application/json')
         .catch(err => {
+          console.log(err.rawResponse)
           console.error(err)
         })
-  }
-  const handleEdit=()=>{
-    request
-        .post(BuildPath('/customer/payment/'+payment['payId']))
-        .set('Authorization', localStorage.getItem('Authorization'))
-        .send({
-          "type":type,
-          "cardName":cardname ===''? payment['cardName']:cardname,
-          "cardNum":cardnumber,
-          "expireDate":expDate,
-          "cvc":cvv
-        })
-        .set('Accept', 'application/json')
-        .catch(err => {
-          console.error(err)
-        })
-  }
-  const handleSubmit=()=>{
-    if(checkValue()){
-      if(mode === "edit"){
-        handleEdit();
-      }
-      else{
-        handleAdd();
-      }
-      getPaymentsList();
-      handleClose();
-      clearValue();
-      setPayment({});
-    }
-    return;
+    getPaymentsList();
+    alert("update payment")
+    close();
   }
   const checkValue=()=>{
-    if(mode === "Add"){
       if(!cardnumber || !type || !cardname || !cvv ||!expDate )
         return false;
       return true;
-    }
-    else{
-      if(!cardnumber && !cardname && !cvv && !expDate )
-      {
-        setError("all old value")
-        setTimeout(()=>setError(""), 4000);
-        return false;
-      }
-      else{
-        if(!type){
-          return false;
-        }
-        return true;
-      }
-      return true;
-    }
-
-
-    return true;
   }
   const clearValue=()=>{
     setType('');
@@ -198,8 +154,6 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
             <FormControl variant="outlined" fullWidth >
               <InputLabel>Type</InputLabel>
               <Select
-                  // value={`${vendorID===''?userEditInfo['vendorID']:vendorID}`}
-                  // value={userEditInfo['role']}
                   onChange={e =>{setType(e.target.value)}}
                   label="Vendor"
               >
@@ -272,7 +226,7 @@ const PaymentForm = ({ open,handleClose,getPaymentsList,mode,payment,setPayment}
           </Button>
           <Button
               onClick={() => {
-                handleSubmit()
+                handleAdd()
               }}
               color='primary'
           >

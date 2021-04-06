@@ -49,6 +49,7 @@ const PaymentStep =({setPayment})=>{
                 }
             })
             .catch(err => {
+                console.log(err.rawResponse)
                 console.error(err)
             })
     };
