@@ -21,8 +21,8 @@ import {
     AccountBalanceRounded,
     SupervisedUserCircle,
 } from "@material-ui/icons";
-import PersonIcon from '@material-ui/icons/Person';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import PersonIcon from "@material-ui/icons/Person";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 
 const useStyles = makeStyles({
     drawer: {

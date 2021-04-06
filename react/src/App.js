@@ -26,8 +26,8 @@ import { Account } from "./components/Account";
 import { Users } from "./components/User";
 import Button from "@material-ui/core/Button";
 import Logs from "./components/Logs";
-import {CustomerOrder} from "./components/CustomerOrder";
-import {UserInfo} from "./components/CustomerInfo";
+import { CustomerOrder } from "./components/CustomerOrder";
+import { UserInfo } from "./components/CustomerInfo";
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
@@ -143,7 +143,10 @@ const App = () => {
                         component={SignupLoginParentComponent}
                     />
                     <Route path="/customer/shop" component={Shop} />
-                    <Route path="/customer/customerorder" component={CustomerOrder} />
+                    <Route
+                        path="/customer/customerorder"
+                        component={CustomerOrder}
+                    />
                     <Route path="/customer/info" component={UserInfo} />
                     <Route path="/admin/production" component={Production} />
                     <Route path="/admin/inventory" component={Inventory} />
