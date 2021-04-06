@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core'
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
+import {PaymentStep} from "./PaymentStep";
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
@@ -38,7 +39,7 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
   const [page, setPage] = useState(0)
   const [customerId, setCustomerId] = useState('')
   const [customerInfo, setCustomerInfo] = useState('')
-  const [payment, setPayment] = useState(() => new Map())
+  const [payment, setPayment] = useState({})
   const [error, setError] = useState('')
   const [invoiceId, setInvoiceId] = useState('')
   const [totalPrice, setTotalPrice] = useState(0)
@@ -53,7 +54,9 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
           />
         )
       case 1:
-        return <PaymentForm setPayment={setPayment} />
+            return <PaymentStep
+                setPayment={setPayment}
+            />
       case 2:
         return (
           <ReviewStep
@@ -67,15 +70,6 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
       default:
         return
     }
-  }
-
-  const checkPayment = () => {
-    return (
-      payment.has('name') &&
-      payment.has('cardnumber') &&
-      payment.has('exp') &&
-      payment.has('cvv')
-    )
   }
 
   const makePurchase = (amount, cart) => {
@@ -114,16 +108,16 @@ const Checkout = ({ cartList, setCartList, isCheckoutOpen, closeAll }) => {
 
   const clearValue = () => {
     setCustomerId('')
-    setPayment(new Map())
+    setPayment({});
   }
 
   const completeTransaction = () => {
-    if (!checkPayment()) {
-      setError('All fields are required. ')
+    if(JSON.stringify(payment) === JSON.stringify({}) ){
+      setError("Please select a payment")
       setTimeout(() => {
         setError('')
       }, 3000)
-      return
+      return;
     }
     let submitCart = []
     let sumprice = 0

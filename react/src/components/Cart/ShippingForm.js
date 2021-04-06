@@ -2,12 +2,10 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
-
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-
 import request from 'superagent'
 import BuildPath from '../RequestBuilder'
 
@@ -19,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ShippingForm = ({ open, setOpen, address }) => {
+const ShippingForm = ({ open, setOpen, address ,updateAddressList}) => {
   const classes = useStyles()
 
   const createAddress = () => {
@@ -29,6 +27,10 @@ const ShippingForm = ({ open, setOpen, address }) => {
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
+      .then(res => {
+          console.log(res);
+          updateAddressList();
+        })
       .catch(err => {
         console.error(err)
       })
@@ -41,6 +43,9 @@ const ShippingForm = ({ open, setOpen, address }) => {
       .set('Authorization', localStorage.getItem('Authorization'))
       .send(address)
       .set('Accept', 'application/json')
+      .then(res => {
+          updateAddressList();
+      })
       .catch(err => {
         console.error(err)
       })

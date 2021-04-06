@@ -80,5 +80,12 @@ public class UserAccountControllerTests {
         ResponseEntity<?> responseEntity = userAccountController.getUserCustomers();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
+    @Test
+    void getAllPaymentsUnderLoggedUser_ReturnAListOfCustomers() {
+        UserAccount userAccount = new UserAccount("test", "test", "test@gmail.com", "CUSTOMER");
+        when(userService.getLoggedUser()).thenReturn(userAccount);
+        ResponseEntity<?> responseEntity = userAccountController.getUserPayments();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
 
 }

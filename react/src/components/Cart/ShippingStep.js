@@ -87,7 +87,11 @@ const ShippingStep = ({ setCustomerId, setCustomerInfo }) => {
           Add New Address
         </Button>
       </div>
-      <ShippingForm open={open} setOpen={setOpen} setShipping={setCustomerId} />
+      <ShippingForm
+          open={open}
+          setOpen={setOpen}
+          setShipping={setCustomerId}
+          updateAddressList={updateAddressList}/>
     </MuiThemeProvider>
   )
 }
