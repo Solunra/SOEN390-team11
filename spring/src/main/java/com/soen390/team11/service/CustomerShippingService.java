@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.dto.CustomerShippingDto;
 import com.soen390.team11.entity.Customer;
 import com.soen390.team11.repository.CustomerRepository;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class CustomerShippingService {
 
     CustomerRepository customerRepository;
+    LogService logService;
 
-    public CustomerShippingService(CustomerRepository customerRepository) {
+    public CustomerShippingService(CustomerRepository customerRepository,LogService logService) {
         this.customerRepository = customerRepository;
+        this.logService = logService;
     }
 
     /**
@@ -21,6 +24,7 @@ public class CustomerShippingService {
      * @return customer id
      */
     public String createCustomer(CustomerShippingDto customerShippingDto) {
+        logService.writeLog(LogTypes.USERS,"Creating customer using the customerShippingDto");
         return customerRepository.save(customerShippingDto.getCustomer()).getCustomerID();
     }
 
@@ -30,9 +34,11 @@ public class CustomerShippingService {
      * @return customer id
      */
     public String updateCustomer(CustomerShippingDto customerShippingDto) {
+        logService.writeLog(LogTypes.USERS,"Updating customer...");
         Optional<Customer> optionalCustomer = customerRepository
             .findByCustomerID(customerShippingDto.getCustomerID());
         if (optionalCustomer.isPresent()){
+            logService.writeLog(LogTypes.USERS,"Setting customer's information");
             optionalCustomer.get().setFirstname(customerShippingDto.getFirstname());
             optionalCustomer.get().setLastname(customerShippingDto.getLastname());
             optionalCustomer.get().setAddress(customerShippingDto.getAddress());
@@ -43,10 +49,12 @@ public class CustomerShippingService {
         } else {
             return "Customer address is not found! ";
         }
+        logService.writeLog(LogTypes.USERS,"Saving customer's information");
         return customerRepository.save(optionalCustomer.get()).getCustomerID();
     }
 
     public void deleteCustomerById(String customerID) {
+        logService.writeLog(LogTypes.USERS,"");
         customerRepository.deleteByCustomerID(customerID);
     }
 }

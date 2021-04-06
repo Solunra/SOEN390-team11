@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.dto.MaterialRequestDto;
 import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.entity.Material;
@@ -20,11 +21,14 @@ public class MaterialService {
     MaterialRepository materialRepository;
     MaterialRawMaterialRepository materialrawmaterialRepository;
     RawMaterialService rawmaterialService;
+    LogService logService;
 
-    public MaterialService(MaterialRepository materialRepository, MaterialRawMaterialRepository materialrawmaterialRepository, RawMaterialService rawmaterialService) {
+    public MaterialService(MaterialRepository materialRepository, MaterialRawMaterialRepository materialrawmaterialRepository, RawMaterialService rawmaterialService
+    , LogService logService) {
         this.materialRepository = materialRepository;
         this.materialrawmaterialRepository = materialrawmaterialRepository;
         this.rawmaterialService = rawmaterialService;
+        this.logService = logService;
     }
 
     /**
@@ -34,6 +38,7 @@ public class MaterialService {
      * @return The created Material
      */
     public Material createMaterial(MaterialRequestDto materialRequestDto){
+        logService.writeLog(LogTypes.MATERIAL,"Creating Material");
         return materialRepository.save(materialRequestDto.getMaterial());
     }
 
@@ -43,7 +48,8 @@ public class MaterialService {
      * @return List of Materials
      */
     public List<Material> getAllMaterial() {
-        return (List<Material>) materialRepository.findAll();        
+        logService.writeLog(LogTypes.MATERIAL,"Returning all materials");
+        return (List<Material>) materialRepository.findAll();
     }
 
     /**
@@ -54,6 +60,7 @@ public class MaterialService {
      */
     public Material getMaterialById(String id) {
         try {
+            logService.writeLog(LogTypes.MATERIAL,"Getting material using ID");
             Material material= materialRepository.findById(id).get();
             return material;
         } catch (Exception e) {
@@ -73,6 +80,7 @@ public class MaterialService {
             throw new Exception("invalid id");
         }
         materialRepository.deleteById(id);
+        logService.writeLog(LogTypes.MATERIAL,"Material Deleted successfully");
         return "success";
     }
 
@@ -89,6 +97,7 @@ public class MaterialService {
         if(getMaterialById(id) ==null) {
             throw new Exception("invalid id");
         }
+        logService.writeLog(LogTypes.MATERIAL,"Updating Material ID");
         material.setMaterialid(id);
         return materialRepository.save(material);
     }
@@ -102,6 +111,7 @@ public class MaterialService {
         List<Material> Materiallist= new ArrayList<>();
         materialRepository.findAll()
                 .forEach(Materiallist::add);
+        logService.writeLog(LogTypes.MATERIAL,"Returning full material inventory");
         return Materiallist;
     }
 
@@ -117,6 +127,7 @@ public class MaterialService {
         for(MaterialRawMaterials materialRawMaterials : MaterialRawMaterialsList){
             rawMaterial.add(rawmaterialService.getRawMaterialById(materialRawMaterials.getMaterialRawMaterialsId().getRawmaterialid()));
         }
+        logService.writeLog(LogTypes.MATERIAL,"Returning all raw material in inventory");
         return rawMaterial;
     }
 }
