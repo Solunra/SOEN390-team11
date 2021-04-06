@@ -21,6 +21,8 @@ import {
     AccountBalanceRounded,
     SupervisedUserCircle,
 } from "@material-ui/icons";
+import PersonIcon from "@material-ui/icons/Person";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 
 const useStyles = makeStyles({
     drawer: {
@@ -48,6 +50,20 @@ const LeftDrawer = ({ role }) => {
                 icon: <StorefrontRoundedIcon />,
                 onClick: () => {
                     handleClick("shop");
+                },
+            },
+            {
+                text: "Customer Order",
+                icon: <ListAltIcon />,
+                onClick: () => {
+                    handleClick("customerorder");
+                },
+            },
+            {
+                text: "Info",
+                icon: <PersonIcon />,
+                onClick: () => {
+                    handleClick("info");
                 },
             },
             {

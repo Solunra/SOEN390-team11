@@ -4,6 +4,9 @@ import com.soen390.team11.entity.Customer;
 
 import javax.persistence.Column;
 
+/**
+ * information of the customer payment
+ */
 public class CustomerPaymentDto {
     private String type;
     private String cardName;

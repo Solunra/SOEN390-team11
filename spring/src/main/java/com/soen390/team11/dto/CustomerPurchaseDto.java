@@ -4,6 +4,11 @@ import com.soen390.team11.entity.Customer;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * customer purchase
+ * information about the customer shipping
+ * the cart of the their purchase
+ */
 public class CustomerPurchaseDto extends CustomerDto {
 
     private String customerID;

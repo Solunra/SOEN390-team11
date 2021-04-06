@@ -8,7 +8,17 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 public interface PaymentRepository extends CrudRepository<Payment, String> {
+    /**
+     * find payment by pay id
+     * @param payid
+     * @return
+     */
     Optional<Payment> findByPayId(String payid);
+
+    /**
+     * delete payment by pay id
+     * @param payId
+     */
     @Transactional
     void deleteByPayId(String payId);
 }
