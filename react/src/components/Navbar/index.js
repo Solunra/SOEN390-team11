@@ -1,20 +1,19 @@
-import './style.css';
+import "./style.css";
 import DrawerLeft from "./LeftDrawer";
 
 const NavCustomer = () => {
-
     return (
         <div>
-            <DrawerLeft role="customer"/>
+            <DrawerLeft role="customer" />
         </div>
     );
-}
+};
 
 const NavAdmin = () => {
     return (
         <div>
-            <DrawerLeft role="admin"/>
+            <DrawerLeft role="admin" />
         </div>
     );
-}
-export {NavCustomer , NavAdmin};
+};
+export { NavCustomer, NavAdmin };
