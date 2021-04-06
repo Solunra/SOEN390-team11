@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -6,93 +6,86 @@ import {
     makeStyles,
     DialogContentText,
     DialogActions,
-} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import request from 'superagent';
-import BuildPath from '../RequestBuilder'
-import { Grid} from "@material-ui/core";
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import request from "superagent";
+import BuildPath from "../RequestBuilder";
+import { Grid } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
-        width: '75%'
+        width: "75%",
     },
     dialogAction: {
-        justifyContent: 'flex-start'
+        justifyContent: "flex-start",
     },
     leftDialogActions: {
-        justifyContent: 'flex-start'
+        justifyContent: "flex-start",
     },
-}))
+}));
 
-const EditForm = (props) =>{
-    const {open, setOpen, userEditInfo,loading,setLoading} = props;
-    const [error, setError] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const EditForm = (props) => {
+    const { open, setOpen, userEditInfo, loading, setLoading } = props;
+    const [error, setError] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const classes = useStyles();
 
-    const closeError=()=>{
-        setTimeout(()=>{
-            setError("")
+    const closeError = () => {
+        setTimeout(() => {
+            setError("");
         }, 5000);
-    }
-    const handleSubmit = (e)=>{
-        if(checkValue()){
+    };
+    const handleSubmit = (e) => {
+        if (checkValue()) {
             request
                 .post(BuildPath("/account/edit/"))
-                .set('Authorization', localStorage.getItem("Authorization"))
-                .send(
-                    {
-                        "email":userEditInfo['email'],
-                        "username": !username?userEditInfo['username']:username,
-                        "password":!password?userEditInfo['password']:password ,
-                        "userID":userEditInfo['userID']
-                    }
-                )
-                .set('Accept', 'application/json')
-                .then(res => {
-                    if(res.status === 200 ){
+                .set("Authorization", localStorage.getItem("Authorization"))
+                .send({
+                    username: !username ? userEditInfo["username"] : username,
+                    password: !password ? userEditInfo["password"] : password,
+                    userID: userEditInfo["userID"],
+                })
+                .set("Accept", "application/json")
+                .then((res) => {
+                    if (res.status === 200) {
                         cleanUp();
                         setOpen(false);
                         setLoading(!loading);
                     }
                 })
-                .catch(err =>{
+                .catch((err) => {
                     setError("Cannot Create account");
-                    setTimeout(()=>{
-                        setError("")
+                    setTimeout(() => {
+                        setError("");
                     }, 5000);
                 });
-        }
-        else{
+        } else {
             setError("All value is not changing, old value");
-            setTimeout(()=>{
-                setError("")
+            setTimeout(() => {
+                setError("");
             }, 5000);
         }
     };
 
-    const checkValue=()=>{
-
-            if(username==='' && password ===''){
-                return false;
+    const checkValue = () => {
+        if (username === "" && password === "") {
+            return false;
+        } else {
+            if (username !== "" || password !== "") {
+                return true;
             }
-            else{
-                if(username!=='' || password !==''){
-                    return true;
-                }
-            }
-
+        }
     };
-    const cleanUp=()=>{
-        setUsername('');
-        setPassword('');
-    }
+    const cleanUp = () => {
+        setUsername("");
+        setPassword("");
+    };
 
-    const validation =(e , type)=>{
-        let value =e.target.value;
-        if(value.trim() ===""){
+    const validation = (e, type) => {
+        let value = e.target.value;
+        if (value.trim() === "") {
             return;
         }
         switch (type) {
@@ -100,11 +93,15 @@ const EditForm = (props) =>{
                 setUsername(value);
                 return;
             case 2:
-                if(value.length >8){
+                if (value.length > 8) {
                     let capital = /[A-Z]/;
                     let specialChar = /[*$%#]/;
                     let digit = /[0-9]/;
-                    if(capital.test(value)&&specialChar.test(value)&&digit.test(value)){
+                    if (
+                        capital.test(value) &&
+                        specialChar.test(value) &&
+                        digit.test(value)
+                    ) {
                         setPassword(value);
                     }
                 }
@@ -112,20 +109,26 @@ const EditForm = (props) =>{
         }
     };
 
-
     return (
-        <Dialog open={open} onClose={()=>{setOpen(false)}} aria-labelledby="form-dialog-title" classes={ classes.dialogWrapper }>
+        <Dialog
+            open={open}
+            onClose={() => {
+                setOpen(false);
+            }}
+            aria-labelledby="form-dialog-title"
+            classes={classes.dialogWrapper}
+        >
             <DialogTitle id="form-dialog-title">User From</DialogTitle>
-            <DialogContent >
+            <DialogContent>
                 <DialogContentText>Edit Information</DialogContentText>
                 <Grid item xs={12}>
-                    <div style={ {color: 'red' }}>{error}</div>
+                    <div style={{ color: "red" }}>{error}</div>
                 </Grid>
 
                 <TextField
                     autoFocus
                     margin="dense"
-                    defaultValue={userEditInfo['email']}
+                    defaultValue={userEditInfo["email"]}
                     label="Email"
                     fullWidth
                     variant="outlined"
@@ -134,8 +137,10 @@ const EditForm = (props) =>{
                 <TextField
                     autoFocus
                     margin="dense"
-                    defaultValue={userEditInfo['username']}
-                    onChange={e =>{validation(e,1)}}
+                    defaultValue={userEditInfo["username"]}
+                    onChange={(e) => {
+                        validation(e, 1);
+                    }}
                     label="UserName"
                     fullWidth
                     variant="outlined"
@@ -143,20 +148,30 @@ const EditForm = (props) =>{
                 <TextField
                     autoFocus
                     margin="dense"
-                    defaultValue={userEditInfo['password']}
-                    onChange={e =>{validation(e,2)}}
+                    defaultValue={userEditInfo["password"]}
+                    onChange={(e) => {
+                        validation(e, 2);
+                    }}
                     label="Password"
-                    type = "password"
+                    type="password"
                     fullWidth
                     variant="outlined"
                 />
-
             </DialogContent>
             <DialogActions classes={{ root: classes.leftDialogActions }}>
-                <Button onClick={()=>{setOpen(false)}} color="primary">Cancel</Button>
-                <Button onClick={handleSubmit} color="primary">Submit</Button>
+                <Button
+                    onClick={() => {
+                        setOpen(false);
+                    }}
+                    color="primary"
+                >
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} color="primary">
+                    Submit
+                </Button>
             </DialogActions>
         </Dialog>
-    )
+    );
 };
-export {EditForm};
+export { EditForm };

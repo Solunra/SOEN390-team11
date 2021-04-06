@@ -1,99 +1,92 @@
-import React, { useState , useEffect} from 'react';
-import request from 'superagent';
-import BuildPath from '../RequestBuilder';
-import {Grid, makeStyles} from "@material-ui/core";
-import {ProductInventory} from "./ProductInventory";
-import {PartInventory} from "./PartInventory";
-import {MaterialInventory} from "./MaterialInventory";
+import React, { useState, useEffect } from "react";
+import request from "superagent";
+import BuildPath from "../RequestBuilder";
+import { Grid, makeStyles } from "@material-ui/core";
+import { ProductInventory } from "./ProductInventory";
+import { PartInventory } from "./PartInventory";
+import { MaterialInventory } from "./MaterialInventory";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     container: {
-        marginTop: '50px',
+        marginTop: "50px",
     },
     rootGrid: {
         flexGrow: 1,
     },
-
-}))
-const Inventory = ()=>
-{
+}));
+const Inventory = () => {
     const classes = useStyles();
-    const [prodInv, setProdInv]= useState([]);
-    const [partInv, setPartInv]= useState([]);
-    const [matInv, setMatInv]= useState([]);
+    const [prodInv, setProdInv] = useState([]);
+    const [partInv, setPartInv] = useState([]);
+    const [matInv, setMatInv] = useState([]);
     const [loading, setLoading] = useState(true);
-    const getProdInv = () =>{
+    const getProdInv = () => {
         request
             .get(BuildPath("/inventory/products/"))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .then(res => {
-                if (res.status === 200)
-                {
-                    if(JSON.stringify(prodInv) !== JSON.stringify(res.body)){
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                if (res.status === 200) {
+                    if (JSON.stringify(prodInv) !== JSON.stringify(res.body)) {
                         setProdInv(res.body);
                     }
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
-    }
-    const getMatInv = () =>{
+    };
+    const getMatInv = () => {
         request
             .get(BuildPath("/inventory/material/"))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .then(res => {
-                if (res.status === 200)
-                {
-                    if(JSON.stringify(matInv) !== JSON.stringify(res.body)){
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                if (res.status === 200) {
+                    if (JSON.stringify(matInv) !== JSON.stringify(res.body)) {
                         setMatInv(res.body);
                     }
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
-    }
-    const getPartInv = () =>{
+    };
+    const getPartInv = () => {
         request
             .get(BuildPath("/inventory/part/"))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .then(res => {
-                if (res.status === 200)
-                {
-                    if(JSON.stringify(partInv) !== JSON.stringify(res.body)){
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                if (res.status === 200) {
+                    if (JSON.stringify(partInv) !== JSON.stringify(res.body)) {
                         setPartInv(res.body);
                     }
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
-    }
-    useEffect(()=>{
+    };
+    useEffect(() => {
         getPartInv();
         getProdInv();
         getMatInv();
-    },[loading]);
-    return(
-        <>
-            <div className={classes.rootGrid}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} className={classes.container}>
-                        <ProductInventory rows={prodInv}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <PartInventory  rows={partInv}/>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <MaterialInventory rows={matInv}/>
-                    </Grid>
+    }, [loading]);
+    return (
+        <div className={classes.rootGrid}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} className={classes.container}>
+                    <ProductInventory rows={prodInv} />
                 </Grid>
-            </div>
-        </>
+                <Grid item xs={12}>
+                    <PartInventory rows={partInv} />
+                </Grid>
+                <Grid item xs={12}>
+                    <MaterialInventory rows={matInv} />
+                </Grid>
+            </Grid>
+        </div>
     );
-}
-export {Inventory};
+};
+export { Inventory };
