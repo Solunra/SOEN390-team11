@@ -1,5 +1,5 @@
 # SOEN390 Project [Team 11]
-[![CircleCI](https://circleci.com/gh/Solunra/SOEN390-team11.svg?style=svg&circle-token=c065fd8efe322775fbfce01e8731da3cdc48a2f0)](https://app.circleci.com/pipelines/github/Solunra/SOEN390-team11)
+[![CircleCI](https://circleci.com/gh/Solunra/SOEN390-team11.svg?style=svg&circle-token=c065fd8efe322775fbfce01e8731da3cdc48a2f0)](https://app.circleci.com/pipelines/github/Solunra/SOEN390-team11) [![codecov](https://codecov.io/gh/Solunra/SOEN390-team11/branch/main/graph/badge.svg?token=GM2SQ4TIGU)](https://codecov.io/gh/Solunra/SOEN390-team11) [![codecov](https://img.shields.io/static/v1?label=codecov&logo=codecov&color=red&message=controllers)](https://codecov.io/gh/Solunra/SOEN390-team11/tree/main/spring/src/main/java/com/soen390/team11/controller)
 
 ### Description
 
@@ -11,11 +11,6 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 ---
 [UI prototype for Sprint #4 user stories](https://www.figma.com/file/KfSGbD4kVYndR2odTDtEDW/ERP-for-Sprint-%234-user-stories?node-id=0%3A1)
 
-### Code Coverage
-
----
-[![codecov](https://codecov.io/gh/Solunra/SOEN390-team11/branch/main/graph/badge.svg?token=GM2SQ4TIGU)](https://codecov.io/gh/Solunra/SOEN390-team11) \
-[Code Coverage for Controllers](https://codecov.io/gh/Solunra/SOEN390-team11/tree/main/spring/src/main/java/com/soen390/team11/controller)
 
 ### Release Report
 
@@ -43,6 +38,9 @@ Then, run `docker-compose up`\
 Note that subsequent runs can be done with just `docker-compose up`\
 Updating the docker containers follows the same logic from the start
 
+#### Front End Automatically Reformat Code Style
+In terminal, first `cd` to `react` subdirectory and then run `npx prettier --write .`.  
+This will format all the source code according to configuration defined in `react/.prettierrc.yml` (see [Configuration File · Prettier](https://prettier.io/docs/en/configuration.html). 
 
 ### Libraries 
 
