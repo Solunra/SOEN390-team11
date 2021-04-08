@@ -1,5 +1,7 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
+import com.soen390.team11.entity.Log;
 import com.soen390.team11.entity.Part;
 import com.soen390.team11.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,11 @@ import java.util.List;
 public class PartService {
 
     PartRepository partRepository;
+    LogService logService;
 
-    public PartService(PartRepository partRepository) {
+    public PartService(PartRepository partRepository, LogService logService) {
         this.partRepository = partRepository;
+        this.logService = logService;
     }
 
     /**
@@ -25,6 +29,7 @@ public class PartService {
      * @return List of all Parts
      */
     public List<Part> getAllPart() {
+        logService.writeLog(LogTypes.PART,"getting all parts");
         List<Part> parts = new ArrayList<>();
         partRepository.findAll()
                 .forEach(parts::add);
@@ -39,6 +44,7 @@ public class PartService {
      */
     public Part getPartById(String id) {
         try {
+            logService.writeLog(LogTypes.PART,"Finding part by ID");
             Part part = partRepository.findById(id).get();
             return part;
         } catch (Exception e) {

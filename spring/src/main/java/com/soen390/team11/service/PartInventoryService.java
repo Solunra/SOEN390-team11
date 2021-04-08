@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.dto.PartInventoryResponse;
 import com.soen390.team11.entity.Part;
 import com.soen390.team11.entity.PartInventory;
@@ -17,10 +18,12 @@ public class PartInventoryService {
 
     PartInventoryRepository partInventoryRepository;
     PartRepository partRepository;
+    LogService logService;
 
-    public PartInventoryService(PartInventoryRepository partInventoryRepository, PartRepository partRepository) {
+    public PartInventoryService(PartInventoryRepository partInventoryRepository, PartRepository partRepository, LogService logService) {
         this.partInventoryRepository = partInventoryRepository;
         this.partRepository = partRepository;
+        this.logService = logService;
     }
 
     /**
@@ -29,10 +32,12 @@ public class PartInventoryService {
      * @return List of all Part's Inventory
      */
     public ArrayList<PartInventoryResponse> getAllPartInventory(){
+        logService.writeLog(LogTypes.PART,"Getting all parts in the inventory...");
         List<PartInventory> partInventories= (List<PartInventory>) partInventoryRepository.findAll();
         List<Part> parts = (List<Part>) partRepository.findAll();
         ArrayList<PartInventoryResponse> partInventoryList = new ArrayList<>();
         PartInventoryResponse partInventoryResponse = new PartInventoryResponse();
+        logService.writeLog(LogTypes.PART,"Going through the part inventory");
         for(PartInventory pi : partInventories){
             for(Part p : parts){
                 if(p.getPartid().equals(pi.getPartid())){
@@ -41,6 +46,7 @@ public class PartInventoryService {
             }
             partInventoryList.add(partInventoryResponse);
         }
+        logService.writeLog(LogTypes.PART,"Returning all parts in the inventory");
         return partInventoryList;
     }
 
@@ -52,6 +58,7 @@ public class PartInventoryService {
      * @return The updated PartInventory's details
      */
     public PartInventory updatePartInventory(PartInventory partInventory) {
+        logService.writeLog(LogTypes.PART,"Updating the Part inventory");
         return partInventoryRepository.save(partInventory);
     }
 }

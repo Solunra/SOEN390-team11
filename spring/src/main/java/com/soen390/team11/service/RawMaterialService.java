@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.constant.Type;
 import com.soen390.team11.dto.RawMaterialRequestDto;
 import com.soen390.team11.entity.RawMaterial;
@@ -24,11 +25,14 @@ public class RawMaterialService {
     RawMaterialRepository rawmaterialRepository;
     VendorsRepository vendorsRepository;
     VendorSaleRepository vendorSaleRepository;
+    LogService logService;
 
-    public RawMaterialService(RawMaterialRepository rawmaterialRepository, VendorsRepository vendorsRepository, VendorSaleRepository vendorSaleRepository) {
+    public RawMaterialService(RawMaterialRepository rawmaterialRepository, VendorsRepository vendorsRepository, VendorSaleRepository vendorSaleRepository
+    , LogService logService) {
         this.rawmaterialRepository = rawmaterialRepository;
         this.vendorsRepository = vendorsRepository;
         this.vendorSaleRepository = vendorSaleRepository;
+        this.logService = logService;
     }
 
     /**
@@ -39,9 +43,11 @@ public class RawMaterialService {
     public List<RawMaterialRequestDto> getAllRawMaterial() {
         List<RawMaterialRequestDto> rawMaterialRequestDtos = new ArrayList<>();
         Iterable<RawMaterial> rawMaterials = rawmaterialRepository.findAll();
+        logService.writeLog(LogTypes.MATERIAL,"getting all raw materials");
         for(RawMaterial rawMaterial:rawMaterials){
             rawMaterialRequestDtos.add(getRawMaterialById(rawMaterial.getrawmaterialid()));
         }
+        logService.writeLog(LogTypes.PRODUCT,"Returning the rawmaterial Dtolist");
         return rawMaterialRequestDtos;
     }
 
@@ -53,17 +59,27 @@ public class RawMaterialService {
      */
     public RawMaterialRequestDto getRawMaterialById(String id) {
         try {
+            logService.writeLog(LogTypes.PRODUCT,"Getting raw material by ID");
             RawMaterial rawmaterial= rawmaterialRepository.findById(id).get();
+            logService.writeLog(LogTypes.PRODUCT,"Looking through the vendors");
             VendorSale vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rawmaterial.getrawmaterialid()).get();
             Vendors vendors = vendorsRepository.findByVendorID(vendorSale.getVendorSaleId().getVendorID()).get();
             RawMaterialRequestDto rawMaterialRequestDto = new RawMaterialRequestDto();
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial ID");
             rawMaterialRequestDto.setrawmaterialid(rawmaterial.getrawmaterialid());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial name");
             rawMaterialRequestDto.setname(rawmaterial.getName());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial description");
             rawMaterialRequestDto.setDescription(rawmaterial.getDescription());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial cost");
             rawMaterialRequestDto.setCost(rawmaterial.getCost());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial unit");
             rawMaterialRequestDto.setUnit(rawmaterial.getUnit());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial vendorID");
             rawMaterialRequestDto.setVendorID(vendorSale.getVendorSaleId().getVendorID());
+            logService.writeLog(LogTypes.PRODUCT,"Setting the rawmaterial company name");
             rawMaterialRequestDto.setCompanyname(vendors.getCompanyname());
+            logService.writeLog(LogTypes.PRODUCT,"Returning the rawmaterial");
             return rawMaterialRequestDto;
         } catch (Exception e) {
             return null;
@@ -83,17 +99,19 @@ public class RawMaterialService {
         if(!vendorsRepository.existsById(rawMaterialRequestDto.getVendorID())){
             throw new Exception("Vendor does not exist");
         }
-
+        logService.writeLog(LogTypes.PRODUCT,"Creating a new rawmaterial");
         RawMaterial newRawMaterial = new RawMaterial(
                 rawMaterialRequestDto.getname(),
                 rawMaterialRequestDto.getDescription(),
                 rawMaterialRequestDto.getCost(),
                 rawMaterialRequestDto.getUnit()
         );
+        logService.writeLog(LogTypes.PRODUCT,"Saving the rawmaterial ID");
         String rawMaterialidID = rawmaterialRepository.save(newRawMaterial).getrawmaterialid();
-
+        logService.writeLog(LogTypes.PRODUCT,"Adding the rawmaterial to a vendor");
         VendorSaleId vendorSaleId = new VendorSaleId(rawMaterialRequestDto.getVendorID(), rawMaterialidID);
         VendorSale vendorSale = new VendorSale(vendorSaleId, Type.RAW_MATERIAL);
+        logService.writeLog(LogTypes.PRODUCT,"Saving the new raw material");
         vendorSaleRepository.save(vendorSale);
         return rawMaterialidID;
     }
@@ -114,7 +132,7 @@ public class RawMaterialService {
         if(!vendorsRepository.existsById(rawMaterialRequestDto.getVendorID())){
             throw new Exception("Vendor does not exist");
         }
-
+        logService.writeLog(LogTypes.PRODUCT,"Looking though vendors to find the raw material to update");
         Optional<VendorSale> vendorSale = vendorSaleRepository.findById(new VendorSaleId(rawMaterialRequestDto.getVendorID(),rid));
         if(!vendorSale.isPresent()){
             Optional<VendorSale> oldVendor = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
@@ -128,7 +146,7 @@ public class RawMaterialService {
             );
             vendorSaleRepository.save(newVendorSale);
         }
-
+        logService.writeLog(LogTypes.PRODUCT,"Updating an existing raw material");
         RawMaterial rawMaterial = rawmaterialRepository.findById(rid).get();
         rawMaterial.setName(rawMaterialRequestDto.getname());
         rawMaterial.setDescription(rawMaterialRequestDto.getDescription());
@@ -152,6 +170,7 @@ public class RawMaterialService {
         if(!rawMaterial.isPresent()){
             throw new Exception("Raw material was not found");
         }
+        logService.writeLog(LogTypes.PRODUCT,"Deleting an existing raw material");
         rawmaterialRepository.delete(rawMaterial.get());
         Optional<VendorSale> vendorSale = vendorSaleRepository.findByVendorSaleIdSaleID(rid);
         if(vendorSale.isPresent()){

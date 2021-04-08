@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.constant.Status;
 import com.soen390.team11.dto.*;
 import com.soen390.team11.entity.Product;
@@ -37,6 +38,7 @@ public class CustomerPurchaseService {
     ProductMachineryRepository productMachineryRepository;
     UserService userService;
     UserAccountRepository userAccountRepository;
+    LogService logService;
 
     public CustomerPurchaseService(CustomerRepository customerRepository,
         CustomerPurchaseRepository customerPurchaseRepository,
@@ -44,7 +46,7 @@ public class CustomerPurchaseService {
         ProductInventoryRepository productInventoryRepository,
         ProductMachineryService productMachineryService,
         ProductMachineryRepository productMachineryRepository, UserService userService,
-        UserAccountRepository userAccountRepository) {
+        UserAccountRepository userAccountRepository,LogService logService) {
         this.customerRepository = customerRepository;
         this.customerPurchaseRepository = customerPurchaseRepository;
         this.invoiceRepository = invoiceRepository;
@@ -54,6 +56,7 @@ public class CustomerPurchaseService {
         this.productMachineryRepository = productMachineryRepository;
         this.userService = userService;
         this.userAccountRepository = userAccountRepository;
+        this.logService = logService;
     }
 
     /**
@@ -77,7 +80,9 @@ public class CustomerPurchaseService {
             customerPurchase = new CustomerPurchase(customerPurchaseId, Status.PAID,
                 (Integer) item.get("quantity"), userService.getLoggedUser().getUserID());
             customerPurchaseRepository.save(customerPurchase);
+            logService.writeLog(LogTypes.ORDERS,"Product successfully purchased by the customer");
         }
+        logService.writeLog(LogTypes.ORDERS,"Product invoice ID returned");
         return invoice.getInvoiceID();
     }
 
@@ -93,6 +98,7 @@ public class CustomerPurchaseService {
         List<ProductRequestDto> responseDtoList = new ArrayList<>();
         ProductRequestDto productRequestDto;
         Product product;
+        logService.writeLog(LogTypes.ORDERS,"Checking Product Status through customer purchases");
         for (CustomerPurchase cp : customerPurchases) {
             product = productRepository.findById(cp.getCustomerPurchaseId().getProductID()).get();
             productRequestDto = new ProductRequestDto(product.getName(), product.getType(),
@@ -100,6 +106,7 @@ public class CustomerPurchaseService {
                 product.getFinish(), product.getGrade(), product.getPrice(), cp.getStatus());
             responseDtoList.add(productRequestDto);
         }
+        logService.writeLog(LogTypes.ORDERS,"Returning Product Status");
         return responseDtoList;
     }
 
@@ -111,11 +118,13 @@ public class CustomerPurchaseService {
     public List<Product> getAllProduct() {
         List<Product> productslist = productRepository.findFirst10BySize("Medium");
         List<Product> finalproductList = new ArrayList<>(productslist);
+        logService.writeLog(LogTypes.ORDERS,"Adding large products to the list");
         productslist = productRepository.findFirst10BySize("Large");
         finalproductList.addAll(productslist);
+        logService.writeLog(LogTypes.ORDERS,"Adding small products to the list");
         productslist = productRepository.findFirst10BySize("Small");
         finalproductList.addAll(productslist);
-
+        logService.writeLog(LogTypes.ORDERS,"Returning the final product list");
         return finalproductList;
     }
 
@@ -126,6 +135,7 @@ public class CustomerPurchaseService {
      * @return
      */
     public List<Product> getCustomerizeProduct(ProductRequestDto productRequestDto) {
+        logService.writeLog(LogTypes.ORDERS,"Finding the customer product by name, color, size and finish");
         return productRepository
             .findByNameAndColorAndSizeAndFinish(productRequestDto.getName(),
                 productRequestDto.getColor(), productRequestDto.getSize(),
@@ -137,17 +147,20 @@ public class CustomerPurchaseService {
      * @return
      */
     public List<ProductCustomerOrderDto> getAllOrder() {
+        logService.writeLog(LogTypes.ORDERS,"Getting all customer purchases");
         List<CustomerPurchase> customerPurchases = (List<CustomerPurchase>) customerPurchaseRepository
             .findAll();
         List<ProductCustomerOrderDto> productCustomerOrderDtoList = new ArrayList<>();
         ProductCustomerOrderDto productCustomerOrderDto;
         Product product;
+        logService.writeLog(LogTypes.ORDERS,"Finding customer purchase through the customerID and productID");
         for (CustomerPurchase cp : customerPurchases) {
             product = productRepository.findById(cp.getCustomerPurchaseId().getProductID()).get();
             productCustomerOrderDto = new ProductCustomerOrderDto(product.getProductid(),
                 product.getName(), product.getSize(), product.getColor(),
                 product.getFinish(), product.getGrade(), product.getPrice(), cp.getStatus(),
                 cp.getCustomerPurchaseId().getInvoiceID());
+            logService.writeLog(LogTypes.ORDERS,"Adding product to order");
             productCustomerOrderDtoList.add(productCustomerOrderDto);
         }
         return productCustomerOrderDtoList;
@@ -162,6 +175,7 @@ public class CustomerPurchaseService {
      * @return
      */
     public String orderActions(String productid, String invoiceid) {
+        logService.writeLog(LogTypes.ORDERS,"Setting customer product status");
         ProductInventory productInventory = productInventoryRepository.findByProductid(productid);
         CustomerPurchase customerPurchase = customerPurchaseRepository
             .findByCustomerPurchaseIdInvoiceIDAndCustomerPurchaseIdProductID(invoiceid, productid)
@@ -169,13 +183,16 @@ public class CustomerPurchaseService {
         Invoice invoice = invoiceRepository.findByInvoiceID(invoiceid).get();
         if (productInventory != null && productInventory.getQuantity() > customerPurchase
             .getAmount()) {
+            logService.writeLog(LogTypes.ORDERS,"Status set to SHIPPING");
             customerPurchase.setStatus(Status.SHIPPING);
             customerPurchaseRepository.save(customerPurchase);
             return "Shipping Arrangement";
         } else {
+            logService.writeLog(LogTypes.ORDERS,"Looking for product in machinery");
             String result = productMachineryService.occupyMachinery(
                 productMachineryService.findAvailableMachinery(), productid);
             if (result != null && result.equals("Success")) {
+                logService.writeLog(LogTypes.ORDERS,"Product is added to machinery");
                 return "Product add to machinery";
             }
             return "Not enough inventory to ship, Cannot add to machinery";
@@ -188,10 +205,12 @@ public class CustomerPurchaseService {
      * @return
      */
     public List<AccountReceivableDto> getAllAccountOrder() {
+        logService.writeLog(LogTypes.PRODUCT,"Getting all account orders");
         List<Invoice> invoiceList = (List<Invoice>) invoiceRepository.findAll();
         if (invoiceList.isEmpty()) {
             return new ArrayList<>();
         }
+        logService.writeLog(LogTypes.PRODUCT,"Returning every order");
         return extractAccountReceivable(invoiceList);
     }
 
@@ -202,12 +221,14 @@ public class CustomerPurchaseService {
      * @return
      */
     public List<AccountReceivableDto> getCustomizeReport(CustomizeReportDto customizeReportDto) {
+        logService.writeLog(LogTypes.PRODUCT,"Finding all customer purchase in between specific dates");
         List<Invoice> invoiceList = invoiceRepository.findAllByPurchasedateBetween(
             OffsetDateTime.of(customizeReportDto.getStartDate(), LocalTime.now(), ZoneOffset.UTC),
             OffsetDateTime.of(customizeReportDto.getEndDate(), LocalTime.now(), ZoneOffset.UTC));
         if (invoiceList.isEmpty()) {
             return new ArrayList<>();
         }
+        logService.writeLog(LogTypes.PRODUCT,"Returning the customer account report");
         return extractAccountReceivable(invoiceList);
     }
 
@@ -222,6 +243,8 @@ public class CustomerPurchaseService {
         List<CustomerPurchase> customerPurchaseList;
         AccountReceivableDto accountReceivableDto;
         UserAccount userAccount;
+        logService.writeLog(LogTypes.PRODUCT,"Looking through the customer purchases and account, and generating every" +
+                "receivables");
         for (Invoice invoice1 : invoiceList) {
             customerPurchaseList = customerPurchaseRepository
                 .findAllByCustomerPurchaseIdInvoiceID(invoice1.getInvoiceID());
@@ -235,6 +258,7 @@ public class CustomerPurchaseService {
                 customerPurchaseList.get(0).getUserid(), invoice1.getPaymentamount());
             accountReceivableDtoList.add(accountReceivableDto);
         }
+        logService.writeLog(LogTypes.PRODUCT,"Returning the account receivable");
         return accountReceivableDtoList;
     }
 
