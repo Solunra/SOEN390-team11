@@ -118,12 +118,17 @@ public class UserService implements UserDetailsService {
     public UserAccount editUser(UserAccountDto userAccountDto) {
         String role = (userAccountDto.getRole() !=null && userAccountDto.getRole().equalsIgnoreCase("admin"))?Role.ADMIN.toString(): Role.CUSTOMER.toString();
         String password = userAccountDto.getPassword().startsWith("$2a$10$")? userAccountDto.getPassword() : bCryptPasswordEncoder.encode(userAccountDto.getPassword());
+
         logService.writeLog(LogTypes.USERS,"Editing the user's information");
+        UserAccount olderSet= userAccountRepository.findByUserID(userAccountDto.getUserID());
         UserAccount userAccount=  new UserAccount(userAccountDto.getUsername(),
                 password,
                 userAccountDto.getEmail(),role);
         userAccount.setUserID(userAccountDto.getUserID());
         logService.writeLog(LogTypes.USERS,"Saving the new user information");
+        userAccount.setCustomers(olderSet.getCustomers());
+        userAccount.setPayments(olderSet.getPayments());
+
         return userAccountRepository.save(userAccount);
     }
 }

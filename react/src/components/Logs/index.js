@@ -1,65 +1,58 @@
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import {CustomTable} from "../Utils/CustomTable";
+import { CustomTable } from "../Utils/CustomTable";
 import request from "superagent";
 import BuildPath from "../RequestBuilder";
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     container: {
-        marginTop: '60px'
+        marginTop: "60px",
     },
     rootGrid: {
         flexGrow: 1,
     },
     paper: {
         padding: theme.spacing(2),
-        textAlign: 'center',
+        textAlign: "center",
         color: theme.palette.text.secondary,
     },
 }));
-
 
 const Logs = () => {
     const [logs, setLogs] = useState([]);
     const [re_render, setRe_render] = useState(false);
     const classes = useStyles();
     const columns = [
-        { title: 'Time', field: 'time' },
-        { title: 'Type', field: 'type' },
-        { title: 'Message', field: 'message' }
-    ]
+        { title: "Time", field: "time" },
+        { title: "Type", field: "type" },
+        { title: "Message", field: "message" },
+    ];
 
     const getLogs = () => {
-        request.get(BuildPath('/log'))
-            .set('Authorization', localStorage.getItem("Authorization"))
-            .set('Accept', 'application/json')
-            .then(res => {
-                if (res.status === 200)
-                {
+        request
+            .get(BuildPath("/log"))
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                if (res.status === 200) {
                     setLogs(res.body);
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
-        };
+    };
 
     useEffect(() => {
         getLogs();
     }, [re_render]);
-    
-    return(
+
+    return (
         <div>
-            <CustomTable
-                    data={logs}
-                    columns = {columns}
-                    title = {`Logs`}
-                >
-            </CustomTable>
+            <CustomTable data={logs} columns={columns} title={`Logs`} />
         </div>
-    )
-}
+    );
+};
 
 export default Logs;

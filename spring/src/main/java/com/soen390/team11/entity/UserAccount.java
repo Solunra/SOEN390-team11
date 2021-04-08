@@ -3,6 +3,8 @@ package com.soen390.team11.entity;
 import java.util.Set;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +33,10 @@ public class UserAccount {
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name="userID")
     private Set<Customer> customers;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name="userID")
+    private Set<Payment> payments;
 
     public UserAccount(String username, String password, String email, String role) {
         this.username = username;
@@ -94,5 +100,16 @@ public class UserAccount {
 
     public Set<Customer> getCustomers() {
         return customers;
+    }
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
     }
 }

@@ -2,6 +2,10 @@ package com.soen390.team11.dto;
 
 import java.time.OffsetDateTime;
 
+/**
+ * the infromation of account receive by the customer
+ * what the customer buy, how much they pay, when they make purchase
+ */
 public class AccountReceivableDto {
     private String invoiceDate;
     private String invoiceID;

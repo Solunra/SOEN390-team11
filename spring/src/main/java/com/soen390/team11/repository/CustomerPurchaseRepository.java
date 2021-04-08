@@ -10,10 +10,46 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurchase, CustomerPurchaseId> {
+    /**
+     * find customer purchase by the customer id
+     * @param customerId
+     * @return
+     */
     Optional<CustomerPurchase> findByCustomerPurchaseIdCustomerID(String customerId);
+
+    /**
+     * find customer pruchase by invoice id
+     * @param productID
+     * @return
+     */
     Optional<CustomerPurchase> findByCustomerPurchaseIdInvoiceID(String productID);
+
+    /**
+     * find customer purchase by invoice and product id
+     * @param invoiceID
+     * @param productid
+     * @return
+     */
     Optional<CustomerPurchase> findByCustomerPurchaseIdInvoiceIDAndCustomerPurchaseIdProductID(String invoiceID, String productid);
+
+    /**
+     * find all customer purchase by invoice id
+     * @param invoiceID
+     * @return
+     */
     List<CustomerPurchase> findAllByCustomerPurchaseIdInvoiceID(String invoiceID);
+
+    /**
+     * find all customer purchase by userid
+     * @param userId
+     * @return
+     */
+    List<CustomerPurchase> findAllByUserid(String userId);
+
+    /**
+     * delete customer purchase
+     * @param invoiceid
+     */
     @Transactional
     void deleteByCustomerPurchaseIdInvoiceID(String invoiceid);
 }

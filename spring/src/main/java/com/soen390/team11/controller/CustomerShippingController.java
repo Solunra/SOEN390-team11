@@ -46,6 +46,7 @@ public class CustomerShippingController {
      */
     @PostMapping
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerShippingDto customerShippingDto){
+        System.out.println("update customer");
         return new ResponseEntity<>(customerShippingService.updateCustomer(customerShippingDto), HttpStatus.OK);
     }
 

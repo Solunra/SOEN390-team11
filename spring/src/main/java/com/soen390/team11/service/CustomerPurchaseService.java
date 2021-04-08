@@ -2,11 +2,7 @@ package com.soen390.team11.service;
 
 import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.constant.Status;
-import com.soen390.team11.dto.CustomerPurchaseDto;
-import com.soen390.team11.dto.ProductCustomerOrderDto;
-import com.soen390.team11.dto.ProductRequestDto;
-import com.soen390.team11.dto.CustomizeReportDto;
-import com.soen390.team11.dto.AccountReceivableDto;
+import com.soen390.team11.dto.*;
 import com.soen390.team11.entity.Product;
 import com.soen390.team11.entity.CustomerPurchase;
 import com.soen390.team11.entity.CustomerPurchaseId;
@@ -146,6 +142,10 @@ public class CustomerPurchaseService {
                 productRequestDto.getFinish());
     }
 
+    /**
+     * get all the order
+     * @return
+     */
     public List<ProductCustomerOrderDto> getAllOrder() {
         logService.writeLog(LogTypes.ORDERS,"Getting all customer purchases");
         List<CustomerPurchase> customerPurchases = (List<CustomerPurchase>) customerPurchaseRepository
@@ -166,6 +166,14 @@ public class CustomerPurchaseService {
         return productCustomerOrderDtoList;
     }
 
+    /**
+     * order action
+     * if there is product in inventory change to shipping
+     * if there is no product in inventory add to machinery
+     * @param productid
+     * @param invoiceid
+     * @return
+     */
     public String orderActions(String productid, String invoiceid) {
         logService.writeLog(LogTypes.ORDERS,"Setting customer product status");
         ProductInventory productInventory = productInventoryRepository.findByProductid(productid);
@@ -240,6 +248,9 @@ public class CustomerPurchaseService {
         for (Invoice invoice1 : invoiceList) {
             customerPurchaseList = customerPurchaseRepository
                 .findAllByCustomerPurchaseIdInvoiceID(invoice1.getInvoiceID());
+            if(customerPurchaseList.isEmpty()){
+                continue;
+            }
             userAccount = userAccountRepository
                 .findByUserID(customerPurchaseList.get(0).getUserid());
             accountReceivableDto = new AccountReceivableDto(invoice1.getPurchasedate(),
@@ -249,5 +260,25 @@ public class CustomerPurchaseService {
         }
         logService.writeLog(LogTypes.PRODUCT,"Returning the account receivable");
         return accountReceivableDtoList;
+    }
+
+    /**
+     * get all customer order
+     * @return
+     */
+    public List<CustomerOrderDto> getAllOrderOfLogCustomer() {
+        List<CustomerOrderDto> customerOrderDtosList = new ArrayList<>();
+        CustomerOrderDto customerOrderDto=null;
+        List<CustomerPurchase> customerPurchase = customerPurchaseRepository.findAllByUserid(userService.getLoggedUser().getUserID());
+        Invoice invoice=null;
+        Product product=null;
+        for(CustomerPurchase cp: customerPurchase){
+            product = productRepository.findById(cp.getCustomerPurchaseId().getProductID()).get();
+            String description =product.getType()+" "+ product.getName()+", "+product.getSize()+", "+  product.getColor();
+            invoice = invoiceRepository.findByInvoiceID(cp.getCustomerPurchaseId().getInvoiceID()).get();
+            customerOrderDto = new CustomerOrderDto(description,invoice.getPurchasedate(),null,(cp.getAmount()*product.getPrice()), cp.getAmount());
+            customerOrderDtosList.add(customerOrderDto);
+        }
+        return customerOrderDtosList;
     }
 }

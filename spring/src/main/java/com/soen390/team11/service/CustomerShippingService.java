@@ -53,6 +53,10 @@ public class CustomerShippingService {
         return customerRepository.save(optionalCustomer.get()).getCustomerID();
     }
 
+    /**
+     * delete customer by id
+     * @param customerID
+     */
     public void deleteCustomerById(String customerID) {
         logService.writeLog(LogTypes.USERS,"");
         customerRepository.deleteByCustomerID(customerID);
