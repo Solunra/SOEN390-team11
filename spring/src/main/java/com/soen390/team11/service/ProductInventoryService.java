@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.dto.ProductInventoryRequestDto;
 import com.soen390.team11.dto.ProductInventoryResponse;
 import com.soen390.team11.entity.Part;
@@ -24,12 +25,15 @@ public class ProductInventoryService {
     ProductPartsRepository productPartsRepository;
     PartService partService;
     ProductRepository productRepository;
+    LogService logService;
 
-    public ProductInventoryService(ProductInventoryRepository productInventoryRepository, ProductPartsRepository productPartsRepository, PartService partService, ProductRepository productRepository) {
+    public ProductInventoryService(ProductInventoryRepository productInventoryRepository, ProductPartsRepository productPartsRepository, PartService partService, ProductRepository productRepository
+    , LogService logService) {
         this.productInventoryRepository = productInventoryRepository;
         this.productPartsRepository = productPartsRepository;
         this.partService = partService;
         this.productRepository = productRepository;
+        this.logService = logService;
     }
 
     /**
@@ -40,6 +44,7 @@ public class ProductInventoryService {
      * @throws Exception Thrown when there's an issue with the DB
      */
     public ProductInventory createProductInventory(ProductInventoryRequestDto productInventoryRequestDto) throws Exception {
+        logService.writeLog(LogTypes.VENDOR,"Creating product inventory");
        return productInventoryRepository.save(productInventoryRequestDto.getProductInventory());
     }
 
@@ -51,10 +56,12 @@ public class ProductInventoryService {
      */
     public ProductInventory getProductInventoryByID(String id){
         try{
+            logService.writeLog(LogTypes.VENDOR,"Searching for product by ID");
             ProductInventory productInventory= productInventoryRepository.findById(id).get();
             return productInventory;
         }
         catch (Exception e){
+            logService.writeLog(LogTypes.VENDOR,"Product does not exist");
             return null;
         }
     }
@@ -70,6 +77,7 @@ public class ProductInventoryService {
         if(getProductInventoryByID(id)==null) {
             throw new Exception("invalid id");
         }
+        logService.writeLog(LogTypes.VENDOR,"Deleting product using ID");
         productInventoryRepository.deleteById(id);
         return "success";
     }
@@ -87,6 +95,7 @@ public class ProductInventoryService {
         if(getProductInventoryByID(id) ==null) {
             throw new Exception("invalid id");
         }
+        logService.writeLog(LogTypes.VENDOR,"Updating product ID and saving it");
         productInventory.setId(id);
         return productInventoryRepository.save(productInventory);
     }
@@ -99,8 +108,11 @@ public class ProductInventoryService {
      */
     public List<Part> getProductParts(String productid){
         List<Part> parts= new ArrayList<>();
+        logService.writeLog(LogTypes.VENDOR,"Finding every parts in a product");
         List<ProductParts> productPartsList = productPartsRepository.findByProductPartsIdProductid(productid);
+        logService.writeLog(LogTypes.VENDOR,"Going through the product parts list");
         for(ProductParts productParts : productPartsList){
+            logService.writeLog(LogTypes.VENDOR,"Adding part by ID");
             parts.add(partService.getPartById(productParts.getProductPartsId().getPartid()));
         }
         return parts;
@@ -112,6 +124,7 @@ public class ProductInventoryService {
      * @return List of Product's Inventories
      */
     public List<ProductInventoryResponse> getAllProInv(){
+        logService.writeLog(LogTypes.VENDOR,"Getting all products in the inventory...");
         List<ProductInventory> productInventories= (List<ProductInventory>) productInventoryRepository.findAll();
         List<Product> products = (List<Product>) productRepository.findAll();
         ArrayList<ProductInventoryResponse> productInventoryList = new ArrayList<>();
@@ -122,6 +135,7 @@ public class ProductInventoryService {
                     productInventoryResponse = new ProductInventoryResponse(pi.getId(),pi.getLocation(),pi.getQuantity(),pi.getProductid(),p.getName());
                 }
             }
+            logService.writeLog(LogTypes.VENDOR,"Adding product to the inventory list");
             productInventoryList.add(productInventoryResponse);
         }
         return productInventoryList;

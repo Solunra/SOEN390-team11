@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.dto.VendorDto;
 import com.soen390.team11.entity.Vendors;
 import com.soen390.team11.repository.VendorsRepository;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class VendorsService {
 
     VendorsRepository vendorsRepository;
+    LogService logService;
 
-    public VendorsService(VendorsRepository vendorsRepository) {
+    public VendorsService(VendorsRepository vendorsRepository, LogService logService) {
         this.vendorsRepository = vendorsRepository;
+        this.logService = logService;
     }
 
     /**
@@ -25,7 +28,9 @@ public class VendorsService {
      *
      * @return List of all vendors
      */
-    public List<Vendors> getAllVendors(){return (List<Vendors>) vendorsRepository.findAll();}
+    public List<Vendors> getAllVendors(){
+        logService.writeLog(LogTypes.VENDOR,"Getting all the vendors");
+        return (List<Vendors>) vendorsRepository.findAll();}
 
     /**
      * Creates a new Vendor
@@ -35,6 +40,7 @@ public class VendorsService {
      */
     public String createVendor(VendorDto vendorDto)
     {
+        logService.writeLog(LogTypes.USERS,"Creating a new vendor");
         Vendors vendor = new Vendors(
                 vendorDto.getCompanyName(),
                 vendorDto.getAddress(),
@@ -52,6 +58,7 @@ public class VendorsService {
      */
     public Optional<Vendors> getVendor(String vendorID)
     {
+        logService.writeLog(LogTypes.USERS,"Getting vendor by ID");
         return vendorsRepository.findByVendorID(vendorID);
     }
 }

@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.constant.MachineryOp;
 import com.soen390.team11.constant.MachineryState;
 import com.soen390.team11.dto.ProductMachineryDto;
@@ -23,10 +24,12 @@ public class ProductMachineryService {
 
     ProductMachineryRepository productMachineryRepository;
     ProductRepository productRepository;
+    LogService logService;
 
-    public ProductMachineryService(ProductMachineryRepository productMachineryRepository, ProductRepository productRepository) {
+    public ProductMachineryService(ProductMachineryRepository productMachineryRepository, ProductRepository productRepository, LogService logService) {
         this.productMachineryRepository = productMachineryRepository;
         this.productRepository = productRepository;
+        this.logService = logService;
     }
 
     /**
@@ -35,10 +38,13 @@ public class ProductMachineryService {
      * @return List of Product Machinery
      */
     public List<ProductMachinery> getAllMachineries() {
+        logService.writeLog(LogTypes.MACHINERY,"Getting all products in the machinery");
         return (List<ProductMachinery>) productMachineryRepository.findAll();
     }
     public List<ProductMachineryDto> getAllMachineriesWithDto() {
+        logService.writeLog(LogTypes.VENDOR,"Getting all machineries with a Dto");
         List<ProductMachineryDto> productMachineryDtoList = new ArrayList<>();
+        logService.writeLog(LogTypes.VENDOR,"Finding all Machines");
         Iterable<ProductMachinery> productMachineries= productMachineryRepository.findAll();
         ProductMachineryDto productMachineryDto=null;
         for(ProductMachinery pm: productMachineries){
@@ -50,9 +56,11 @@ public class ProductMachineryService {
                 productMachineryDto= new ProductMachineryDto(pm.getId(),pm.getName(),pm.getStatus().toString(),pm.getTimer(),
                         pm.getProduct().getProductid(),pm.getProduct().getName());
             }
+            logService.writeLog(LogTypes.VENDOR,"Adding Machine to the DtoList");
             productMachineryDtoList.add(productMachineryDto);
 
         }
+        logService.writeLog(LogTypes.VENDOR,"Returning the List");
         return productMachineryDtoList;
     }
 
@@ -67,12 +75,15 @@ public class ProductMachineryService {
 
         // if no product is bound
         if (productMachineryDto.getProductId().trim().isEmpty()) {
+            logService.writeLog(LogTypes.VENDOR,"No product is bound");
+            logService.writeLog(LogTypes.VENDOR,"Creating a product machinery");
             return productMachineryRepository
                 .save(new ProductMachinery(productMachineryDto.getName(), MachineryState.UNASSIGNED,
                     0, null)).getId();
         }
 
         // if product is bound
+        logService.writeLog(LogTypes.VENDOR,"Product is bound");
         Optional<Product> optionalProduct = productRepository
             .findById(productMachineryDto.getProductId());
         if (optionalProduct.isPresent()) {
@@ -80,10 +91,12 @@ public class ProductMachineryService {
                 MachineryState.valueOf(productMachineryDto.getStatus().toUpperCase()),
                 productMachineryDto.getTimer(),
                 optionalProduct.get());
+            logService.writeLog(LogTypes.VENDOR,"Creating a product machinery");
             return productMachineryRepository.save(newMachinery).getId();
         }
 
         // if product is invalid
+        logService.writeLog(LogTypes.VENDOR,"Product is invalid");
         return "";
     }
 
@@ -99,11 +112,12 @@ public class ProductMachineryService {
             .findById(machineryId);
 
         if (optionalProductMachinery.isPresent()) {
-
+            logService.writeLog(LogTypes.VENDOR,"searching for the requested operation in the defined operation enum class");
             // search for the requested operation in the defined operation enum class
             for (MachineryOp definedOp : MachineryOp.values()) {
 
                 // if found, validate the transition using setStatus
+                logService.writeLog(LogTypes.VENDOR,"validating the transition using setStatus");
                 if (definedOp.toString().equals(op.toUpperCase())) {
                     if (optionalProductMachinery.get()
                         .setStatus(MachineryOp.getTransitionState(definedOp))) {
@@ -111,23 +125,28 @@ public class ProductMachineryService {
                         // if status is unassigned, set the timer to 0
                         if (optionalProductMachinery.get()
                             .getStatus() == MachineryState.UNASSIGNED) {
+                            logService.writeLog(LogTypes.VENDOR,"Status is unassigned setting the timer to 0");
                             optionalProductMachinery.get().setTimer(0);
                         }
 
                         //if status is running and timer is 0, set status to ready
                         if (optionalProductMachinery.get().getStatus().equals(MachineryState.RUNNING)
                             && optionalProductMachinery.get().getTimer() == 0) {
+                            logService.writeLog(LogTypes.VENDOR,"Setting the status to ready");
                             optionalProductMachinery.get().setStatus(MachineryState.READY);
                         }
                         productMachineryRepository.save(optionalProductMachinery.get());
+                        logService.writeLog(LogTypes.VENDOR,"Optional product successfully saved");
                         return "Success";
                     }
+                    logService.writeLog(LogTypes.VENDOR,"State transition is invalid");
                     return "State transition is invalid";
                 }
             }
-
+            logService.writeLog(LogTypes.VENDOR,"Operation was not supported");
             return "Operation is not supported";
         } else {
+            logService.writeLog(LogTypes.VENDOR,"Machinery did not exist");
             return "Machinery does not exist";
         }
     }
@@ -139,8 +158,10 @@ public class ProductMachineryService {
      */
     public String findAvailableMachinery() {
         Iterable<ProductMachinery> machineries = productMachineryRepository.findAll();
+        logService.writeLog(LogTypes.VENDOR,"Searching for an UNASSIGNED machinery in the list of machineries.");
         for (ProductMachinery machinery : machineries) {
             if (machinery.getStatus().equals(MachineryState.UNASSIGNED)) {
+                logService.writeLog(LogTypes.VENDOR,"Returning machinery ID");
                 return machinery.getId();
             }
         }
@@ -163,19 +184,22 @@ public class ProductMachineryService {
         if (optionalProductMachinery.isPresent() && optionalProduct.isPresent()) {
 
             if (optionalProductMachinery.get().setProduct(optionalProduct.get())) {
-
+                logService.writeLog(LogTypes.VENDOR,"Setting the product to produce for a given machinery.");
                 optionalProductMachinery.get()
                     .setTimer(50); // FIXME replace fixed time with specific time for each machine
-
+                logService.writeLog(LogTypes.VENDOR,"Setting Machinery State to ready");
                 optionalProductMachinery.get().setStatus(MachineryState.READY);
 
                 productMachineryRepository.save(optionalProductMachinery.get());
+                logService.writeLog(LogTypes.VENDOR,"Successfully set the machine");
                 return "Success";
 
             } else {
+                logService.writeLog(LogTypes.VENDOR,"Machine was not available");
                 return "Machine is unavailable";
             }
         } else {
+            logService.writeLog(LogTypes.VENDOR,"Machine or product does not exist");
             return "Either machinery or product does not exist";
         }
     }

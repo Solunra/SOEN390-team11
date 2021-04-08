@@ -1,5 +1,6 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.constant.LogTypes;
 import com.soen390.team11.constant.Role;
 import com.soen390.team11.dto.UserAccountDto;
 import com.soen390.team11.entity.UserAccount;
@@ -23,10 +24,12 @@ public class UserService implements UserDetailsService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     UserAccountRepository userAccountRepository;
+    LogService logService;
 
-    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserAccountRepository userAccountRepository) {
+    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserAccountRepository userAccountRepository, LogService logService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userAccountRepository = userAccountRepository;
+        this.logService = logService;
     }
 
     /**
@@ -35,9 +38,11 @@ public class UserService implements UserDetailsService {
      * @param userAccountDto User information
      */
     public void createUser(UserAccountDto userAccountDto){
+        logService.writeLog(LogTypes.USERS,"Creating a new user");
         UserAccount userAccount=  new UserAccount(userAccountDto.getUsername(),
                 bCryptPasswordEncoder.encode(userAccountDto.getPassword()),
                 userAccountDto.getEmail(), Role.CUSTOMER.toString());
+        logService.writeLog(LogTypes.USERS,"Saving the new user");
         userAccountRepository.save(userAccount);
     }
 
@@ -47,6 +52,7 @@ public class UserService implements UserDetailsService {
     @Bean
     public void addAdmin(){
         try{
+            logService.writeLog(LogTypes.USERS,"Creating a default admin");
             UserAccount admin = new UserAccount("Admin",
                     bCryptPasswordEncoder.encode("admin"),
                     "admin@erp.com", Role.ADMIN.toString());
@@ -59,10 +65,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        logService.writeLog(LogTypes.USERS,"loading the user with the email");
         UserAccount user = userAccountRepository.findByEmail(email);
         if(user == null) {
             new UsernameNotFoundException("user not found");
         }
+        logService.writeLog(LogTypes.USERS,"Returning the user email and password");
         return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
@@ -71,6 +79,7 @@ public class UserService implements UserDetailsService {
      * @return
      */
     public UserAccount getLoggedUser(){
+        logService.writeLog(LogTypes.USERS,"Getting the logged user...");
         UserAccount userAccount= userAccountRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return userAccount;
     }
@@ -81,6 +90,7 @@ public class UserService implements UserDetailsService {
      * @return
      */
     public UserAccount getUserAccountByUserid(String userid){
+        logService.writeLog(LogTypes.USERS,"Getting the user account using the user ID");
         return userAccountRepository.findByUserID(userid);
     }
 
@@ -92,6 +102,7 @@ public class UserService implements UserDetailsService {
         List<UserAccount> userAccountList= userAccountRepository.findAllByUsernameNot(getLoggedUser().getUsername());
         List<UserAccountDto> userAccountDtoList = new ArrayList<>();
         UserAccountDto userAccountDto = null;
+        logService.writeLog(LogTypes.USERS,"Getting all the users except the loggin in user");
         for(UserAccount ua: userAccountList){
             userAccountDto = new UserAccountDto(ua.getUsername(),ua.getPassword(),ua.getEmail(),ua.getRole(),ua.getUserID());
             userAccountDtoList.add(userAccountDto);
@@ -107,10 +118,12 @@ public class UserService implements UserDetailsService {
     public UserAccount editUser(UserAccountDto userAccountDto) {
         String role = (userAccountDto.getRole() !=null && userAccountDto.getRole().equalsIgnoreCase("admin"))?Role.ADMIN.toString(): Role.CUSTOMER.toString();
         String password = userAccountDto.getPassword().startsWith("$2a$10$")? userAccountDto.getPassword() : bCryptPasswordEncoder.encode(userAccountDto.getPassword());
+        logService.writeLog(LogTypes.USERS,"Editing the user's information");
         UserAccount userAccount=  new UserAccount(userAccountDto.getUsername(),
                 password,
                 userAccountDto.getEmail(),role);
         userAccount.setUserID(userAccountDto.getUserID());
+        logService.writeLog(LogTypes.USERS,"Saving the new user information");
         return userAccountRepository.save(userAccount);
     }
 }
