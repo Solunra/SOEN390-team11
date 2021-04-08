@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-
 class ProductControllerTest {
 
     ProductController productController;
@@ -30,17 +29,17 @@ class ProductControllerTest {
     ProductRequestDto productRequestDto;
     Product createdProduct;
     String productId;
-    ObjectMapper objectMapper= new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
-    public void setup()
-    {
+    public void setup() {
         openMocks(this);
         productController = new ProductController(productService);
-        productRequestDto = new ProductRequestDto("bike","mountain","medium","black","matte","A",0,0);
+        productRequestDto = new ProductRequestDto("bike", "mountain", "medium", "black", "matte", "A", 0, 0);
         productId = "productID";
-        createdProduct = new Product(productRequestDto.getName(),productRequestDto.getType(), productRequestDto.getSize(), productRequestDto.getColor(),
-                productRequestDto.getFinish(), productRequestDto.getGrade(), productRequestDto.getCost(), productRequestDto.getPrice());
+        createdProduct = new Product(productRequestDto.getName(), productRequestDto.getType(),
+                productRequestDto.getSize(), productRequestDto.getColor(), productRequestDto.getFinish(),
+                productRequestDto.getGrade(), productRequestDto.getCost(), productRequestDto.getPrice());
         createdProduct.setProductid(productId);
     }
 
@@ -67,9 +66,11 @@ class ProductControllerTest {
 
     @Test
     void updateProduct() throws Exception {
-        ProductRequestDto newProduct = new ProductRequestDto("bike1","mountain1","medium","black","matte","A",0,0);
+        ProductRequestDto newProduct = new ProductRequestDto("bike1", "mountain1", "medium", "black", "matte", "A", 0,
+                0);
 
-        when(productService.updateProduct(productId, newProduct)).thenReturn(new Product("bike1","mountain1","medium","black","matte","A",0,0));
+        when(productService.updateProduct(productId, newProduct))
+                .thenReturn(new Product("bike1", "mountain1", "medium", "black", "matte", "A", 0, 0));
         ResponseEntity<?> responseEntity = productController.updateProduct(createdProduct.getProductid(), newProduct);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -88,6 +89,13 @@ class ProductControllerTest {
     @Test
     void getPreConfigParts() {
         when(productService.getAllProductPart()).thenReturn(List.of());
+        ResponseEntity<?> responseEntity = productController.getPreConfigParts();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void getProductCostPrice() {
+        when(productService.getProductCostPrice()).thenReturn(List.of());
         ResponseEntity<?> responseEntity = productController.getPreConfigParts();
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

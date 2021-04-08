@@ -68,11 +68,11 @@ const CustomizeReport = (props) => {
                     console.log(reportType === "Sale");
                     if (reportType === "Sale") {
                         setReceivableList(res.body);
-                        setPage(false);
+                        setPage(1);
                     }
                     if (reportType === "Purchase") {
                         setPayableList(res.body);
-                        setPage(true);
+                        setPage(0);
                     }
                     clearValue();
                     handleClose();

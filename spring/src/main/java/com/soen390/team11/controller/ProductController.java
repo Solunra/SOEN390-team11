@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/product")
 public class ProductController {
 
-    ObjectMapper objectMapper= new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
 
     ProductService productService;
 
@@ -41,7 +41,9 @@ public class ProductController {
     @PostMapping("/create")
     public ResponseEntity<?> createProduct(@RequestBody ProductRequestDto productRequestDto) {
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(productService.createProduct(productRequestDto)), HttpStatus.CREATED);
+            return new ResponseEntity<>(
+                    objectMapper.writeValueAsString(productService.createProduct(productRequestDto)),
+                    HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
         }
@@ -53,7 +55,7 @@ public class ProductController {
      * @return A list of all products
      */
     @GetMapping("/")
-    public ResponseEntity<?> retrieveAllProduct(){
+    public ResponseEntity<?> retrieveAllProduct() {
         try {
             return new ResponseEntity<>(objectMapper.writeValueAsString(productService.getAllProduct()), HttpStatus.OK);
         } catch (JsonProcessingException e) {
@@ -68,18 +70,16 @@ public class ProductController {
      * @return The product's information
      */
     @GetMapping("/{pid}")
-    public ResponseEntity<?> retrieveProduct(@PathVariable String pid){
+    public ResponseEntity<?> retrieveProduct(@PathVariable String pid) {
         String id = String.valueOf(pid);
         Product product = productService.getProductById(id);
         try {
             if (product != null) {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(product), HttpStatus.OK);
-            }
-            else{
+            } else {
                 return new ResponseEntity<>("product of the id not exist ", HttpStatus.NOT_FOUND);
             }
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.NOT_FOUND);
         }
 
@@ -88,19 +88,20 @@ public class ProductController {
     /**
      * Updated a specified product
      *
-     * @param pid The product's ID
+     * @param pid               The product's ID
      * @param productRequestDto The product's updated information
      * @return The new product
      */
     @PutMapping("/update/{pid}")
-    public ResponseEntity<?> updateProduct(@PathVariable String pid, @RequestBody ProductRequestDto productRequestDto){
+    public ResponseEntity<?> updateProduct(@PathVariable String pid, @RequestBody ProductRequestDto productRequestDto) {
         String id = String.valueOf(pid);
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(productService.updateProduct(id,productRequestDto)), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    objectMapper.writeValueAsString(productService.updateProduct(id, productRequestDto)),
+                    HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
@@ -112,14 +113,14 @@ public class ProductController {
      * @return The ID of the deleted product
      */
     @DeleteMapping("/delete/{pid}")
-    public ResponseEntity<?> deleteProduct(@PathVariable String pid){
+    public ResponseEntity<?> deleteProduct(@PathVariable String pid) {
         String id = String.valueOf(pid);
         try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(productService.deleteProduct(id)), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(productService.deleteProduct(id)),
+                    HttpStatus.OK);
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>("cannot convert to json", HttpStatus.CONFLICT);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(new Error(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
@@ -130,9 +131,24 @@ public class ProductController {
      * @return List of parts that takes make up the product
      */
     @GetMapping("/part")
-    public ResponseEntity<?> getPreConfigParts(){
+    public ResponseEntity<?> getPreConfigParts() {
         try {
             return new ResponseEntity<>(productService.getAllProductPart(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * Get the product cost price to disaply in account tab
+     * 
+     * @return
+     */
+    @GetMapping("/costPrice")
+    public ResponseEntity<?> getProductCostPrice() {
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(productService.getProductCostPrice()),
+                    HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error", HttpStatus.CONFLICT);
         }
