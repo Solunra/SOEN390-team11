@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import { AccountPayable } from "./AccountPayable";
 import { AccountReceivable } from "./AccountReceivable";
 import { CustomizeReport } from "../Account/CustomizeReport";
+import { ProductCostPrice } from "./ProductCostPrice";
 
 const useStyles = makeStyles((theme) => ({
     rootGrid: {
@@ -20,10 +21,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Account = () => {
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(true);
+    const [page, setPage] = useState(0);
     const [customizeReport, setCustomizeReport] = useState(false);
     const [payableList, setPayableList] = useState([]);
     const [receivableList, setReceivableList] = useState([]);
+    const [proCostPriceList, setProCostPriceList] = useState([]);
     const closeCustomizeReport = () => {
         setCustomizeReport(false);
     };
@@ -52,7 +54,6 @@ const Account = () => {
             .set("Accept", "application/json")
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res.body);
                     if (
                         JSON.stringify(receivableList) !==
                         JSON.stringify(res.body)
@@ -65,33 +66,66 @@ const Account = () => {
                 console.log(err);
             });
     };
+    const getProductCostPriceList = () => {
+        request
+            .get(BuildPath("/product/costPrice"))
+            .set("Authorization", localStorage.getItem("Authorization"))
+            .set("Accept", "application/json")
+            .then((res) => {
+                console.log(res.body);
+                if (
+                    JSON.stringify(proCostPriceList) !==
+                    JSON.stringify(res.body)
+                ) {
+                    setProCostPriceList(res.body);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     useEffect(() => {
         getPayableList();
         getReceivableList();
+        getProductCostPriceList();
     }, [loading]);
     const checkPage = () => {
         switch (page) {
-            case true:
+            case 0:
                 return <AccountPayable payableList={payableList} />;
-            case false:
+            case 1:
                 return <AccountReceivable receivableList={receivableList} />;
+            case 2:
+                return <ProductCostPrice proCostPriceList={proCostPriceList} />;
             default:
                 return;
         }
     };
     const handleRefresh = () => {
-        setPage(true);
+        setPage(0);
         setLoading(!loading);
     };
     const refreshChangePage = () => {
-        setPage(!page);
-        setLoading(!loading);
+        setPage((page + 1) % 3);
+        if (page % 3 === 0 || page % 3 === 1) {
+            setLoading(!loading);
+        }
+    };
+    const getPageName = () => {
+        switch (page) {
+            case 0:
+                return "Account Receivable";
+            case 1:
+                return "Product Cost Price";
+            case 2:
+                return "Account payable";
+        }
     };
 
     const classes = useStyles();
     return (
         <div className={classes.rootGrid}>
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
                 <Grid item md={3}>
                     <Button onClick={handleRefresh} className={classes.button}>
                         Refresh
@@ -99,10 +133,10 @@ const Account = () => {
                 </Grid>
                 <Grid item md={3}>
                     <Button
-                        onClick={refreshChangePage}
+                        onClick={() => refreshChangePage()}
                         className={classes.button}
                     >
-                        {!page ? "Account Payable" : "Account Receivable"}
+                        {getPageName()}
                     </Button>
                 </Grid>
                 <Grid item md={3}>

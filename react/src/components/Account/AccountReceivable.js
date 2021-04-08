@@ -41,7 +41,6 @@ const AccountReceivable = (props) => {
             .set("Accept", "application/json")
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res.body);
                     setProductList(res.body);
                 }
             })

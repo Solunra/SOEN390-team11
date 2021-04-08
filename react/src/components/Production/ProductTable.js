@@ -30,8 +30,6 @@ const ProductTable = (props) => {
         { title: "Color", field: "color" },
         { title: "Finish", field: "finish" },
         { title: "Grade", field: "grade" },
-        { title: "Cost", field: "cost" },
-        { title: "Price", field: "price" },
     ];
     const actions = [
         {
@@ -101,10 +99,7 @@ const ProductTable = (props) => {
                 }
             })
             .catch((err) => {
-                setErrMessage("Cannot delete product");
-                setTimeout(() => {
-                    setErrMessage("");
-                }, 3000);
+                console.log(err);
             });
     };
     const handleStart = (row) => {
@@ -122,10 +117,7 @@ const ProductTable = (props) => {
                 }
             })
             .catch((err) => {
-                setErrMessage("Cannot add product to machine");
-                setTimeout(() => {
-                    setErrMessage("");
-                }, 5000);
+                console.log(err);
             });
     };
 
