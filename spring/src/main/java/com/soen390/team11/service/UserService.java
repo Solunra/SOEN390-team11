@@ -40,8 +40,13 @@ public class UserService implements UserDetailsService {
      */
     public void createUser(UserAccountDto userAccountDto) {
         logService.writeLog(LogTypes.USERS, "Creating a new user");
-        String role = userAccountDto.getRole().equalsIgnoreCase("admin") ? Role.ADMIN.toString()
-                : Role.CUSTOMER.toString();
+        String role = "";
+        if (userAccountDto.getRole() == null) {
+            role = Role.CUSTOMER.toString();
+        } else {
+            role = userAccountDto.getRole().equalsIgnoreCase("admin") ? Role.ADMIN.toString()
+                    : Role.CUSTOMER.toString();
+        }
         UserAccount userAccount = new UserAccount(userAccountDto.getUsername(),
                 bCryptPasswordEncoder.encode(userAccountDto.getPassword()), userAccountDto.getEmail(), role);
         logService.writeLog(LogTypes.USERS, "Saving the new user");
