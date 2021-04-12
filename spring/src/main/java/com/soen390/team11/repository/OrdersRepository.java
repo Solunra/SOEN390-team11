@@ -1,12 +1,14 @@
 package com.soen390.team11.repository;
 
 import com.soen390.team11.entity.Orders;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -42,4 +44,23 @@ public interface OrdersRepository extends CrudRepository<Orders, String> {
      * @return
      */
     List<Orders> findAllByOrdertimeBetween(OffsetDateTime start, OffsetDateTime end);
+
+    /**
+     * average monthly expense
+     * @return
+     */
+    @Query(
+            value = "SELECT AVG(temp.COST) as Average FROM (SELECT EXTRACT(MONTH FROM o.ordertime) as month, SUM(o.quantity*r.cost) as COST FROM orders o, rawmaterial r WHERE o.saleID = r.rawmaterialid GROUP BY month) AS temp",
+            nativeQuery = true)
+    List<Map<String, String>> averageByMonth();
+
+    /**
+     * monthly expense , that all admin order raw material
+     * @return
+     */
+    @Query(
+            value = "SELECT EXTRACT(MONTH FROM o.ordertime) as month, SUM(o.quantity*r.cost) as COST FROM orders o, rawmaterial r WHERE o.saleID = r.rawmaterialid GROUP BY month",
+            nativeQuery = true)
+    List<Map<String, String>> groupByMonth();
+
 }

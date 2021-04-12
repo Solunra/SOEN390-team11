@@ -2,11 +2,13 @@ package com.soen390.team11.repository;
 
 import com.soen390.team11.entity.CustomerPurchase;
 import com.soen390.team11.entity.CustomerPurchaseId;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Repository
 public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurchase, CustomerPurchaseId> {
@@ -52,4 +54,13 @@ public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurch
      */
     @Transactional
     void deleteByCustomerPurchaseIdInvoiceID(String invoiceid);
+
+    /**
+     * get Top 5 product that customer purchase the most
+     * @return
+     */
+    @Query(
+            value = "SELECT cp.productID,p.name ,SUM(cp.amount) AS total FROM customer_purchase cp, product p WHERE cp.productID = p.productID GROUP BY cp.productID ORDER BY total DESC LIMIT 5",
+            nativeQuery = true)
+    List<Map<String, String>> topProduct();
 }
