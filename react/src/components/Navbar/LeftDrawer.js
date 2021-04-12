@@ -131,6 +131,13 @@ const LeftDrawer = ({ role }) => {
                 },
             },
             {
+                text: "Data",
+                icon: <ViewHeadlineIcon />,
+                onClick: () => {
+                    handleClick("data");
+                },
+            },
+            {
                 text: "Logout",
                 icon: <ExitToAppRoundedIcon />,
                 onClick: () => logout(),
