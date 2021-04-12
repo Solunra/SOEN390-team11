@@ -6,6 +6,7 @@ import com.soen390.team11.repository.OrdersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataService {
@@ -20,19 +21,19 @@ public class DataService {
     }
 
 
-    public List<Object> getExpenseReport() {
-        return null;
+    public List<Map<String, String>> getExpenseReport() {
+        return ordersRepository.groupByMonth();
     }
 
-    public List<Object> getIncomeReport() {
-        return null;
+    public List<Map<String, String>> getIncomeReport() {
+        return invoiceRepository.groupByMonth();
     }
 
-    public List<Object> getTopProduct() {
-        return null;
+    public List<Map<String, String>> getTopProduct() {
+        return customerPurchaseRepository.topProduct();
     }
 
-    public List<Object> getSummary() {
+    public List<Map<String, String>> getSummary() {
         return null;
     }
 }
