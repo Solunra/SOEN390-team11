@@ -18,7 +18,7 @@ const TopProductTable = (props) => {
     const [displayList , setDisplayList] = useState([]);
     const columns = [
         { title: "Product description", field: "description" },
-        { title: "Quantity", field: "amount" },
+        { title: "Quantity", field: "quantity" },
     ];
     return (
         <>

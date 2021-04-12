@@ -16,14 +16,11 @@ const Summary = (props) => {
     const {dataJson}=props;
     const classes = useStyles();
     const [displayList , setDisplayList] = useState([]);
+
     const columns = [
-        { title: "Product description", field: "description" },
-        { title: "Quantity", field: "amount" },
+        { title: "Activity", field: "messageAction" },
+        { title: "Value", field: "value" },
     ];
-    // const columns = [
-    //     { title: "Activity", field: "actions" },
-    //     { title: "Amount", field: "amount" },
-    // ];
     return (
         <>
 

@@ -60,7 +60,34 @@ public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurch
      * @return
      */
     @Query(
-            value = "SELECT cp.productID,p.name ,SUM(cp.amount) AS total FROM customer_purchase cp, product p WHERE cp.productID = p.productID GROUP BY cp.productID ORDER BY total DESC LIMIT 5",
+            value = "SELECT cp.productID ,SUM(cp.amount) AS total FROM customer_purchase cp, product p WHERE cp.productID = p.productID GROUP BY cp.productID ORDER BY total DESC LIMIT 5",
             nativeQuery = true)
-    List<Map<String, String>> topProduct();
+    List<Map<String, Object>> topProduct();
+
+    /**
+     * total customer
+     * @return
+     */
+    @Query(
+            value = "SELECT COUNT(DISTINCT cp.userid) as total FROM customer_purchase cp",
+            nativeQuery = true)
+    Map<String, Object> totalCustomer();
+
+    /**
+     * total product
+     * @return
+     */
+    @Query(
+            value = "SELECT SUM(cp.amount) as total FROM customer_purchase cp",
+            nativeQuery = true)
+    Map<String, Object> totalProduct();
+
+    /**
+     * average product by month
+     * @return
+     */
+    @Query(
+            value = "SELECT AVG(temp.total) as average FROM (SELECT EXTRACT(MONTH FROM i.purchasedate) as month, SUM(cp.amount) AS total FROM invoice i, customer_purchase cp WHERE cp.invoiceID = i.invoiceID GROUP BY month) AS temp",
+            nativeQuery = true)
+    Map<String, Object> monthlyAverageProduct();
 }
