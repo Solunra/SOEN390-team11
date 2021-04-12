@@ -21,8 +21,8 @@ public class EmailService {
                                 String subject) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject("Dear ,\n"+subject+"\nSincerely,");
+        message.setText("Dear ,\n"+body+"\nSincerely,");
+        message.setSubject(subject);
         mailSender.send(message);
     }
 }

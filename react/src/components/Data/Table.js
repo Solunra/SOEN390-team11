@@ -19,7 +19,6 @@ const DataTable = ({dataJson, name}) => {
     ];
     return (
         <>
-
                 <CustomTable
                     data={dataJson}
                     columns={columns}

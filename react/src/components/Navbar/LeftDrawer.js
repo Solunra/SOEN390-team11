@@ -23,6 +23,7 @@ import {
 } from "@material-ui/icons";
 import PersonIcon from "@material-ui/icons/Person";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 
 const useStyles = makeStyles({
     drawer: {
@@ -132,7 +133,7 @@ const LeftDrawer = ({ role }) => {
             },
             {
                 text: "Data",
-                icon: <ViewHeadlineIcon />,
+                icon: <AssessmentRoundedIcon />,
                 onClick: () => {
                     handleClick("data");
                 },

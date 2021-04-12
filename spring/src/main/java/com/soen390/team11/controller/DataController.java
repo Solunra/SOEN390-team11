@@ -19,22 +19,22 @@ public class DataController {
 
     @GetMapping("/income")
     public ResponseEntity<?> getIncomeReport(){
-        return new ResponseEntity<>(dataService.getIncomeReport(), HttpStatus.CREATED);
+        return new ResponseEntity<>(dataService.getIncomeReport(), HttpStatus.OK);
 
     }
     @GetMapping("/expense")
     public ResponseEntity<?> getExpenseReport(){
-        return new ResponseEntity<>(dataService.getExpenseReport(), HttpStatus.CREATED);
+        return new ResponseEntity<>(dataService.getExpenseReport(), HttpStatus.OK);
 
     }
     @GetMapping("/topProduct")
     public ResponseEntity<?> getTopProduct(){
-        return new ResponseEntity<>(dataService.getTopProduct(), HttpStatus.CREATED);
+        return new ResponseEntity<>(dataService.getTopProduct(), HttpStatus.OK);
 
     }
     @GetMapping("/summary")
-    public ResponseEntity<?> getSummyar(){
-        return new ResponseEntity<>(dataService.getSummary(), HttpStatus.CREATED);
+    public ResponseEntity<?> getSummary(){
+        return new ResponseEntity<>(dataService.getSummary(), HttpStatus.OK);
 
     }
 

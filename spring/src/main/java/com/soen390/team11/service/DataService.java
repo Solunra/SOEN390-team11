@@ -1,10 +1,12 @@
 package com.soen390.team11.service;
 
+import com.soen390.team11.dto.DataIncomeExpenseDto;
 import com.soen390.team11.repository.CustomerPurchaseRepository;
 import com.soen390.team11.repository.InvoiceRepository;
 import com.soen390.team11.repository.OrdersRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +23,14 @@ public class DataService {
     }
 
 
-    public List<Map<String, String>> getExpenseReport() {
-        return ordersRepository.groupByMonth();
+    public List<DataIncomeExpenseDto> getExpenseReport() {
+        List<Map<String, Object>> results= ordersRepository.groupByMonth();
+        return extractList(results);
     }
 
-    public List<Map<String, String>> getIncomeReport() {
-        return invoiceRepository.groupByMonth();
+    public List<DataIncomeExpenseDto> getIncomeReport() {
+        List<Map<String, Object>> results= invoiceRepository.groupByMonth();
+        return extractList(results);
     }
 
     public List<Map<String, String>> getTopProduct() {
@@ -34,6 +38,29 @@ public class DataService {
     }
 
     public List<Map<String, String>> getSummary() {
-        return null;
+        return customerPurchaseRepository.topProduct();
     }
+
+    public List<DataIncomeExpenseDto> extractList(List<Map<String, Object>> results){
+        DataIncomeExpenseDto dataIncomeExpenseDto = null;
+        List<DataIncomeExpenseDto> dataIncomeExpenseDtoList = new ArrayList<>();
+        List<String> existingMonth = new ArrayList<>();
+        for(Map<String, Object> m: results){
+            dataIncomeExpenseDto = new DataIncomeExpenseDto();
+            existingMonth.add(m.get("month").toString());
+            dataIncomeExpenseDto.setMonth(Integer.parseInt(m.get("month").toString()) );
+            dataIncomeExpenseDto.setAmount(m.get("PRICE").toString());
+            dataIncomeExpenseDtoList.add(dataIncomeExpenseDto);
+        }
+        for(int i=1;i<=12;i++){
+            if(!existingMonth.contains(i+"")){
+                dataIncomeExpenseDto = new DataIncomeExpenseDto();
+                dataIncomeExpenseDto.setMonth(i);
+                dataIncomeExpenseDto.setAmount("0");
+                dataIncomeExpenseDtoList.add(dataIncomeExpenseDto);
+            }
+        }
+        return dataIncomeExpenseDtoList;
+    }
+
 }

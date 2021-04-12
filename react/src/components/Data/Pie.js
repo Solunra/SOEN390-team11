@@ -10,17 +10,15 @@ const useStyles = makeStyles((theme) => ({
 
 const DataPie= ({dataJson})=>{
     const classes = useStyles();
-    // let color = randomColor();
-    const displayName = 'BarExample';
     const backgroundColorList = dataJson.map((_)=>randomColor());
     const data = {
-        labels: dataJson.map(({month})=>month),
+        labels: dataJson.map(({month})=>[month]),
         datasets: [
             {
                 label: 'My First dataset',
                 backgroundColor: backgroundColorList,
                 borderWidth: 1,
-                data: dataJson.map(({amount})=>amount),
+                data: dataJson.map(({amount})=>[amount]),
                 hoverOffset: 4
             }
         ]

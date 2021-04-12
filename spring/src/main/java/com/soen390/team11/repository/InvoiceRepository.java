@@ -41,5 +41,5 @@ public interface InvoiceRepository extends CrudRepository<Invoice, String > {
     @Query(
             value = "SELECT EXTRACT(MONTH FROM i.purchasedate) as month, SUM(paymentamount) AS PRICE FROM invoice i GROUP BY month",
             nativeQuery = true)
-    List<Map<String, String>> groupByMonth();
+    List<Map<String, Object>> groupByMonth();
 }

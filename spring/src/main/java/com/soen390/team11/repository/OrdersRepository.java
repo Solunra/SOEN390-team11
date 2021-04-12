@@ -52,15 +52,15 @@ public interface OrdersRepository extends CrudRepository<Orders, String> {
     @Query(
             value = "SELECT AVG(temp.COST) as Average FROM (SELECT EXTRACT(MONTH FROM o.ordertime) as month, SUM(o.quantity*r.cost) as COST FROM orders o, rawmaterial r WHERE o.saleID = r.rawmaterialid GROUP BY month) AS temp",
             nativeQuery = true)
-    List<Map<String, String>> averageByMonth();
+    List<Map<String, Object>> averageByMonth();
 
     /**
      * monthly expense , that all admin order raw material
      * @return
      */
     @Query(
-            value = "SELECT EXTRACT(MONTH FROM o.ordertime) as month, SUM(o.quantity*r.cost) as COST FROM orders o, rawmaterial r WHERE o.saleID = r.rawmaterialid GROUP BY month",
+            value = "SELECT EXTRACT(MONTH FROM o.ordertime) as month, SUM(o.quantity*r.cost) as PRICE FROM orders o, rawmaterial r WHERE o.saleID = r.rawmaterialid GROUP BY month",
             nativeQuery = true)
-    List<Map<String, String>> groupByMonth();
+    List<Map<String, Object>> groupByMonth();
 
 }
