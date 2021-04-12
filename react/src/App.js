@@ -28,7 +28,7 @@ import Button from "@material-ui/core/Button";
 import Logs from "./components/Logs";
 import { CustomerOrder } from "./components/CustomerOrder";
 import { UserInfo } from "./components/CustomerInfo";
-import {Data} from "./components/Data";
+import { Data } from "./components/Data";
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {

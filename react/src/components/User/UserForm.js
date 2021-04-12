@@ -148,7 +148,13 @@ const UserForm = (props) => {
                 }
             }
         } else {
-            if (!username || !password || !role || !passwordVerification || !email) {
+            if (
+                !username ||
+                !password ||
+                !role ||
+                !passwordVerification ||
+                !email
+            ) {
                 return false;
             }
             return true;

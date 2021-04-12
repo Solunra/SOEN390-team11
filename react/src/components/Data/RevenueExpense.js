@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {DataPie} from "./Pie";
+import React, { useState } from "react";
+import { DataPie } from "./Pie";
 import Button from "@material-ui/core/Button";
-import {Grid, makeStyles} from "@material-ui/core";
-import {DataTable} from "./Table";
-import request from "superagent";
-import BuildPath from "../RequestBuilder";
+import { Grid, makeStyles } from "@material-ui/core";
+import { DataTable } from "./Table";
 
 const useStyles = makeStyles((theme) => ({
     rootGrid: {
@@ -18,42 +16,48 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const RevenueExpense= (props)=>{
-    const {dataJson,mode}=props;
+const RevenueExpense = (props) => {
+    const { dataJson, mode } = props;
     const classes = useStyles();
-    const [page, setPage]=useState('table');
+    const [page, setPage] = useState("table");
 
-    const togglePieTable=()=>{
-        if(page === "table") {
+    const togglePieTable = () => {
+        if (page === "table") {
             setPage("pie");
-        }
-        else{
+        } else {
             setPage("table");
         }
-    }
-    const checkPage=()=>{
-        switch (page){
+    };
+    const checkPage = () => {
+        switch (page) {
             case "pie":
-                return <DataPie dataJson={dataJson}/>;
+                return <DataPie dataJson={dataJson} />;
             case "table":
-                return <DataTable dataJson={dataJson} name={mode===1?"Income":"Expense"}/>;
+                return (
+                    <DataTable
+                        dataJson={dataJson}
+                        name={mode === 1 ? "Income" : "Expense"}
+                    />
+                );
         }
-    }
-    const checkPageName=()=>{
-        switch (page){
+    };
+    const checkPageName = () => {
+        switch (page) {
             case "pie":
                 return "Table";
             case "table":
                 return "Pie";
         }
-    }
+    };
     return (
         <>
             <div className={classes.rootGrid}>
                 <Grid container spacing={1}>
                     <Grid item md={3}>
                         <Button
-                            onClick={() => {togglePieTable();}}
+                            onClick={() => {
+                                togglePieTable();
+                            }}
                             className={classes.button}
                         >
                             {checkPageName()}
@@ -66,6 +70,5 @@ const RevenueExpense= (props)=>{
             </div>
         </>
     );
-
 };
-export {RevenueExpense};
+export { RevenueExpense };
