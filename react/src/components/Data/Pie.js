@@ -15,7 +15,6 @@ const DataPie = ({ dataJson }) => {
         labels: dataJson.map(({ month }) => [month]),
         datasets: [
             {
-                label: "My First dataset",
                 backgroundColor: backgroundColorList,
                 borderWidth: 1,
                 data: dataJson.map(({ amount }) => [amount]),
