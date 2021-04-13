@@ -39,6 +39,7 @@ public class CustomerPurchaseService {
     UserService userService;
     UserAccountRepository userAccountRepository;
     LogService logService;
+    EmailService emailService;
 
     public CustomerPurchaseService(CustomerRepository customerRepository,
         CustomerPurchaseRepository customerPurchaseRepository,
@@ -46,7 +47,7 @@ public class CustomerPurchaseService {
         ProductInventoryRepository productInventoryRepository,
         ProductMachineryService productMachineryService,
         ProductMachineryRepository productMachineryRepository, UserService userService,
-        UserAccountRepository userAccountRepository,LogService logService) {
+        UserAccountRepository userAccountRepository,LogService logService, EmailService emailService) {
         this.customerRepository = customerRepository;
         this.customerPurchaseRepository = customerPurchaseRepository;
         this.invoiceRepository = invoiceRepository;
@@ -57,6 +58,7 @@ public class CustomerPurchaseService {
         this.userService = userService;
         this.userAccountRepository = userAccountRepository;
         this.logService = logService;
+        this.emailService = emailService;
     }
 
     /**
@@ -83,6 +85,7 @@ public class CustomerPurchaseService {
             logService.writeLog(LogTypes.ORDERS,"Product successfully purchased by the customer");
         }
         logService.writeLog(LogTypes.ORDERS,"Product invoice ID returned");
+        emailService.sendSimpleEmail(userService.getLoggedUser().getEmail(), "We hereby confirm that your purchase ","Confirmation Purchase");
         return invoice.getInvoiceID();
     }
 

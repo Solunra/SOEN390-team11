@@ -2,11 +2,13 @@ package com.soen390.team11.repository;
 
 import com.soen390.team11.entity.CustomerPurchase;
 import com.soen390.team11.entity.CustomerPurchaseId;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Repository
 public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurchase, CustomerPurchaseId> {
@@ -52,4 +54,40 @@ public interface CustomerPurchaseRepository extends CrudRepository<CustomerPurch
      */
     @Transactional
     void deleteByCustomerPurchaseIdInvoiceID(String invoiceid);
+
+    /**
+     * get Top 5 product that customer purchase the most
+     * @return
+     */
+    @Query(
+            value = "SELECT cp.productID ,SUM(cp.amount) AS total FROM customer_purchase cp, product p WHERE cp.productID = p.productID GROUP BY cp.productID ORDER BY total DESC LIMIT 5",
+            nativeQuery = true)
+    List<Map<String, Object>> topProduct();
+
+    /**
+     * total customer
+     * @return
+     */
+    @Query(
+            value = "SELECT COUNT(DISTINCT cp.userid) as total FROM customer_purchase cp",
+            nativeQuery = true)
+    Map<String, Object> totalCustomer();
+
+    /**
+     * total product
+     * @return
+     */
+    @Query(
+            value = "SELECT SUM(cp.amount) as total FROM customer_purchase cp",
+            nativeQuery = true)
+    Map<String, Object> totalProduct();
+
+    /**
+     * average product by month
+     * @return
+     */
+    @Query(
+            value = "SELECT AVG(temp.total) as average FROM (SELECT EXTRACT(MONTH FROM i.purchasedate) as month, SUM(cp.amount) AS total FROM invoice i, customer_purchase cp WHERE cp.invoiceID = i.invoiceID GROUP BY month) AS temp",
+            nativeQuery = true)
+    Map<String, Object> monthlyAverageProduct();
 }

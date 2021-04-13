@@ -27,7 +27,5 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: team11
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
 
