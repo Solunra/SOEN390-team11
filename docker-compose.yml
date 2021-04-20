@@ -2,16 +2,14 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: ./react
-      dockerfile: ./Dockerfile
+    image: solunra/soen390-fe
     container_name: "react-js"
     ports:
       - "3000:3000"
+    depends_on:
+      - backend
   backend:
-    build:
-      context: ./spring
-      dockerfile: ./Dockerfile
+    image: solunra/soen390-be
     container_name: "spring-java"
     ports:
       - "8080:8080"
