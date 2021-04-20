@@ -7,7 +7,8 @@
 An ERP solutions project written in Java with Spring and showcased on the web with the help of React.
 
 ### Docker
-[Docker Containers](https://hub.docker.com/r/solunra/soen390)  
+[Docker Frontend Containers](https://hub.docker.com/r/solunra/soen390-fe)  
+[Docker Backend Containers](https://hub.docker.com/r/solunra/soen390-be)  
 
 ### UI Prototype
 
