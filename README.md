@@ -9,6 +9,7 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 ### Docker
 [Docker Frontend Containers](https://hub.docker.com/r/solunra/soen390-fe)  
 [Docker Backend Containers](https://hub.docker.com/r/solunra/soen390-be)  
+[Docker-Compose File](https://github.com/Solunra/SOEN390-team11/blob/main/docker-compose.yml)
 
 ### UI Prototype
 
@@ -20,6 +21,11 @@ An ERP solutions project written in Java with Spring and showcased on the web wi
 
 ---
 A visual representation of the Release Report can be seen [here](https://app.zenhub.com/workspaces/team11-60049e0484eafc0011dd9ab2/reports/release?release=606e40cb0e90eb032c776b0c)
+
+### For Demo
+
+---
+With the docker-compose file, run `docker-compose up`
 
 ### For Developing
 
